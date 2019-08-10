@@ -43,7 +43,22 @@ $lots = [
         'price' => '5400',
         'picture' => 'img/lot-6.jpg'
     ]
-]
+];
+
+function amount_formatting($bet)
+{
+    $bet = ceil($bet);
+    $currency_sign = '<b class="rub">р</b>';
+    $result = '';
+
+    if ($bet > 0 && $bet < 1000) {
+        $result = $bet;
+    }
+    if ($bet >= 1000) {
+        $result = number_format($bet, 0, '', ' ');
+    }
+    return $result . $currency_sign;
+}
 
 ?>
 <!DOCTYPE html>
@@ -125,7 +140,7 @@ $lots = [
                             <div class="lot__state">
                                 <div class="lot__rate">
                                     <span class="lot__amount">Стартовая цена</span>
-                                    <span class="lot__cost"><?= $lot['price'] ?><b class="rub">р</b></span>
+                                    <span class="lot__cost"><?= amount_formatting($lot['price']) ?></span>
                                 </div>
                                 <div class="lot__timer timer">
                                     12:23
