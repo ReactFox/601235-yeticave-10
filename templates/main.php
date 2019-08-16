@@ -39,7 +39,7 @@
 
                         <?php $get_time = stop_time($lot['date_finish']) ?>
 
-                        <div class="lot__timer timer <?php if ($get_time[0] === '00'): ?>timer--finishing<?php endif; ?>">
+                        <div class="lot__timer timer <?php if ($get_time[1] < '01'): ?>timer--finishing<?php endif; ?>">
                             <?= $get_time[1] .':' . $get_time[2] ?>
                         </div>
                 </div>
