@@ -36,10 +36,12 @@
                             <span class="lot__cost"><?= amount_formatting(htmlspecialchars($lot['price'],
                                     ENT_QUOTES | ENT_HTML5)) ?></span>
                         </div>
-                        <div class="lot__timer timer">
-                            12:23
+
+                        <?php $get_time = stop_time($lot['date_finish']) ?>
+
+                        <div class="lot__timer timer <?php if ($get_time[1] < '01'): ?>timer--finishing<?php endif; ?>">
+                            <?= $get_time[1] .':' . $get_time[2] ?>
                         </div>
-                    </div>
                 </div>
             </li>
         <?php endforeach; ?>

@@ -13,3 +13,22 @@ function amount_formatting($bet)
     }
     return $result . $currency_sign;
 }
+
+
+function stop_time($final_date)
+{
+    $time = '';
+    $date_now = date_create('now');
+    $date_bate = date_create($final_date);
+    $date_diff = date_diff($date_bate, $date_now);
+    $hour = date_interval_format($date_diff, '%d %H %I');
+
+    $time = explode(' ', $hour);
+    $days_left = $time[0];
+
+
+    if ($days_left > 0) {
+        $time[1] = ($days_left * 24) + $time[1];
+    }
+    return $time;
+}
