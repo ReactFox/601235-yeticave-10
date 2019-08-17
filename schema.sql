@@ -43,7 +43,5 @@ CREATE TABLE users
     user_name         CHAR(24)         NOT NULL,
     password          CHAR(64) BINARY  NOT NULL,
     avatar            CHAR(24),
-    contacts          TINYTEXT         NOT NULL,
-    lot_id            INT(12),
-    bet_id            INT(12)
+    contacts          TINYTEXT         NOT NULL
 )
