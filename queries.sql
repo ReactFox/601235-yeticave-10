@@ -70,5 +70,37 @@ INSERT INTO bets
 SET date_bet   = NOW(),
     bet_amouth = 300,
     user_id    = 2,
-    lot_id     = 1
+    lot_id     = 1;
 
+# получить все категории
+SELECT category_title
+FROM categories;
+
+# TODO получить самые новые, открытые лоты. Каждый лот должен включать название,
+# стартовую цену, ссылку на изображение, цену, название категории;
+
+# показать лот по его id. Получите также название категории, к которой принадлежит лот;
+SELECT *
+FROM lots l
+         JOIN categories c ON category_id = c.id
+WHERE l.id = 3;
+
+# обновить название лота по его идентификатору;
+UPDATE lots
+SET lot_title = 'Данные для обноления заголовка'
+WHERE id = 4;
+
+# получить список ставок для лота по его идентификатору с сортировкой по дате (Что значит по дате? от большего к меньшему?).
+SELECT date_bet, lot_title, user_id, bet_amouth
+FROM lots l
+         JOIN bets b ON l.id = b.lot_id
+WHERE l.id = 1
+ORDER BY date_bet DESC;
+
+# ниже ещё одно решение предыдущего задания, главный вопрос, что лучше к чему джойнить
+# лоты к ставкам как в предыдущем или ставки джойнить к лотам, или вообще пофиг? :)
+SELECT date_bet, lot_title, user_id, bet_amouth
+FROM bets b
+         JOIN lots l ON b.lot_id = l.id
+WHERE l.id = 1
+ORDER BY date_bet DESC;
