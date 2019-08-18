@@ -60,7 +60,6 @@ SET date_creation   = NOW(),
     category_id     = 6;
 
 # Добавьте пару ставок для любого объявления
-# TODO не могу понять как увеличить ставку на шаг ставки( это в ТЗ, в этом задании нет), возможно это решиться в след уроках?
 INSERT INTO bets
 SET date_bet   = NOW(),
     bet_amouth = 100,
@@ -79,12 +78,11 @@ FROM categories;
 
 # получить самые новые, открытые лоты. Каждый лот должен включать название,
 # стартовую цену, ссылку на изображение, цену, название категории;
-# TODO не понимаю как сделать открытые лоты, что под этим подразумивается
-
 
 SELECT lot_title, lot_image, starting_price, category_title
 FROM lots l
          JOIN categories c ON l.category_id = c.id
+WHERE date_finish > NOW()
 ORDER BY date_creation DESC;
 
 
@@ -103,12 +101,5 @@ WHERE id = 4;
 SELECT date_bet, lot_title, user_id, bet_amouth
 FROM lots l
          JOIN bets b ON l.id = b.lot_id
-WHERE l.id = 1
-ORDER BY date_bet DESC;
-
-# TODO ниже ещё одно решение предыдущего задания, главный вопрос, что лучше к чему джойнить лоты к ставкам как в предыдущем или ставки джойнить к лотам, или вообще пофиг? :)
-SELECT date_bet, lot_title, user_id, bet_amouth
-FROM bets b
-         JOIN lots l ON b.lot_id = l.id
 WHERE l.id = 1
 ORDER BY date_bet DESC;
