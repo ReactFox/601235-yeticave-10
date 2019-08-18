@@ -22,7 +22,7 @@ CREATE TABLE lots
     bet_step        INT(12) UNSIGNED NOT NULL,
     author_id       INT(12) UNSIGNED NOT NULL,
     winner_id       INT(12) UNSIGNED,
-    category_id     INT(12) UNSIGNED,
+    category_id     INT(12) UNSIGNED NOT NULL,
     FULLTEXT INDEX search (lot_title, lot_description)
 );
 
