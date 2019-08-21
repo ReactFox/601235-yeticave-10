@@ -63,7 +63,7 @@ require_once 'func/functions.php';
             <!--заполните этот список из массива категорий-->
             <?php foreach ($categories as $item): ?>
                 <li class="nav__item">
-                    <a href="pages/all-lots.html"><?= htmlspecialchars($item, ENT_QUOTES | ENT_HTML5) ?></a>
+                    <a href="pages/all-lots.html"><?= htmlspecialchars($item['category_title'], ENT_QUOTES | ENT_HTML5) ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>
