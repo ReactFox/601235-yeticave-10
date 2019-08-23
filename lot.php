@@ -37,24 +37,20 @@ WHERE l.id = {$current_id}"; // выводит лот не правильно
 $result = mysqli_query($con, $sql);
 
 if ($result) {
-    $lot = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $lot = mysqli_fetch_assoc($result);
 
 } else {
     $error = mysqli_error($con);
     echo $error;
 }
 
-
-
-
 $page_content = include_template('lot.php', [
     'categories' => $categories,
-//    'lot' => $lot
+    'lot' => $lot
 ]);
 
 
 $layout_content = include_template('layout.php', [
-
     'content' => $page_content,
     'categories' => $categories,
     'title' => $title,
