@@ -25,7 +25,7 @@ if ($result) {
 }
 
 //получает список лотов на главной
-$sql = "SELECT lot_title, lot_image, starting_price, category_title, date_finish
+$sql = "SELECT l.id, lot_title, lot_image, starting_price, category_title, date_finish
 FROM lots l
          JOIN categories c ON l.category_id = c.id
 WHERE date_finish > NOW()
@@ -44,7 +44,7 @@ mysqli_close($con);
 
 $page_content = include_template('main.php', [
     'categories' => $categories,
-    'lots' => $lots
+    'lots' => $lots,
 ]);
 
 $layout_content = include_template('layout.php', [
@@ -56,4 +56,6 @@ $layout_content = include_template('layout.php', [
 ]);
 
 print($layout_content);
-
+//echo "<pre>";
+//print_r($lots);
+//echo "</pre>";
