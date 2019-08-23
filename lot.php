@@ -32,7 +32,7 @@ if (isset($_GET['id'])) {
 echo $current_id; // выводит глобальный id правильно ОТЛАДОЧНАЯ ЗАПИСЬ
 
 $sql = "SELECT l.id, lot_title, lot_description, lot_image, category_title FROM lots l JOIN categories c ON l.category_id = c.id
-WHERE l.id = {$current_id}"; // выводит лот не правильно
+WHERE l.id = {$current_id}"; // выводит лот ПРАВИЛЬНО
 
 $result = mysqli_query($con, $sql);
 
