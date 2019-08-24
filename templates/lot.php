@@ -25,15 +25,18 @@
     <div class="lot-item__content">
         <div class="lot-item__left">
             <div class="lot-item__image">
-                <img src="../<?= $lot['lot_image']?>" width="730" height="548" alt="Изображение: <?= $lot['lot_title'] ?>">
+                <img src="../<?= $lot['lot_image'] ?>" width="730" height="548"
+                     alt="Изображение: <?= $lot['lot_title'] ?>">
             </div>
             <p class="lot-item__category">Категория: <span><?= $lot['category_title'] ?></span></p>
-            <p class="lot-item__description"><?= $lot['lot_description']?></p>
+            <p class="lot-item__description"><?= $lot['lot_description'] ?></p>
         </div>
         <div class="lot-item__right">
             <div class="lot-item__state">
-                <div class="lot-item__timer timer">
-                    10:54
+                <?php $get_time = stop_time($lot['date_finish']) ?>
+                <div class="lot-item__timer timer <?php if ($get_time[1] < '01'): ?>timer--finishing<?php endif; ?>">
+                    <!--10:54-->
+                    <?= $get_time[1] . ':' . $get_time[2] ?>
                 </div>
                 <div class="lot-item__cost-state">
                     <div class="lot-item__rate">
@@ -54,61 +57,7 @@
                     <button type="submit" class="button">Сделать ставку</button>
                 </form>
             </div>
-            <div class="history">
-                <h3>История ставок (<span>10</span>)</h3>
-                <table class="history__list">
-                    <tr class="history__item">
-                        <td class="history__name">Иван</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">5 минут назад</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Константин</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">20 минут назад</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Евгений</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">Час назад</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Игорь</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">19.03.17 в 08:21</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Енакентий</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">19.03.17 в 13:20</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Семён</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">19.03.17 в 12:20</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Илья</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">19.03.17 в 10:20</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Енакентий</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">19.03.17 в 13:20</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Семён</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">19.03.17 в 12:20</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Илья</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">19.03.17 в 10:20</td>
-                    </tr>
-                </table>
-            </div>
+
         </div>
     </div>
 </section>

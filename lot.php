@@ -27,28 +27,33 @@ if ($result) {
 // Получает лот и его описание отладочная
 
 if (isset($_GET['id'])) {
-    $current_id = $_GET['id'];
+    $current_id = (int)$_GET['id'];
 }
-echo $current_id; // выводит глобальный id правильно ОТЛАДОЧНАЯ ЗАПИСЬ
 
-$sql = "SELECT l.id, lot_title, lot_description, lot_image, category_title FROM lots l JOIN categories c ON l.category_id = c.id
-WHERE l.id = {$current_id}"; // выводит лот ПРАВИЛЬНО
+$sql = "SELECT l.id, lot_title, lot_description, lot_image, date_finish, category_title FROM lots l JOIN categories c ON l.category_id = c.id
+WHERE l.id = {$current_id}";
 
 $result = mysqli_query($con, $sql);
 
 if ($result) {
     $lot = mysqli_fetch_assoc($result);
 
+    $page_content = include_template('lot.php', [
+        'categories' => $categories,
+        'lot' => $lot
+    ]);
+
+
+    if (!mysqli_num_rows($result)) {
+        http_response_code(404);
+        $page_content = include_template('404.php', [
+        ]);
+    }
+
 } else {
     $error = mysqli_error($con);
     echo $error;
 }
-
-$page_content = include_template('lot.php', [
-    'categories' => $categories,
-    'lot' => $lot
-]);
-
 
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
@@ -59,8 +64,3 @@ $layout_content = include_template('layout.php', [
 ]);
 
 print($layout_content);
-
-//выводит данные о лоте отладочная запись
-echo '<pre>';
-print_r($lot);
-echo '</pre>';
