@@ -24,8 +24,7 @@ if ($result) {
     echo $error;
 }
 
-// Получает лот и его описание отладочная
-
+$current_id = null;
 if (isset($_GET['id'])) {
     $current_id = (int)$_GET['id'];
 }
@@ -38,7 +37,7 @@ $result = mysqli_query($con, $sql);
 if ($result) {
     $lot = mysqli_fetch_assoc($result);
 
-    $page_content = include_template('lot.php', [
+    $page_content = include_template('_lot.php', [
         'categories' => $categories,
         'lot' => $lot
     ]);
@@ -46,13 +45,15 @@ if ($result) {
 
     if (!mysqli_num_rows($result)) {
         http_response_code(404);
-        $page_content = include_template('404.php', [
+        $page_content = include_template('_404.php', [
+            'categories' => $categories
         ]);
     }
 
 } else {
     $error = mysqli_error($con);
     echo $error;
+    exit();
 }
 
 $layout_content = include_template('layout.php', [
