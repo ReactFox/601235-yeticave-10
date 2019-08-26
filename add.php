@@ -11,7 +11,7 @@ if (!$con) {
 }
 
 //получает категории
-$sql = "SELECT category_title, symbolic_code FROM categories";
+$sql = "SELECT * FROM categories";
 
 $result = mysqli_query($con, $sql);
 
