@@ -29,7 +29,7 @@
                     <span class="lot__category"><?= htmlspecialchars($lot['category_title'],
                             ENT_QUOTES | ENT_HTML5) ?></span>
                     <h3 class="lot__title"><a class="text-link"
-                                              href="pages/lot.html"><?= htmlspecialchars($lot['lot_title'],
+                                              href="lot.php?id=<?= $lot['id']?>"><?= htmlspecialchars($lot['lot_title'],
                                 ENT_QUOTES | ENT_HTML5) ?></a>
                     </h3>
                     <div class="lot__state">

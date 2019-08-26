@@ -24,28 +24,37 @@ if ($result) {
     echo $error;
 }
 
-//получает список лотов на главной
-$sql = "SELECT l.id, lot_title, lot_image, starting_price, category_title, date_finish
-FROM lots l
-         JOIN categories c ON l.category_id = c.id
-WHERE date_finish > NOW()
-ORDER BY date_creation DESC LIMIT 9";
+$current_id = null;
+if (isset($_GET['id'])) {
+    $current_id = (int)$_GET['id'];
+}
+
+$sql = "SELECT l.id, lot_title, lot_description, lot_image, date_finish, category_title FROM lots l JOIN categories c ON l.category_id = c.id
+WHERE l.id = {$current_id}";
 
 $result = mysqli_query($con, $sql);
 
 if ($result) {
-    $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $lot = mysqli_fetch_assoc($result);
+
+    $page_content = include_template('_lot.php', [
+        'categories' => $categories,
+        'lot' => $lot
+    ]);
+
+
+    if (!mysqli_num_rows($result)) {
+        http_response_code(404);
+        $page_content = include_template('_404.php', [
+            'categories' => $categories
+        ]);
+    }
+
 } else {
     $error = mysqli_error($con);
     echo $error;
+    exit();
 }
-
-mysqli_close($con);
-
-$page_content = include_template('main.php', [
-    'categories' => $categories,
-    'lots' => $lots,
-]);
 
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
@@ -56,6 +65,3 @@ $layout_content = include_template('layout.php', [
 ]);
 
 print($layout_content);
-//echo "<pre>";
-//print_r($lots);
-//echo "</pre>";
