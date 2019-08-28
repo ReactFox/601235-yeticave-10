@@ -62,7 +62,7 @@
         <label for="message">Описание <sup>*</sup></label>
         <textarea id="message" name="lot_description"
                   placeholder="Напишите описание лота"><?= getPostVal('lot_description') ?></textarea>
-        <span class="form__error">Напишите описание лота</span>
+        <span class="form__error"><?= $errors['lot_description'] ?></span>
     </div>
 
     <?php $form_img_error = isset($errors['lot_image']) ? 'form__item--invalid' : ''; ?>
@@ -86,14 +86,14 @@
             <span class="form__error"><?= $errors['starting_price'] ?></span>
         </div>
 
-        <?php $form_stap_error = isset($errors['bet_step'])? 'form__item--invalid': ''; ?>
+        <?php $form_stap_error = isset($errors['bet_step']) ? 'form__item--invalid' : ''; ?>
         <div class="form__item form__item--small <?= $form_stap_error ?>">
             <label for="lot-step">Шаг ставки <sup>*</sup></label>
             <input id="lot-step" type="text" name="bet_step" value="<?= getPostVal('bet_step') ?>" placeholder="0">
             <span class="form__error">Введите шаг ставки</span>
         </div>
 
-        <?php $form_finish_error = isset($errors['date_finish'])? 'form__item--invalid': ''; ?>
+        <?php $form_finish_error = isset($errors['date_finish']) ? 'form__item--invalid' : ''; ?>
         <div class="form__item <?= $form_finish_error ?>">
             <label for="lot-date">Дата окончания торгов <sup>*</sup></label>
             <input class="form__input-date" id="lot-date" type="text" name="date_finish"

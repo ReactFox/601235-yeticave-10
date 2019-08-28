@@ -38,6 +38,7 @@ function getPostVal($name)
     return $_POST[$name] ?? '';
 }
 
+// валидация заголовка
 function validateFilled($name)
 {
     $result = '';
@@ -48,8 +49,23 @@ function validateFilled($name)
     return $result;
 }
 
+// Валидация описания
+function validateText($name, $min, $max)
+{
+    $result = '';
+    $len = mb_strlen($_POST[$name]);
+
+    if ($len < $min || $len > $max) {
+        $result = 'Описание лота должно быть от $min до $max символов';
+    }
+
+    return $result;
+}
+
 //$_POST['starting_price'] = '-1';
 //validatePrice('starting_price');
+
+//Валидация цены
 function validatePrice($name)
 {
     $result = false;
@@ -72,25 +88,3 @@ function validatePrice($name)
     return $result;
 }
 
-
-//function validateCategory($name, $allowed_list) {
-//    $id = $_POST[$name];
-//
-//    $errors[] = '';
-//    if (!in_array($id, $allowed_list)) {
-//        return $errors['lot_category'];
-//    }
-//
-//    return null;
-//}
-//
-//function validateLength($name, $min, $max)
-//{
-//    $len = strlen($_POST[$name]);
-//
-//    if ($len < $min or $len > $max) {
-//        return "Значение должно быть от $min до $max символов";
-//    }
-//
-//    return null;
-//}

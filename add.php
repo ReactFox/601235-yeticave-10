@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lot = $_POST;
     $required = [
         'lot_title',
-//        'lot_description',
+        'lot_description',
 //        'lot_image',
         'starting_price',
 //        'date_finish',
@@ -46,9 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return validateFilled('lot_title');
         },
 
-//        'lot_description' => function () {
-//            return validateFilled('lot_description');
-//        },
+        'lot_description' => function () {
+            return validateText('lot_description', 1, 128);
+        },
 
 //        'lot_image' => function () {
 //            return validateFilled('lot_image');
