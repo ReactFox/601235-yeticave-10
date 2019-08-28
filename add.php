@@ -32,12 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lot = $_POST;
     $required = [
         'lot_title',
-        'lot_description',
-        'lot_image',
+//        'lot_description',
+//        'lot_image',
         'starting_price',
-        'date_finish',
-        'bet_step',
-        'category_id'
+//        'date_finish',
+//        'bet_step',
+//        'category_id'
     ];
     $errors = [];
 
@@ -46,13 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return validateFilled('lot_title');
         },
 
-        'lot_description' => function () {
-            return validateFilled('lot_description');
-        },
+//        'lot_description' => function () {
+//            return validateFilled('lot_description');
+//        },
 
-        'lot_image' => function () {
-            return validateFilled('lot_image');
-        },
+//        'lot_image' => function () {
+//            return validateFilled('lot_image');
+//        },
 
         'starting_price' => function () {
             return validatePrice('starting_price');
@@ -75,26 +75,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 //        }
 //    }
 
-    if (isset($_FILES['lot_image']['name'])) {
-        $tmp_name = $_FILES['lot_image']['tmp_name'];
-        $path = $_FILES['lot_image']['name'];
-        $filename = uniqid('', true) . '.gif';
-
-//        TODO разобраться как добавить можно файлы с разными расширениями
-
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $file_type = finfo_file($finfo, $tmp_name);
-        if ($file_type !== 'image/gif') {
-            $errors['lot_image'] = 'Загрузите картинку в формате GIF';
-        } elseif ($file_type !== 'image/jpeg') {
-            $errors['lot_image'] = 'Загрузите картинку в формате JPEG';
-        } else {
-            move_uploaded_file($tmp_name, 'uploads/' . $filename);
-            $lot['path'] = $filename;
-        }
-    } else {
-        $errors['lot_image'] = 'Вы не загрузили файл';
-    }
+//    if (isset($_FILES['lot_image']['name'])) {
+//        $tmp_name = $_FILES['lot_image']['tmp_name'];
+//        $path = $_FILES['lot_image']['name'];
+//        $filename = uniqid('', true) . '.gif';
+//
+////        TODO разобраться как добавить можно файлы с разными расширениями
+//
+//        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+//           $file_type = finfo_file($finfo, $tmp_name);
+//        if (($file_type !== 'image/gif') || ($file_type !== 'image/jpeg')) {
+//            $errors['lot_image'] = 'Картинка должна быть в формате GIF или JPEG';
+//        } else {
+//            move_uploaded_file($tmp_name, 'uploads/' . $filename);
+//            $lot['path'] = $filename;
+//        }
+//    } else {
+//        $errors['lot_image'] = 'Вы не загрузили файл';
+//    }
 
     if (count($errors)) {
         $page_content = include_template('_add-lot.php', [
@@ -103,10 +101,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'categories' => $categories
         ]);
         echo '<pre>';
-        print_r($errors);
+        var_dump($errors);
         echo '</pre>';
     }
-} //в случае если данные пришли не из формы, а просто переход по ссылке
+    else {
+        header("Location: add.php");
+    }
+}
+//в случае если данные пришли не из формы, а просто переход по ссылке
 else {
     $page_content = include_template('_add-lot.php', [
         'categories' => $categories

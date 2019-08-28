@@ -40,21 +40,36 @@ function getPostVal($name)
 
 function validateFilled($name)
 {
-    if (empty($_POST['$name'])) {
-        return 'err_field';
-    } else {
-        return '';
+    $result = '';
+    if (empty($_POST[$name])) {
+        $result = 'Введите наименование лота';
     }
+
+    return $result;
 }
 
+//$_POST['starting_price'] = '-1';
+//validatePrice('starting_price');
 function validatePrice($name)
 {
-    if (empty($_POST['$name'])) {
-        return 'err_field';
-    } else {
-        return '';
+    $result = false;
+    $post_data = $_POST[$name];
+
+    if (empty($post_data)) {
+        $result = 'Укажите начальную цену';
     }
-    return $resalt;
+    else {
+        $post_data = (int) $post_data;
+        if(!is_int($post_data)){
+            $result = 'введите целое число';
+        }
+
+        if($post_data <= 0){
+            $result = 'Цена должна быть больше нуля';
+        }
+    }
+//TODO узнать про валидацию с нулём
+    return $result;
 }
 
 

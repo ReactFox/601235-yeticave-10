@@ -38,7 +38,7 @@
             <label for="lot-name">Наименование <sup>*</sup></label>
             <input id="lot-name" type="text" name="lot_title" value="<?= getPostVal('lot_title') ?>"
                    placeholder="Введите наименование лота">
-            <span class="form__error">Введите наименование лота</span>
+            <span class="form__error"><?= $errors['lot_title'] ?></span>
         </div>
 
         <?php $form_class_error = isset($errors['category_id']) ? 'form__item--invalid' : ''; ?>
@@ -74,7 +74,7 @@
                 Добавить
             </label>
         </div>
-        <span class="form__error">Загрузите Фото</span>
+        <span class="form__error"><?= $errors['lot_image'] ?></span>
     </div>
 
     <div class="form__container-three">
@@ -83,7 +83,7 @@
             <label for="lot-rate">Начальная цена <sup>*</sup></label>
             <input id="lot-rate" type="text" name="starting_price" value="<?= getPostVal('starting_price') ?>"
                    placeholder="0">
-            <span class="form__error">Введите начальную цену</span>
+            <span class="form__error"><?= $errors['starting_price'] ?></span>
         </div>
 
         <?php $form_stap_error = isset($errors['bet_step'])? 'form__item--invalid': ''; ?>
