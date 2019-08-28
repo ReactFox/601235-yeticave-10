@@ -20,6 +20,7 @@ $cats_ids = [];
 if ($result) {
     $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
     $cats_ids = array_column($categories, 'id');
+    $cats_ids;
 } else {
     $error = mysqli_error($con);
     echo $error;
@@ -37,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'starting_price',
 //        'date_finish',
 //        'bet_step',
-//        'category_id'
+        'category_id'
     ];
     $errors = [];
 
@@ -56,7 +57,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         'starting_price' => function () {
             return validatePrice('starting_price');
-        }
+        },
+
+        'category_id' => function() use ($cats_ids) {
+            return validateCategory('category_id', $cats_ids);
+        },
+
     ];
 
     foreach ($_POST as $key => $value) {

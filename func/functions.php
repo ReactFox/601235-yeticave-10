@@ -73,14 +73,13 @@ function validatePrice($name)
 
     if (empty($post_data)) {
         $result = 'Укажите начальную цену';
-    }
-    else {
-        $post_data = (int) $post_data;
-        if(!is_int($post_data)){
+    } else {
+        $post_data = (int)$post_data;
+        if (!is_int($post_data)) {
             $result = 'введите целое число';
         }
 
-        if($post_data <= 0){
+        if ($post_data <= 0) {
             $result = 'Цена должна быть больше нуля';
         }
     }
@@ -88,3 +87,14 @@ function validatePrice($name)
     return $result;
 }
 
+function validateCategory($name, $allowed_list)
+{
+    $result = null;
+    $id = $_POST[$name];
+
+    if (!in_array($id, $allowed_list)) {
+        return 'Указана несуществующая категория';
+    }
+
+    return $result;
+}

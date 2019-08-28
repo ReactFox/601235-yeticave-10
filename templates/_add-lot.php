@@ -7,24 +7,6 @@
             </li>
         <?php endforeach; ?>
 
-        <!--        <li class="nav__item">-->
-        <!--            <a href="all-lots.html">Доски и лыжи</a>-->
-        <!--        </li>-->
-        <!--        <li class="nav__item">-->
-        <!--            <a href="all-lots.html">Крепления</a>-->
-        <!--        </li>-->
-        <!--        <li class="nav__item">-->
-        <!--            <a href="all-lots.html">Ботинки</a>-->
-        <!--        </li>-->
-        <!--        <li class="nav__item">-->
-        <!--            <a href="all-lots.html">Одежда</a>-->
-        <!--        </li>-->
-        <!--        <li class="nav__item">-->
-        <!--            <a href="all-lots.html">Инструменты</a>-->
-        <!--        </li>-->
-        <!--        <li class="nav__item">-->
-        <!--            <a href="all-lots.html">Разное</a>-->
-        <!--        </li>-->
     </ul>
 </nav>
 
@@ -42,18 +24,21 @@
         </div>
 
         <?php $form_class_error = isset($errors['category_id']) ? 'form__item--invalid' : ''; ?>
-        <div class="form__item <?= $field_class_error ?>">
+        <div class="form__item <?= $form_class_error ?>">
             <label for="category">Категория <sup>*</sup></label>
+
+            <?php $selected = $_POST['category_id']; ?>
+
             <select id="category" name="category_id">
                 <option>Выберите категорию</option>
 
                 <?php foreach ($categories as $item): ?>
-                    <option value="<?= $item['id'] ?>"><?= htmlspecialchars($item['category_title'],
-                            ENT_QUOTES | ENT_HTML5) ?></option>>
+                    <option value="<?= $item['id'] ?>" <?= ($selected === $item['id'])? 'selected': '' ?>><?= htmlspecialchars($item['category_title'],
+                            ENT_QUOTES | ENT_HTML5) ?></option>
                 <?php endforeach; ?>
 
-                <span class="form__error">Выберите категорию</span>
             </select>
+            <span class="form__error">Выберите категорию</span>
         </div>
     </div>
 
