@@ -20,7 +20,6 @@ $cats_ids = [];
 if ($result) {
     $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
     $cats_ids = array_column($categories, 'id');
-    $cats_ids;
 } else {
     $error = mysqli_error($con);
     echo $error;
@@ -59,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return validatePrice('starting_price');
         },
 
-        'category_id' => function() use ($cats_ids) {
+        'category_id' => function () use ($cats_ids) {
             return validateCategory('category_id', $cats_ids);
         },
 
@@ -72,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    $errors = array_filter($errors);
+//    $errors = array_filter($errors);
 
 //    TODO разобраться с перебором массива, а нужен ли он
 //    foreach ($required as $key) {
@@ -81,24 +80,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 //        }
 //    }
 
-//    if (isset($_FILES['lot_image']['name'])) {
-//        $tmp_name = $_FILES['lot_image']['tmp_name'];
-//        $path = $_FILES['lot_image']['name'];
-//        $filename = uniqid('', true) . '.gif';
-//
-////        TODO разобраться как добавить можно файлы с разными расширениями
-//
-//        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-//           $file_type = finfo_file($finfo, $tmp_name);
-//        if (($file_type !== 'image/gif') || ($file_type !== 'image/jpeg')) {
-//            $errors['lot_image'] = 'Картинка должна быть в формате GIF или JPEG';
-//        } else {
-//            move_uploaded_file($tmp_name, 'uploads/' . $filename);
-//            $lot['path'] = $filename;
-//        }
-//    } else {
-//        $errors['lot_image'] = 'Вы не загрузили файл';
-//    }
+    if (isset($_FILES['lot_image']['name'])) {
+        $tmp_name = $_FILES['lot_image']['tmp_name'];
+        $path = $_FILES['lot_image']['name'];
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+
+        $filename = uniqid('', true) . ".$ext";
+
+
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+
+        $file_type = finfo_file($finfo, $tmp_name);
+
+
+        if (($file_type !== 'image/png') || ($file_type !== 'image/jpeg')) {
+            $errors['lot_image'] = 'Картинка должна быть в формате PNG, JPEG или JPG';
+        } /*elseif ($file_type !== 'image/jpeg') {
+            $errors['lot_image'] = 'Картинка должна быть в формате JPEG или JPG';
+        } */
+
+        else {
+            move_uploaded_file($tmp_name, 'uploads/' . $filename);
+            $lot['path'] = $filename;
+        }
+
+    } else {
+        $errors['lot_image'] = 'Вы не загрузили файл';
+    }
+
+    $errors = array_filter($errors);
 
     if (count($errors)) {
         $page_content = include_template('_add-lot.php', [
@@ -109,12 +119,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo '<pre>';
         var_dump($errors);
         echo '</pre>';
-    }
-    else {
+    } else {
         header("Location: add.php");
     }
-}
-//в случае если данные пришли не из формы, а просто переход по ссылке
+} //в случае если данные пришли не из формы, а просто переход по ссылке
 else {
     $page_content = include_template('_add-lot.php', [
         'categories' => $categories

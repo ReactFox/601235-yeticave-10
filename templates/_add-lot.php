@@ -27,7 +27,7 @@
         <div class="form__item <?= $form_class_error ?>">
             <label for="category">Категория <sup>*</sup></label>
 
-            <?php $selected = $_POST['category_id']; ?>
+            <?php $selected = isset($_POST['category_id']) ?>
 
             <select id="category" name="category_id">
                 <option>Выберите категорию</option>
