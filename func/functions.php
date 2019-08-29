@@ -56,7 +56,7 @@ function validateText($name, $min, $max)
     $len = mb_strlen($_POST[$name]);
 
     if ($len < $min || $len > $max) {
-        $result = 'Описание лота должно быть от $min до $max символов';
+        $result = 'Описание лота должно быть от'. $min . 'до' . $max . 'символов';
     }
 
     return $result;
@@ -71,19 +71,14 @@ function validatePrice($name)
     $result = false;
     $post_data = $_POST[$name];
 
-    if (empty($post_data)) {
-        $result = 'Укажите начальную цену';
-    } else {
-        $post_data = (int)$post_data;
-        if (!is_int($post_data)) {
-            $result = 'введите целое число';
-        }
 
-        if ($post_data <= 0) {
-            $result = 'Цена должна быть больше нуля';
-        }
+    if (!is_numeric($post_data)) {
+        $result = 'введите целое число';
+    } elseif ($post_data <= 0) {
+        $result = 'Значение должно быть больше нуля';
     }
-//TODO узнать про валидацию с нулём
+
+//    }
     return $result;
 }
 
@@ -93,7 +88,7 @@ function validateCategory($name, $allowed_list)
     $id = $_POST[$name];
 
     if (!in_array($id, $allowed_list)) {
-        return 'Указана несуществующая категория';
+        $result = 'Выберите категорию';
     }
 
     return $result;

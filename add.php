@@ -33,10 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $required = [
         'lot_title',
         'lot_description',
-//        'lot_image',
         'starting_price',
-//        'date_finish',
-//        'bet_step',
+        'date_finish',
+        'bet_step',
         'category_id'
     ];
     $errors = [];
@@ -50,10 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return validateText('lot_description', 1, 128);
         },
 
-//        'lot_image' => function () {
-//            return validateFilled('lot_image');
-//        },
-
         'starting_price' => function () {
             return validatePrice('starting_price');
         },
@@ -62,7 +57,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return validateCategory('category_id', $cats_ids);
         },
 
+        'bet_step' => function () {
+            return validatePrice('bet_step');
+        },
+
+        'date_finish' => function () {
+            return is_date_valid('date_finish');
+        }
+
     ];
+
 
     foreach ($_POST as $key => $value) {
         if (isset($rules[$key])) {
@@ -71,16 +75,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-//    $errors = array_filter($errors);
+    foreach ($required as $key) {
+        if (!isset($_POST[$key]) || (trim($_POST[$key]) === '')) {
+            $errors[$key] = 'Это поле надо заполнить';
+        }
+    }
 
-//    TODO разобраться с перебором массива, а нужен ли он
-//    foreach ($required as $key) {
-//        if (empty($_POST[$key])) {
-//            $errors[$key] = 'Это поле надо заполнить';
-//        }
-//    }
 
-    if (isset($_FILES['lot_image']['name'])) {
+    if (!empty($_FILES['lot_image']['name'])) {
         $tmp_name = $_FILES['lot_image']['tmp_name'];
         $path = $_FILES['lot_image']['name'];
         $ext = pathinfo($path, PATHINFO_EXTENSION);
@@ -93,19 +95,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $file_type = finfo_file($finfo, $tmp_name);
 
 
-        if (($file_type !== 'image/png') || ($file_type !== 'image/jpeg')) {
+        if (($file_type !== 'image/png') && ($file_type !== 'image/jpeg')) {
             $errors['lot_image'] = 'Картинка должна быть в формате PNG, JPEG или JPG';
-        } /*elseif ($file_type !== 'image/jpeg') {
-            $errors['lot_image'] = 'Картинка должна быть в формате JPEG или JPG';
-        } */
-
-        else {
+        } else {
             move_uploaded_file($tmp_name, 'uploads/' . $filename);
             $lot['path'] = $filename;
         }
 
     } else {
-        $errors['lot_image'] = 'Вы не загрузили файл';
+        $errors['lot_image'] = 'Вы не загрузили фото';
     }
 
     $errors = array_filter($errors);

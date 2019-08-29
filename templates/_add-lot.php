@@ -27,18 +27,18 @@
         <div class="form__item <?= $form_class_error ?>">
             <label for="category">Категория <sup>*</sup></label>
 
-            <?php $selected = isset($_POST['category_id']) ?>
+            <?php $selected = $_POST['category_id'] ?? '' ?>
 
             <select id="category" name="category_id">
                 <option>Выберите категорию</option>
 
                 <?php foreach ($categories as $item): ?>
-                    <option value="<?= $item['id'] ?>" <?= ($selected === $item['id'])? 'selected': '' ?>><?= htmlspecialchars($item['category_title'],
+                    <option value="<?= $item['id'] ?>" <?= ($selected === $item['id'])? 'selected' : '' ?>> <?= htmlspecialchars($item['category_title'],
                             ENT_QUOTES | ENT_HTML5) ?></option>
                 <?php endforeach; ?>
 
             </select>
-            <span class="form__error">Выберите категорию</span>
+            <span class="form__error"><?= $errors['category_id'] ?></span>
         </div>
     </div>
 
@@ -75,7 +75,7 @@
         <div class="form__item form__item--small <?= $form_stap_error ?>">
             <label for="lot-step">Шаг ставки <sup>*</sup></label>
             <input id="lot-step" type="text" name="bet_step" value="<?= getPostVal('bet_step') ?>" placeholder="0">
-            <span class="form__error">Введите шаг ставки</span>
+            <span class="form__error"><?= $errors['bet_step'] ?></span>
         </div>
 
         <?php $form_finish_error = isset($errors['date_finish']) ? 'form__item--invalid' : ''; ?>
