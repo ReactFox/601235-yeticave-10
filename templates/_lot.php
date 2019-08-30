@@ -52,7 +52,8 @@
                         <span class="lot-item__cost">10 999</span>
                     </div>
                     <div class="lot-item__min-cost">
-                        Мин. ставка <span><?= $lot['bet_step']?>  <!--12 000 р --></span>
+                        Мин. ставка <span><?= htmlspecialchars($lot['bet_step'],
+                                    ENT_QUOTES | ENT_HTML5) . 'р' ?>  <!--12 000 р --></span>
                     </div>
                 </div>
                 <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post"
