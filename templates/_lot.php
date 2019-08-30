@@ -33,7 +33,7 @@
     <div class="lot-item__content">
         <div class="lot-item__left">
             <div class="lot-item__image">
-                <img src="../<?= $lot['lot_image'] ?>" width="730" height="548"
+                <img src="../uploads/<?= $lot['lot_image'] ?>" width="730" height="548"
                      alt="Изображение: <?= $lot['lot_title'] ?>">
             </div>
             <p class="lot-item__category">Категория: <span><?= $lot['category_title'] ?></span></p>
@@ -52,7 +52,7 @@
                         <span class="lot-item__cost">10 999</span>
                     </div>
                     <div class="lot-item__min-cost">
-                        Мин. ставка <span>12 000 р</span>
+                        Мин. ставка <span><?= $lot['bet_step']?>  <!--12 000 р --></span>
                     </div>
                 </div>
                 <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post"
