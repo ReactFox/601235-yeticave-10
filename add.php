@@ -30,6 +30,9 @@ if ($result) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lot = $_POST;
+    echo '<pre>';
+    var_dump($lot);
+    echo '</pre>';
     $required = [
         'lot_title',
         'lot_description',
@@ -114,14 +117,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } else {
 
-        $sql = 'INSERT INTO lots (date_creation, lot_title, lot_description, lot_image, starting_price,
-                  date_finish, bet_step, author_id, category_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, 1, ?)';
+//        $date_creation = $lot['date_creation'];
+        $lot_title = $lot['lot_title'];
+        $lot_description = $lot['lot_description'];
+        $lot_image = $lot['lot_image'];
+        $starting_price = $lot['starting_price'];
+        $date_finish = $lot['date_finish'];
+        $bet_step = $lot['bet_step'];
+//        $author_id = $lot['author_id'];
+        $category_id = $lot['category_id'];
+
+//        $sql = 'INSERT INTO lots (date_creation, lot_title, lot_description, lot_image, starting_price,
+//                  date_finish, bet_step, author_id, category_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, 1, ?)';
+
+        $sql = "INSERT INTO lots (date_creation, '$lot_title', '$lot_description', '$lot_image', '$starting_price',
+                  '$date_finish', '$bet_step', author_id, '$category_id') VALUES (NOW(), ?, ?, ?, ?, ?, ?, 1, ?)";
+
         $stmt = db_get_prepare_stmt($con, $sql, $lot);
         $res = mysqli_stmt_execute($stmt);
 
 //        echo '<pre>';
 //        var_dump($res); //  mysqli_stmt_execute возвращает false
 //        echo '</pre>';
+
+
+        var_dump(mysqli_error($con));
 
         if ($res) {
             $lot_id = mysqli_insert_id($con);
