@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors['lot_image'] = 'Картинка должна быть в формате PNG, JPEG или JPG';
         } else {
             move_uploaded_file($tmp_name, 'uploads/' . $filename);
-            $lot['path'] = $filename;
+            $lot['lot_image'] = $filename;
         }
 
     } else {
@@ -115,9 +115,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         var_dump($errors);
         echo '</pre>';
     } else {
-        $_POST['user_id'] = 1; // присвоил временную переменную для пользователя
+//        $_POST['user_id'] = 1; // присвоил временную переменную для пользователя
 
-        $sql = 'INSERT INTO lots (date_creation, lot_title, lot_description, lot_image, starting_price, date_finish, author_id, category_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?)';
+        echo '<pre>';
+        print_r($lot);
+        echo '</pre>';
+        $sql = 'INSERT INTO lots (date_creation, lot_title, lot_description, lot_image, starting_price,
+                  date_finish, bet_step, author_id, category_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, 1, ?)';
         $stmt = db_get_prepare_stmt($con, $sql, $lot);
         $res = mysqli_stmt_execute($stmt);
 
