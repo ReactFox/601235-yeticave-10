@@ -64,9 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'date_finish' => function () {
             return is_date_valid('date_finish');
         }
-
     ];
-
 
     foreach ($_POST as $key => $value) {
         if (isset($rules[$key])) {
@@ -80,7 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[$key] = 'Это поле надо заполнить';
         }
     }
-
 
     if (!empty($_FILES['lot_image']['name'])) {
         $tmp_name = $_FILES['lot_image']['tmp_name'];
@@ -118,7 +115,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         var_dump($errors);
         echo '</pre>';
     } else {
-        header("Location: add.php");
+        $_POST['user_id'] = 1; // присвоил временную переменную для пользователя
+
+        $sql = 'INSERT INTO lots (date_creation, lot_title, lot_description, lot_image, starting_price, date_finish, author_id, category_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?)';
+        $stmt = db_get_prepare_stmt($con, $sql, $lot);
+        $res = mysqli_stmt_execute($stmt);
+
+        if ($res) {
+            $lot_id = mysqli_insert_id($con);
+
+            header("Location: lot.php?id=" . $lot_id);
+        }
     }
 } //в случае если данные пришли не из формы, а просто переход по ссылке
 else {
