@@ -111,24 +111,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'errors' => $errors,
             'categories' => $categories
         ]);
-        echo '<pre>';
-        var_dump($errors);
-        echo '</pre>';
-    } else {
-//        $_POST['user_id'] = 1; // присвоил временную переменную для пользователя
 
-        echo '<pre>';
-        print_r($lot);
-        echo '</pre>';
+    } else {
+
         $sql = 'INSERT INTO lots (date_creation, lot_title, lot_description, lot_image, starting_price,
                   date_finish, bet_step, author_id, category_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, 1, ?)';
         $stmt = db_get_prepare_stmt($con, $sql, $lot);
         $res = mysqli_stmt_execute($stmt);
 
+//        echo '<pre>';
+//        var_dump($res); //  mysqli_stmt_execute возвращает false
+//        echo '</pre>';
+
         if ($res) {
             $lot_id = mysqli_insert_id($con);
 
-            header("Location: lot.php?id=" . $lot_id);
+            header("Location:lot.php?id=" . $lot_id);
         }
     }
 } //в случае если данные пришли не из формы, а просто переход по ссылке
