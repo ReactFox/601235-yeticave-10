@@ -84,7 +84,7 @@
             <input class="form__input-date" id="lot-date" type="text" name="date_finish"
                    value="<?= getPostVal('date_finish') ?>"
                    placeholder="Введите дату в формате ГГГГ-ММ-ДД">
-            <span class="form__error">Введите дату завершения торгов</span>
+            <span class="form__error"><?= $errors['date_finish']?></span>
         </div>
     </div>
 
