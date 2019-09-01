@@ -12,6 +12,7 @@ require_once 'func/functions.php';
     <title><?= $title ?></title>
     <link href="../css/normalize.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/flatpickr.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="page-wrapper">
@@ -26,7 +27,7 @@ require_once 'func/functions.php';
                 <input type="search" name="search" placeholder="Поиск лота">
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
-            <a class="main-header__add-lot button" href="pages/add-lot.html">Добавить лот</a>
+            <a class="main-header__add-lot button" href="../add.php">Добавить лот</a>
 
             <nav class="user-menu">
 
@@ -125,9 +126,9 @@ require_once 'func/functions.php';
         </div>
     </div>
 </footer>
+<script src="../flatpickr.js"></script>
+<script src="../script.js"></script>
 
-<script src="flatpickr.js"></script>
-<script src="script.js"></script>
 </body>
 </html>
 
