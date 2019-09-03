@@ -24,9 +24,6 @@ if ($result) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form = $_POST;
-//    echo '<pre>';
-//    var_dump($form);
-//    echo '</pre>';
     $required = [
         'email',
         'user_name',
@@ -40,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return validateEmail('email', 4, 24);
         },
         'user_name' => function () {
-            return validateText('user_name', 1, 24);
+            return validateText('user_name', 4, 24);
         },
         'password' => function () {
             return validateText('password', 4, 24);
@@ -76,11 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $errors = array_filter($errors);
-//    echo '<pre>';
-//    var_dump($errors);
-//    echo '</pre>';
-//    var_dump(mysqli_error($res));
-
 
     if (count($errors)) {
         $page_content = include_template('_reg.php', [
