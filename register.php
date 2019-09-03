@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return validateText('user_name', 1, 24);
         },
         'password' => function () {
-            return validateText('user_name', 4, 24);
+            return validateText('password', 4, 24);
         },
         'contacts' => function () {
             return validateText('contacts', 4, 256);
@@ -63,22 +63,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    $email = mysqli_real_escape_string($con, $form['email']);
-    $sql = "SELECT id FROM users WHERE email = '$email'";
-    $res = mysqli_query($con, $sql);
-    if (mysqli_num_rows($res) > 0) {
-        $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
-    } else {
-        $password = password_hash($form['password'], PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO users (date_registration, email, password, user_name, contacts) VALUES (NOW(), ?, ?, ?, ?)';
-        $stmt = db_get_prepare_stmt($con, $sql, $form);
-        $res = mysqli_stmt_execute($stmt);
-    }
+//    $email = mysqli_real_escape_string($con, $form['email']);
+//    $sql = "SELECT id FROM users WHERE email = '$email'";
+//    $res = mysqli_query($con, $sql);
+//    if (mysqli_num_rows($res) > 0) {
+//        $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
+//    } else {
+//        $password = password_hash($form['password'], PASSWORD_DEFAULT);
+//        $sql = 'INSERT INTO users (date_registration, email, password, user_name, contacts) VALUES (NOW(), ?, ?, ?, ?)';
+//        $stmt = db_get_prepare_stmt($con, $sql, $form);
+//        $res = mysqli_stmt_execute($stmt);
+//    }
 
     $errors = array_filter($errors);
-//    echo '<pre>';
-//    var_dump($errors);
-//    echo '</pre>';
+    echo '<pre>';
+    var_dump($errors);
+    echo '</pre>';
 //    var_dump(mysqli_error($res));
 
 
@@ -88,17 +88,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'errors' => $errors,
             'categories' => $categories
         ]);
-    }
-    elseif ($res && empty($errors)) {
+    }elseif ($res && empty($errors)) {
         header('Location: /login.php');
         exit();
     }
+} else {
+    $page_content = include_template('_reg.php', [
+        'categories' => $categories,
+    ]);
 }
-
-$page_content = include_template('_reg.php', [
-    'categories' => $categories,
-]);
-
 
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
