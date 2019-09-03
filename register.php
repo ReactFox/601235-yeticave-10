@@ -5,7 +5,6 @@ require_once 'data/data.php';
 require_once 'func/functions.php';
 require_once 'helpers.php';
 
-
 if (!$con) {
     $error = mysqli_connect_error();
     echo $error;
@@ -24,27 +23,20 @@ if ($result) {
     echo $error;
 }
 
-//получает список лотов на главной
-$sql = "SELECT l.id, lot_title, lot_image, starting_price, category_title, date_finish
-FROM lots l
-         JOIN categories c ON l.category_id = c.id
-WHERE date_finish > NOW()
-ORDER BY date_creation DESC LIMIT 9";
 
-$result = mysqli_query($con, $sql);
 
-if ($result) {
-    $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
-} else {
-    $error = mysqli_error($con);
-    echo $error;
-}
 
-mysqli_close($con);
 
-$page_content = include_template('main.php', [
+
+
+
+
+
+
+
+
+$page_content = include_template('_reg.php', [
     'categories' => $categories,
-    'lots' => $lots,
 ]);
 
 $layout_content = include_template('layout.php', [
@@ -56,6 +48,3 @@ $layout_content = include_template('layout.php', [
 ]);
 
 print($layout_content);
-//echo "<pre>";
-//print_r($lots);
-//echo "</pre>";
