@@ -68,12 +68,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $res = mysqli_query($con, $sql);
     if (mysqli_num_rows($res) > 0) {
         $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
+    } else {
+        $password = password_hash($form['password'], PASSWORD_DEFAULT);
+        $sql = 'INSERT INTO users (date_registration, email, password, user_name, contacts) VALUES (NOW(), ?, ?, ?, ?)';
+        $stmt = db_get_prepare_stmt($con, $sql, $form);
+        $res = mysqli_stmt_execute($stmt);
     }
-//    echo '<pre>';
-//    var_dump($errors); //  mysqli_stmt_execute возвращает false
-//    echo '</pre>';
 
     $errors = array_filter($errors);
+//    echo '<pre>';
+//    var_dump($errors);
+//    echo '</pre>';
+//    var_dump(mysqli_error($res));
+
 
     if (count($errors)) {
         $page_content = include_template('_reg.php', [
@@ -81,16 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'errors' => $errors,
             'categories' => $categories
         ]);
-    } else {
-        $password = password_hash($form['password'], PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO users (dt_add, email, password, user_name, contacts) VALUES (NOW(), ?, ?, ?, ?)';
-        $stmt = db_get_prepare_stmt($con, $sql, $form);
-        $res = mysqli_stmt_execute($stmt);
     }
-
-//    var_dump(mysqli_error($res));
-    if ($res && empty($errors)) {
-        header("Location: /login.php");
+    elseif ($res && empty($errors)) {
+        header('Location: /login.php');
         exit();
     }
 }
