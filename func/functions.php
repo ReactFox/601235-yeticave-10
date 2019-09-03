@@ -108,7 +108,8 @@ function validateEmail($email, $min, $max)
 
     if ($len < $min || $len > $max) {
         $result = 'Длинна E-mail должна быть от' . $min . 'до' . $max . 'символов';
-    } elseif (!filter_var($_POST[$email], FILTER_VALIDATE_EMAIL)) {
+    }
+    if (!filter_var($_POST[$email], FILTER_VALIDATE_EMAIL)) {
         $result = 'Email должен быть корректным';
     }
     return $result;
