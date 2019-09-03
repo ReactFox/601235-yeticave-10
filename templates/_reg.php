@@ -9,29 +9,38 @@
     </ul>
 </nav>
 
-<form class="form container form--invalid" action="https://echo.htmlacademy.ru" method="post" autocomplete="off"> <!-- form
-    --invalid -->
+<?php $classname = isset($errors) ? 'form--invalid' : '' ?>
+<form class="form container <?= $classname ?>" action="../register.php" method="post" enctype="multipart/form-data"
+      autocomplete="off">
     <h2>Регистрация нового аккаунта</h2>
-    <div class="form__item"> <!-- form__item--invalid -->
+    <?php $field_email_error = isset($errors['email']) ? 'form__item--invalid' : ''; ?>
+    <div class="form__item <?= $field_email_error ?>"> <!-- form__item--invalid -->
         <label for="email">E-mail <sup>*</sup></label>
         <input id="email" type="text" name="email" placeholder="Введите e-mail">
-        <span class="form__error">Введите e-mail</span>
+        <span class="form__error"><?= $errors['email'] ?></span>
     </div>
-    <div class="form__item">
+
+    <?php $field_pass_error = isset($errors['password']) ? 'form__item--invalid' : ''; ?>
+    <div class="form__item <?= $field_pass_error ?>">
         <label for="password">Пароль <sup>*</sup></label>
         <input id="password" type="password" name="password" placeholder="Введите пароль">
-        <span class="form__error">Введите пароль</span>
+        <span class="form__error"><?= $errors['password'] ?></span>
     </div>
-    <div class="form__item">
+
+    <?php $field_name_error = isset($errors['user_name']) ? 'form__item--invalid' : ''; ?>
+    <div class="form__item <?= $field_name_error ?>">
         <label for="name">Имя <sup>*</sup></label>
-        <input id="name" type="text" name="name" placeholder="Введите имя">
-        <span class="form__error">Введите имя</span>
+        <input id="name" type="text" name="user_name" placeholder="Введите имя">
+        <span class="form__error"><?= $errors['user_name'] ?></span>
     </div>
-    <div class="form__item">
+
+    <?php $field_contacts_error = isset($errors['contacts']) ? 'form__item--invalid' : ''; ?>
+    <div class="form__item <?= $field_contacts_error ?>">
         <label for="message">Контактные данные <sup>*</sup></label>
-        <textarea id="message" name="message" placeholder="Напишите как с вами связаться"></textarea>
-        <span class="form__error">Напишите как с вами связаться</span>
+        <textarea id="message" name="contacts" placeholder="Напишите как с вами связаться"></textarea>
+        <span class="form__error"><?= $errors['contacts'] ?></span>
     </div>
+
     <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
     <button type="submit" class="button">Зарегистрироваться</button>
     <a class="text-link" href="#">Уже есть аккаунт</a>

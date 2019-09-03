@@ -117,30 +117,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } else {
 
-        //вариант 1
-//        $date_creation = $lot['date_creation'];
-//        $lot_title = $lot['lot_title'];
-//        $lot_description = $lot['lot_description'];
-//        $lot_image = $lot['lot_image'];
-//        $starting_price = $lot['starting_price'];
-//        $date_finish = $lot['date_finish'];
-//        $bet_step = $lot['bet_step'];
-//        $author_id = $lot['author_id'];
-//        $category_id = $lot['category_id'];
-
-        //        вариант 1
-//        $sql = "INSERT INTO lots (date_creation, '$lot_title', '$lot_description', '$lot_image', '$starting_price',
-//                  '$date_finish', '$bet_step', author_id, '$category_id') VALUES (NOW(), ?, ?, ?, ?, ?, ?, 1, ?)";
-
-        //вариант 2
         $sql = 'INSERT INTO lots (date_creation,lot_title,  category_id, lot_description, starting_price, bet_step, date_finish,
                   lot_image, 
                     author_id ) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, 1)';
-
-//        исходная
-//        $sql = 'INSERT INTO lots (date_creation, lot_title, lot_description, lot_image, starting_price,
-//                  date_finish, bet_step, author_id, category_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, 1, ?)';
-
 
         $stmt = db_get_prepare_stmt($con, $sql, $lot);
         $res = mysqli_stmt_execute($stmt);
