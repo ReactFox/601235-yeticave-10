@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $rules = [
         'lot_title' => function () {
-            return validateFilled('lot_title');
+            return validateText('lot_title', 1, 64);
         },
 
         'lot_description' => function () {

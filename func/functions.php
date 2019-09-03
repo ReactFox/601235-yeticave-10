@@ -33,37 +33,44 @@ function stop_time($final_date)
     return $time;
 }
 
+//Устанвливает значение для полей формы если он были корректны при отправке
 function getPostVal($name)
 {
     return $_POST[$name] ?? '';
 }
 
-// валидация заголовка
-function validateFilled($name)
-{
-    $result = '';
-    if (empty($_POST[$name])) {
-        $result = 'Введите наименование лота';
-    }
 
-    return $result;
-}
-
-// Валидация описания
+// Валидация описания текстовых полей на длинну
 function validateText($name, $min, $max)
 {
     $result = '';
     $len = mb_strlen($_POST[$name]);
+    $validate_field = $name;
 
     if ($len < $min || $len > $max) {
-        $result = 'Описание лота должно быть от'. $min . 'до' . $max . 'символов';
+        if ($validate_field === 'lot_title') {
+            $field_text_error = 'Наименование лота должно быть от' . $min . 'до' . $max . 'символов';
+            $result = $field_text_error;
+        }
+        if ($validate_field === 'lot_description') {
+            $field_text_error = 'Описание лота должно быть от' . $min . 'до' . $max . 'символов';
+            $result = $field_text_error;
+        }
+        if ($validate_field === 'user_name') {
+            $field_text_error = 'Имя пользователя быть от' . $min . 'до' . $max . 'символов';
+            $result = $field_text_error;
+        }
+        if ($validate_field === 'password') {
+            $field_text_error = 'Длинна пароля должна быть от' . $min . 'до' . $max . 'символов';
+            $result = $field_text_error;
+        }
+        if ($validate_field === 'contacts'){
+            $field_text_error = 'Длинна контактных даннных должна быть от ' . $min . 'до' . $max . 'символов';
+            $result = $field_text_error;
+        }
     }
-
     return $result;
 }
-
-//$_POST['starting_price'] = '-1';
-//validatePrice('starting_price');
 
 //Валидация цены
 function validatePrice($name)
@@ -71,14 +78,12 @@ function validatePrice($name)
     $result = false;
     $post_data = $_POST[$name];
 
-
     if (!is_numeric($post_data)) {
         $result = 'введите целое число';
     } elseif ($post_data <= 0) {
         $result = 'Значение должно быть больше нуля';
     }
 
-//    }
     return $result;
 }
 
@@ -94,17 +99,17 @@ function validateCategory($name, $allowed_list)
     return $result;
 }
 
-function is_date_check(string $date) {
+//Валидация email
+function validateEmail($email, $min, $max)
+{
     $result = false;
 
-    $date_now =  time();
-    $date_bate = strtotime($date);
-    $date_diff = $date_bate - $date_now;
+    $len = mb_strlen($_POST[$email]);
 
-
-    if($date_diff < 86400) {
-        $result = 'Дата окончания торгов не может быть раньше через чем 24 часа';
+    if ($len < $min || $len > $max) {
+        $result = 'Длинна E-mail должна быть от' . $min . 'до' . $max . 'символов';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $result = 'Email должен быть корректным';
     }
-
     return $result;
 }
