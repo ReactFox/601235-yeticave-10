@@ -41,7 +41,7 @@ CREATE TABLE users
     date_registration TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     email             CHAR(24)         NOT NULL UNIQUE,
     user_name         CHAR(24)         NOT NULL,
-    password          CHAR(64) BINARY  NOT NULL,
+    password          CHAR(255)        NOT NULL,
     avatar            CHAR(24),
-    contacts          TINYTEXT         NOT NULL
+    contacts          CHAR(255)        NOT NULL
 )

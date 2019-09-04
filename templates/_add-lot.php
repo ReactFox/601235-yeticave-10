@@ -6,13 +6,12 @@
                         ENT_QUOTES | ENT_HTML5) ?></a>
             </li>
         <?php endforeach; ?>
-
     </ul>
 </nav>
 
 <?php $classname = isset($errors) ? 'form--invalid' : '' ?>
 <form class="form form--add-lot container <?= $classname ?>" action="../add.php" method="post"
-      enctype="multipart/form-data"> <!-- form--invalid -->
+      enctype="multipart/form-data">
     <h2>Добавление лота</h2>
     <div class="form__container-two">
         <?php $field_class_error = isset($errors['lot_title']) ? 'form__item--invalid' : ''; ?>
@@ -33,7 +32,7 @@
                 <option>Выберите категорию</option>
 
                 <?php foreach ($categories as $item): ?>
-                    <option value="<?= $item['id'] ?>" <?= ($selected === $item['id'])? 'selected' : '' ?>> <?= htmlspecialchars($item['category_title'],
+                    <option value="<?= $item['id'] ?>" <?= ($selected === $item['id']) ? 'selected' : '' ?>> <?= htmlspecialchars($item['category_title'],
                             ENT_QUOTES | ENT_HTML5) ?></option>
                 <?php endforeach; ?>
 
@@ -84,7 +83,7 @@
             <input class="form__input-date" id="lot-date" type="text" name="date_finish"
                    value="<?= getPostVal('date_finish') ?>"
                    placeholder="Введите дату в формате ГГГГ-ММ-ДД">
-            <span class="form__error"><?= $errors['date_finish']?></span>
+            <span class="form__error"><?= $errors['date_finish'] ?></span>
         </div>
     </div>
 

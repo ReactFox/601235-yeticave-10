@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 $db = [
     'host' => '601235-yeticave-10',
     'user' => 'root',
