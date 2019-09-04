@@ -40,10 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return validateText('user_name', 4, 24);
         },
         'password' => function () {
-            return validateText('password', 4, 24);
+            return validateText('password', 4, 255);
         },
         'contacts' => function () {
-            return validateText('contacts', 4, 256);
+            return validateText('contacts', 4, 255);
         },
     ];
 
