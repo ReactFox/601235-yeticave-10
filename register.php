@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (mysqli_num_rows($res) > 0) {
         $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
     } else {
-        $password = password_hash($form['password'], PASSWORD_DEFAULT);
+        $form['password'] = password_hash($form['password'], PASSWORD_DEFAULT);
         $sql = 'INSERT INTO users (date_registration, email, password, user_name, contacts) VALUES (NOW(), ?, ?, ?, ?)';
         $stmt = db_get_prepare_stmt($con, $sql, $form);
         $res = mysqli_stmt_execute($stmt);
