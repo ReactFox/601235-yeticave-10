@@ -88,6 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $page_content = include_template('_reg.php', [
         'categories' => $categories,
     ]);
+    if (isset($_SESSION['user'])) {
+        header("Location: /index.php");
+        exit();
+    }
 }
 
 $layout_content = include_template('layout.php', [
