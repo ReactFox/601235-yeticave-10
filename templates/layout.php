@@ -116,7 +116,9 @@ require_once 'func/functions.php';
                 </svg>
             </a>
         </div>
+        <?php if (isset($_SESSION['user'])): ?>
         <a class="main-footer__add-lot button" href="../add.php">Добавить лот</a>
+        <?php endif; ?>
         <div class="main-footer__developed-by">
             <span class="visually-hidden">Разработано:</span>
             <a class="logo-academy" href="https://htmlacademy.ru/intensive/php">
