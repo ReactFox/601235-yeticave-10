@@ -59,7 +59,7 @@ if ($result) {
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'categories' => $categories,
-    'title' => 'лот',
+    'title' => 'Лот: ' . $lot['lot_title'],
 ]);
 
 print($layout_content);
