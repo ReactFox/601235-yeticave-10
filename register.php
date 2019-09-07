@@ -89,6 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'categories' => $categories,
     ]);
     if (isset($_SESSION['user'])) {
+        http_response_code(403);
         header('Location: /index.php');
         exit();
     }

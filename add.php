@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($res) {
             $lot_id = mysqli_insert_id($con);
 
-            header("Location:lot.php?id=" . $lot_id);
+            header('Location:lot.php?id=' . $lot_id);
         }
     }
 } //в случае если данные пришли не из формы, а просто переход по ссылке
@@ -142,6 +142,11 @@ else {
     $page_content = include_template('_add-lot.php', [
         'categories' => $categories
     ]);
+    if (!isset($_SESSION['user'])) {
+        http_response_code(403);
+        header('Location: /register.php');
+        exit();
+    }
 }
 
 
