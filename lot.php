@@ -59,9 +59,7 @@ if ($result) {
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'categories' => $categories,
-    'title' => $title,
-    'is_auth' => $is_auth,
-    'user_name' => $user_name,
+    'title' => 'лот',
 ]);
 
 print($layout_content);

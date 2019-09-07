@@ -33,6 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 //    echo '<pre>';
 //    var_dump($lot);
 //    echo '</pre>';
+//
+//    echo '<pre>';
+//    var_dump($_SESSION['user']);
+//    echo '</pre>';
     $required = [
         'lot_title',
         'lot_description',
@@ -116,16 +120,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
 
     } else {
-
+        $lot['author_id'] = $_SESSION['user']['id'];
         $sql = 'INSERT INTO lots (date_creation,lot_title,  category_id, lot_description, starting_price, bet_step, date_finish,
                   lot_image, 
-                    author_id ) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, 1)';
+                    author_id ) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)';
 
         $stmt = db_get_prepare_stmt($con, $sql, $lot);
         $res = mysqli_stmt_execute($stmt);
 
- //       echo '<pre>';
- //       var_dump($res); //  mysqli_stmt_execute возвращает false
+        //       echo '<pre>';
+        //       var_dump($res); //  mysqli_stmt_execute возвращает false
 //        echo '</pre>';
 
 
@@ -137,8 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location:lot.php?id=' . $lot_id);
         }
     }
-} //в случае если данные пришли не из формы, а просто переход по ссылке
-else {
+} else {
     $page_content = include_template('_add-lot.php', [
         'categories' => $categories
     ]);
@@ -149,13 +152,10 @@ else {
     }
 }
 
-
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'categories' => $categories,
-    'title' => $title,
-//    'is_auth' => $is_auth,
-//    'user_name' => $user_name,
+    'title' => 'Добавить лот',
 ]);
 
 print($layout_content);
