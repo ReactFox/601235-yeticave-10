@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (mysqli_num_rows($res) > 0) {
         $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
     } else {
-        $password = password_hash($form['password'], PASSWORD_DEFAULT);
+        $form['password'] = password_hash($form['password'], PASSWORD_DEFAULT);
         $sql = 'INSERT INTO users (date_registration, email, password, user_name, contacts) VALUES (NOW(), ?, ?, ?, ?)';
         $stmt = db_get_prepare_stmt($con, $sql, $form);
         $res = mysqli_stmt_execute($stmt);
@@ -88,14 +88,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $page_content = include_template('_reg.php', [
         'categories' => $categories,
     ]);
+    if (isset($_SESSION['user'])) {
+        http_response_code(403);
+        header('Location: /index.php');
+        exit();
+    }
 }
 
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'categories' => $categories,
-    'title' => $title,
-//    'is_auth' => $is_auth,
-//    'user_name' => $user_name,
+    'title' => 'Регистрация пользователя',
 ]);
 
 print($layout_content);

@@ -50,12 +50,7 @@ $page_content = include_template('main.php', [
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'categories' => $categories,
-    'title' => $title,
-//    'is_auth' => $is_auth,
-//    'user_name' => $user_name,
+    'title' => 'Главная страница',
 ]);
 
 print($layout_content);
-//echo "<pre>";
-//print_r($lots);
-//echo "</pre>";

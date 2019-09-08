@@ -21,7 +21,7 @@
         <?php foreach ($lots as $lot): ?>
             <li class="lots__item lot">
                 <div class="lot__image">
-                    <img src="<?= htmlspecialchars($lot['lot_image'], ENT_QUOTES | ENT_HTML5) ?>" width="350"
+                    <img src="../uploads/<?= htmlspecialchars($lot['lot_image'], ENT_QUOTES | ENT_HTML5) ?>" width="350"
                          height="260"
                          alt="">
                 </div>
