@@ -56,9 +56,8 @@ require_once 'func/functions.php';
         </div>
     </header>
 
-    <?php if($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php'): $container = 'class="container"'  ?>
-    <main <?= $container ?>>
-    <?php endif; ?>
+    <?php $classname = !empty($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') ? 'class="container"' :''  ?>
+    <main <?= $classname ?>>
         <?= $content ?>
     </main>
 </div>

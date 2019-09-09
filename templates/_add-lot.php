@@ -90,14 +90,3 @@
     <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
     <button type="submit" class="button">Добавить лот</button>
 </form>
-
-<!--Отладочная запись-->
-<?php
-echo '<pre>';
-print_r($_POST);
-echo '</pre>';
-
-echo '<pre>';
-var_dump($_FILES);
-echo '</pre>';
-?>
