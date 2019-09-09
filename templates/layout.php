@@ -23,7 +23,7 @@ require_once 'func/functions.php';
             <a class="main-header__logo">
                 <img src="../img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
             </a>
-            <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru" autocomplete="off">
+            <form class="main-header__search" method="get" action="../search.php" autocomplete="off">
                 <input type="search" name="search" placeholder="Поиск лота">
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
@@ -44,7 +44,7 @@ require_once 'func/functions.php';
                 <?php else: ?>
                     <ul class="user-menu__list">
                         <li class="user-menu__item">
-                            <a href="register.php">Регистрация</a>
+                            <a href="../register.php">Регистрация</a>
                         </li>
                         <li class="user-menu__item">
                             <a href="login.php">Вход</a>
@@ -56,7 +56,9 @@ require_once 'func/functions.php';
         </div>
     </header>
 
-    <main class="container">
+    <?php if($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php'): $container = 'class="container"'  ?>
+    <main <?= $container ?>>
+    <?php endif; ?>
         <?= $content ?>
     </main>
 </div>
