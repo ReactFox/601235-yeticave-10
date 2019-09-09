@@ -103,3 +103,12 @@ FROM lots l
          JOIN bets b ON l.id = b.lot_id
 WHERE l.id = 1
 ORDER BY date_bet DESC;
+
+
+#тестовая запись для поиска лота
+SELECT l.id, lot_title, lot_description,lot_image, starting_price, category_title,date_finish
+FROM lots l
+         JOIN categories c ON l.category_id = c.id
+WHERE MATCH(lot_title, lot_description) AGAINST('Куртка')
+HAVING date_finish > NOW()
+ORDER BY date_creation DESC;
