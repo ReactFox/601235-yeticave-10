@@ -23,13 +23,13 @@
                 <div class="lot__image">
                     <img src="../uploads/<?= htmlspecialchars($lot['lot_image'], ENT_QUOTES | ENT_HTML5) ?>" width="350"
                          height="260"
-                         alt="">
+                         alt="Фото: <?= htmlspecialchars($lot['lot_title']), ENT_QUOTES | ENT_HTML5 ?>">
                 </div>
                 <div class="lot__info">
                     <span class="lot__category"><?= htmlspecialchars($lot['category_title'],
                             ENT_QUOTES | ENT_HTML5) ?></span>
                     <h3 class="lot__title"><a class="text-link"
-                                              href="lot.php?id=<?= $lot['id']?>"><?= htmlspecialchars($lot['lot_title'],
+                                              href="lot.php?id=<?= $lot['id'] ?>"><?= htmlspecialchars($lot['lot_title'],
                                 ENT_QUOTES | ENT_HTML5) ?></a>
                     </h3>
                     <div class="lot__state">

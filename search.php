@@ -9,7 +9,6 @@ if (!$con) {
     exit($error);
 }
 
-//получает категории
 $sql = "SELECT * FROM categories";
 $result = mysqli_query($con, $sql);
 
@@ -20,22 +19,18 @@ if ($result) {
     echo $error;
 }
 
-$lots = [];
+//$lots = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $lots = $_GET;
     $search = $_GET['search'] ?? '';
     $search = trim($search);
-    print_r($search);
 
-
-    if ($search) {
-        $sql = "SELECT l.id, lot_title, lot_description,lot_image, starting_price, category_title,date_finish
-FROM lots l
-         JOIN categories c ON l.category_id = c.id
-WHERE MATCH(lot_title, lot_description) AGAINST(?)
-HAVING date_finish > NOW()
-ORDER BY date_creation DESC";
+    if (!empty($search)) {
+        $sql = "SELECT l.id, lot_title, lot_image, starting_price, category_title,date_finish
+        FROM lots l JOIN categories c ON l.category_id = c.id
+        WHERE MATCH(lot_title, lot_description) AGAINST(?)
+        HAVING date_finish > NOW() ORDER BY date_creation DESC";
 
         $stmt = db_get_prepare_stmt($con, $sql, [$search]);
         mysqli_stmt_execute($stmt);
@@ -43,19 +38,28 @@ ORDER BY date_creation DESC";
 
         $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-        echo '<br>';
-        print_r($lots);
-        echo '<br>';
+        if (mysqli_num_rows($result) === 0) {
+            $search = 'Ничего не найдено по вашему запросу';
+        }
+
+        $page_content = include_template('_search.php', [
+            'categories' => $categories,
+            'lots' => $lots,
+            'search' => $search
+        ]);
+
+    } else {
+        $page_content = include_template('_search.php', [
+            'categories' => $categories,
+//            'search' => $search
+        ]);
     }
+
+} else {
     $page_content = include_template('_search.php', [
         'categories' => $categories
     ]);
-
 }
-
-$page_content = include_template('_search.php', [
-    'categories' => $categories
-]);
 
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
