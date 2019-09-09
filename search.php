@@ -26,14 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $lots = $_GET;
     $search = $_GET['search'] ?? '';
     $search = trim($search);
-//    print_r($search);
+    print_r($search);
 
 
     if ($search) {
         $sql = "SELECT l.id, lot_title, lot_description,lot_image, starting_price, category_title,date_finish
 FROM lots l
          JOIN categories c ON l.category_id = c.id
-WHERE MATCH(lot_title, lot_description) AGAINST('?')
+WHERE MATCH(lot_title, lot_description) AGAINST(?)
 HAVING date_finish > NOW()
 ORDER BY date_creation DESC";
 
