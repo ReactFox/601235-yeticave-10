@@ -51,6 +51,12 @@ if ($result) {
             $error = mysqli_error($con);
             echo $error;
         }
+
+//        если получил форма ставки была отправленна по форме
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $bet = $_POST['cost'];
+            print_r($bet);
+        }
     }
 
 
