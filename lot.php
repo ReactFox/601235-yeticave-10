@@ -41,64 +41,67 @@ if ($result) {
     $result_bet = mysqli_query($con, $sql);
     if ($result_bet) {
         $sum_bet = mysqli_fetch_assoc($result_bet);
-        if ($sum_bet !== true){
+        if ($sum_bet !== true) {
             $sum_bet['sum_bet'] = $lot['starting_price'];
         }
-    }
-    else {
+    } else {
         $error = mysqli_error($con);
         echo $error;
     }
 
 
-
 // если пользователь залогинен
-    if(isset($_SESSION['user'])) {
-//    Получает текущую цену лота
+    //        если получил форма ставки была отправленна по форме
+    if (isset($_SESSION['user']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+//        $bet = $_POST['cost'];
+//        var_dump($bet);
+        $min_bet = $lot['bet_step'];
+        $required = [
+            'cost'
+        ];
 
-
-//        если получил форма ставки была отправленна по форме
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $bet = $_POST;
-            var_dump($bet);
-            $required = [
-                'cost'
-            ];
-
-            $errors = [];
-            $rules = [
-                'cost' => function () {
-                    return validatePrice('cost');
-                },
-            ];
-//
-            foreach ($_POST as $key => $value) {
-                if (isset($rules[$key])) {
-                    $rule = $rules[$key];
-                    $errors[$key] = $rule();
-                }
+        $errors = [];
+        $rules = [
+//          TODO доделать валидацию
+            'cost' => function () use ($min_bet) {
+                return check_sum_bet('cost', $min_bet);
             }
+        ];
 
-            foreach ($required as $key) {
-                if (!isset($_POST[$key]) || (trim($_POST[$key]) === '')) {
-                    $errors[$key] = 'Это поле надо заполнить';
-                }
+        foreach ($_POST as $key => $value) {
+            if (isset($rules[$key])) {
+                $rule = $rules[$key];
+                $errors[$key] = $rule();
             }
+        }
 
-            var_dump($errors);
-            $errors = array_filter($errors);
-
-            if (count($errors)) {
-                $page_content = include_template('_lot.php', [
-                    'lot' => $lot,
-                    'categories' => $categories,
-                    'sum_bet' => $sum_bet,
-                    'errors' => $errors,
-                ]);
+        foreach ($required as $key) {
+            if (!isset($_POST[$key]) || (trim($_POST[$key]) === '')) {
+                $errors[$key] = 'Это поле надо заполнить';
             }
+        }
+
+        var_dump($errors);
+        $errors = array_filter($errors);
+        echo count($errors);
+
+        if (count($errors)) {
+            $page_content = include_template('_lot.php', [
+                'lot' => $lot,
+                'categories' => $categories,
+                'sum_bet' => $sum_bet,
+                'errors' => $errors,
+            ]);
         }
     }// КОНЕЦ СЕССИИ
 
+    else {
+        $page_content = include_template('_lot.php', [
+            'categories' => $categories,
+            'lot' => $lot,
+            'sum_bet' => $sum_bet,
+        ]);
+    }
 
     $page_content = include_template('_lot.php', [
         'categories' => $categories,
