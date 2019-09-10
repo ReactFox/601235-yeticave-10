@@ -36,43 +36,48 @@ $result = mysqli_query($con, $sql);
 
 if ($result) {
     $lot = mysqli_fetch_assoc($result);
+    //получаем цену лота
+    $sql = "SELECT SUM(bet_amouth) AS sum_bet FROM bets WHERE lot_id = {$current_id}";
+    $result_bet = mysqli_query($con, $sql);
+    if ($result_bet) {
+        $sum_bet = mysqli_fetch_assoc($result_bet);
+        if ($sum_bet !== true){
+            $sum_bet['sum_bet'] = $lot['starting_price'];
+        }
+    }
+    else {
+        $error = mysqli_error($con);
+        echo $error;
+    }
+
+
+
 // если пользователь залогинен
     if(isset($_SESSION['user'])) {
 //    Получает текущую цену лота
-        $sql = "SELECT SUM(bet_amouth) AS sum_bet FROM bets WHERE lot_id = {$current_id}";
-        $result_bet = mysqli_query($con, $sql);
-        if ($result_bet) {
-            $sum_bet = mysqli_fetch_assoc($result_bet);
-            if ($sum_bet !== true){
-                $sum_bet['sum_bet'] = $lot['starting_price'];
-            }
-        }
-        else {
-            $error = mysqli_error($con);
-            echo $error;
-        }
+
 
 //        если получил форма ставки была отправленна по форме
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $bet = $_POST;
-//            var_dump($bet);
+            var_dump($bet);
             $required = [
                 'cost'
             ];
 
             $errors = [];
-//            $rules = [
-//                'cost' => function () {
-//                    return validatePrice('cost');
-//                },
-//            ];
-
-//            foreach ($_POST as $key => $value) {
-//                if (isset($rules[$key])) {
-//                    $rule = $rules[$key];
-//                    $errors[$key] = $rule();
-//                }
-//            }
+            $rules = [
+                'cost' => function () {
+                    return validatePrice('cost');
+                },
+            ];
+//
+            foreach ($_POST as $key => $value) {
+                if (isset($rules[$key])) {
+                    $rule = $rules[$key];
+                    $errors[$key] = $rule();
+                }
+            }
 
             foreach ($required as $key) {
                 if (!isset($_POST[$key]) || (trim($_POST[$key]) === '')) {
@@ -80,23 +85,25 @@ if ($result) {
                 }
             }
 
-            var_dump($errors);            
+            var_dump($errors);
+            $errors = array_filter($errors);
 
-
-
-
-
-
-
-
+            if (count($errors)) {
+                $page_content = include_template('_lot.php', [
+                    'lot' => $lot,
+                    'categories' => $categories,
+                    'sum_bet' => $sum_bet,
+                    'errors' => $errors,
+                ]);
+            }
         }
-    }
+    }// КОНЕЦ СЕССИИ
 
 
     $page_content = include_template('_lot.php', [
         'categories' => $categories,
         'lot' => $lot,
-        'sum_bet' => $sum_bet
+        'sum_bet' => $sum_bet,
     ]);
 
 

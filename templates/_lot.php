@@ -36,19 +36,18 @@
                                 ENT_QUOTES | ENT_HTML5) . 'р' ?>  <!--12 000 р --></span>
                     </div>
                 </div>
-                <?php if (isset($_SESSION['user'])): ?>
-                    <form class="lot-item__form" method="post"
-                          autocomplete="off">
-                        <?php $field_cost_error = isset($errors['cost']) ? 'form__item--invalid' : ''; ?>
-                        <?php var_dump($field_cost_error); ?>
-                        <p class="lot-item__form-item form__item<?= $field_cost_error ?>">
-                            <label for="cost">Ваша ставка</label>
-                            <input id="cost" type="text" name="cost" placeholder="12 000">
-                            <span class="form__error"><?= $errors['cost'] ?></span>
-                        </p>
-                        <button type="submit" class="button">Сделать ставку</button>
-                    </form>
-                <?php endif; ?>
+<!--                --><?php //if (isset($_SESSION['user'])): ?>
+<!--                    <form class="lot-item__form" method="post"-->
+<!--                          autocomplete="off">-->
+<!--                        --><?php //$field_cost_error = isset($errors['cost']) ? 'form__item--invalid' : ''; ?>
+<!--                        <p class="lot-item__form-item form__item --><?//= $field_cost_error ?><!--">-->
+<!--                            <label for="cost">Ваша ставка</label>-->
+<!--                            <input id="cost" type="text" name="cost" placeholder="12 000">-->
+<!--                            <span class="form__error"></span>-->
+<!--                        </p>-->
+<!--                        <button type="submit" class="button">Сделать ставку</button>-->
+<!--                    </form>-->
+<!--                --><?php //endif; ?>
             </div>
 <!--            --><?php //if (isset($_SESSION['user'])): ?>
 <!--            <div class="history">-->
