@@ -106,9 +106,14 @@ ORDER BY date_bet DESC;
 
 
 #тестовая запись для поиска лота
-SELECT l.id, lot_title, lot_description,lot_image, starting_price, category_title,date_finish
+SELECT l.id, lot_title, lot_description, lot_image, starting_price, category_title, date_finish
 FROM lots l
          JOIN categories c ON l.category_id = c.id
 WHERE MATCH(lot_title, lot_description) AGAINST('Куртка')
 HAVING date_finish > NOW()
 ORDER BY date_creation DESC;
+
+# SELECT * FROM bets WHERE lot_id = 1;
+SELECT SUM(bet_amouth) AS sum_bet
+FROM bets
+WHERE lot_id = 1;

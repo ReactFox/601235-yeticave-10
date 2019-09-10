@@ -29,17 +29,35 @@ if (isset($_GET['id'])) {
     $current_id = (int)$_GET['id'];
 }
 
-$sql = "SELECT l.id, lot_title, lot_description, lot_image, bet_step, date_finish, category_title FROM lots l JOIN categories c ON l.category_id = c.id
+$sql = "SELECT l.id, lot_title, lot_description, lot_image, bet_step, date_finish, category_title, starting_price FROM lots l JOIN categories c ON l.category_id = c.id
 WHERE l.id = {$current_id}";
 
 $result = mysqli_query($con, $sql);
 
 if ($result) {
     $lot = mysqli_fetch_assoc($result);
+// если пользователь залогинен
+    if(isset($_SESSION['user'])) {
+//    Получает текущую цену лота
+        $sql = "SELECT SUM(bet_amouth) AS sum_bet FROM bets WHERE lot_id = {$current_id}";
+        $result = mysqli_query($con, $sql);
+        if ($result) {
+            $sum_bet = mysqli_fetch_assoc($result);
+            if ($sum_bet !== true){
+                $sum_bet['sum_bet'] = $lot['starting_price'];
+            }
+        }
+        else {
+            $error = mysqli_error($con);
+            echo $error;
+        }
+    }
+
 
     $page_content = include_template('_lot.php', [
         'categories' => $categories,
-        'lot' => $lot
+        'lot' => $lot,
+        'sum_bet' => $sum_bet
     ]);
 
 
