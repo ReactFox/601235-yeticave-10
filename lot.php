@@ -54,8 +54,41 @@ if ($result) {
 
 //        если получил форма ставки была отправленна по форме
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $bet = $_POST['cost'];
-            print_r($bet);
+            $bet = $_POST;
+//            var_dump($bet);
+            $required = [
+                'cost'
+            ];
+
+            $errors = [];
+//            $rules = [
+//                'cost' => function () {
+//                    return validatePrice('cost');
+//                },
+//            ];
+
+//            foreach ($_POST as $key => $value) {
+//                if (isset($rules[$key])) {
+//                    $rule = $rules[$key];
+//                    $errors[$key] = $rule();
+//                }
+//            }
+
+            foreach ($required as $key) {
+                if (!isset($_POST[$key]) || (trim($_POST[$key]) === '')) {
+                    $errors[$key] = 'Это поле надо заполнить';
+                }
+            }
+
+            var_dump($errors);            
+
+
+
+
+
+
+
+
         }
     }
 

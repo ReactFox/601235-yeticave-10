@@ -37,12 +37,14 @@
                     </div>
                 </div>
                 <?php if (isset($_SESSION['user'])): ?>
-                    <form class="lot-item__form" action="../lot.php" method="post"
+                    <form class="lot-item__form" method="post"
                           autocomplete="off">
-                        <p class="lot-item__form-item form__item form__item--invalid">
+                        <?php $field_cost_error = isset($errors['cost']) ? 'form__item--invalid' : ''; ?>
+                        <?php var_dump($field_cost_error); ?>
+                        <p class="lot-item__form-item form__item<?= $field_cost_error ?>">
                             <label for="cost">Ваша ставка</label>
                             <input id="cost" type="text" name="cost" placeholder="12 000">
-                            <span class="form__error">Введите наименование лота</span>
+                            <span class="form__error"><?= $errors['cost'] ?></span>
                         </p>
                         <button type="submit" class="button">Сделать ставку</button>
                     </form>
