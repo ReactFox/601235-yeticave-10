@@ -53,7 +53,7 @@ if ($result) {
 // если пользователь залогинен
     //        если получил форма ставки была отправленна по форме
     if (isset($_SESSION['user']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-//        $bet = $_POST['cost'];
+        $bet = $_POST['cost'];
 //        var_dump($bet);
         $min_bet = $lot['bet_step'];
         $required = [
@@ -62,7 +62,10 @@ if ($result) {
 
         $errors = [];
         $rules = [
-//          TODO доделать валидацию
+            'cost' => function () {
+                return validatePrice('cost');
+            },
+//            TODO сделать валидацию шага ставки
             'cost' => function () use ($min_bet) {
                 return check_sum_bet('cost', $min_bet);
             }
