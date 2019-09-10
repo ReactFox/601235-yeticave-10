@@ -18,9 +18,9 @@ if ($result) {
     $error = mysqli_error($con);
     echo $error;
 }
-$search = $_GET['search'] ?? '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $search = $_GET['search'] ?? '';
     $search = trim($search);
 
     if (isset($search)) {
