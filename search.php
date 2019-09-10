@@ -18,15 +18,12 @@ if ($result) {
     $error = mysqli_error($con);
     echo $error;
 }
-
-//$lots = [];
+$search = $_GET['search'] ?? '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $lots = $_GET;
-    $search = $_GET['search'] ?? '';
     $search = trim($search);
 
-    if (!empty($search)) {
+    if (isset($search)) {
         $sql = "SELECT l.id, lot_title, lot_image, starting_price, category_title,date_finish
         FROM lots l JOIN categories c ON l.category_id = c.id
         WHERE MATCH(lot_title, lot_description) AGAINST(?)
@@ -51,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     } else {
         $page_content = include_template('_search.php', [
             'categories' => $categories,
-//            'search' => $search
         ]);
     }
 
