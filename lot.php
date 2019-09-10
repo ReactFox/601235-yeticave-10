@@ -40,9 +40,9 @@ if ($result) {
     if(isset($_SESSION['user'])) {
 //    Получает текущую цену лота
         $sql = "SELECT SUM(bet_amouth) AS sum_bet FROM bets WHERE lot_id = {$current_id}";
-        $result = mysqli_query($con, $sql);
-        if ($result) {
-            $sum_bet = mysqli_fetch_assoc($result);
+        $result_bet = mysqli_query($con, $sql);
+        if ($result_bet) {
+            $sum_bet = mysqli_fetch_assoc($result_bet);
             if ($sum_bet !== true){
                 $sum_bet['sum_bet'] = $lot['starting_price'];
             }
