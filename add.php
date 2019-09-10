@@ -30,13 +30,6 @@ if ($result) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lot = $_POST;
-//    echo '<pre>';
-//    var_dump($lot);
-//    echo '</pre>';
-//
-//    echo '<pre>';
-//    var_dump($_SESSION['user']);
-//    echo '</pre>';
     $required = [
         'lot_title',
         'lot_description',
@@ -127,13 +120,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt = db_get_prepare_stmt($con, $sql, $lot);
         $res = mysqli_stmt_execute($stmt);
-
-        //       echo '<pre>';
-        //       var_dump($res); //  mysqli_stmt_execute возвращает false
-//        echo '</pre>';
-
-
-//        var_dump(mysqli_error($con));
 
         if ($res) {
             $lot_id = mysqli_insert_id($con);
