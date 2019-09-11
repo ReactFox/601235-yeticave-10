@@ -49,34 +49,34 @@ if ($result) {
         echo $error;
     }
 
-// && $_SERVER['REQUEST_METHOD'] === 'POST')
 // если пользователь залогинен
-    //        если получил форма ставки была отправленна по форме
     if (isset($_SESSION['user'])) {
- /*           $bet = $_POST['cost'];
-    //        var_dump($bet);
+        // если получил форма ставки была отправленна по форме
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $errors = [];
+            $bet = $_POST['cost'];
+            var_dump($bet);
             $min_bet = $lot['bet_step'];
             $required = [
                 'cost'
             ];
 
-            $errors = [];
-            $rules = [
-                'cost' => function () {
-                    return validatePrice('cost');
-                },
-    //            TODO сделать валидацию шага ставки
-                'cost' => function () use ($min_bet) {
-                    return check_sum_bet('cost', $min_bet);
-                }
-            ];
+//            $rules = [
+//                'cost' => function () {
+//                    return validatePrice('cost');
+//                },
+//                //            TODO сделать валидацию шага ставки
+//                'cost' => function () use ($min_bet) {
+//                    return check_sum_bet('cost', $min_bet);
+//                }
+//            ];
 
-            foreach ($_POST as $key => $value) {
-                if (isset($rules[$key])) {
-                    $rule = $rules[$key];
-                    $errors[$key] = $rule();
-                }
-            }
+//            foreach ($_POST as $key => $value) {
+//                if (isset($rules[$key])) {
+//                    $rule = $rules[$key];
+//                    $errors[$key] = $rule();
+//                }
+//            }
 
             foreach ($required as $key) {
                 if (!isset($_POST[$key]) || (trim($_POST[$key]) === '')) {
@@ -95,23 +95,30 @@ if ($result) {
                     'sum_bet' => $sum_bet,
                     'errors' => $errors,
                 ]);
-            }*/
+            } // если есть ошибки высветить
 
-    } else { // если пользователь залогинен но не отправил форму ставка отображается, ошибка не выскакивает
+        } //Конец отправленой формы
+
+        else {
+            $page_content = include_template('_lot.php', [
+                'categories' => $categories,
+                'lot' => $lot,
+                'sum_bet' => $sum_bet,
+            ]);
+        }
+    } // Конец сессии
+//  TODO итоги 4:13 минут если ввести ошибку поля подсвечивает
+//  но при переходе авторизованного пользователя на страницу лота выскакивает
+//  ошибка, что не определенна переменная $error на странице шаблона. ПОЧЕЕМУ???
+
+    else {
+//     Показ текущей суммы и контента для неавтраизованного пользователя
         $page_content = include_template('_lot.php', [
             'categories' => $categories,
             'lot' => $lot,
             'sum_bet' => $sum_bet,
         ]);
     }
-
-    // Показ текущей суммы для неавтраизованного пользователя
-    $page_content = include_template('_lot.php', [
-        'categories' => $categories,
-        'lot' => $lot,
-        'sum_bet' => $sum_bet,
-    ]);
-
 
     if (!mysqli_num_rows($result)) {
         http_response_code(404);

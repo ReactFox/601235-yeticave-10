@@ -43,7 +43,7 @@
                         <p class="lot-item__form-item form__item <?= $field_cost_error ?>">
                             <label for="cost">Ваша ставка</label>
                             <input id="cost" type="text" name="cost" placeholder="12 000">
-                            <span class="form__error"><?= !empty($errors['cost']) ? $errors['cost']:'' ?></span>
+                            <span class="form__error"><?= $errors['cost'] ?></span>
                         </p>
                         <button type="submit" class="button">Сделать ставку</button>
                     </form>
