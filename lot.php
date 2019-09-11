@@ -48,12 +48,15 @@ if ($result) {
         $error = mysqli_error($con);
         echo $error;
     }
+    $errors = []; // Потом убрать нафиг
+    $errors['cost'] = ''; // Потом убрать нафиг
 
 // если пользователь залогинен
     if (isset($_SESSION['user'])) {
         // если получил форма ставки была отправленна по форме
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors = [];
+            $errors['cost'] = ''; // убрать нафиг нафиг
             $bet = $_POST['cost'];
             var_dump($bet);
             $min_bet = $lot['bet_step'];
