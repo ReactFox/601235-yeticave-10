@@ -78,7 +78,7 @@ function validatePrice($name)
     $result = false;
     $post_data = $_POST[$name];
 
-    if (!is_int($post_data)) {
+    if (!is_numeric($post_data)) {
         $result = 'введите целое число';
     } elseif ($post_data <= 0) {
         $result = 'Значение должно быть больше нуля';
@@ -119,15 +119,16 @@ function validateEmail($email, $min, $max)
 function check_sum_bet($check_bet, $min_bet)
 {
     $result = false;
-    $post_data = (int) $_POST[$check_bet];
-    var_dump($post_data);
+    $post_data = $_POST[$check_bet];
+//    var_dump($post_data);
 
     if (!is_numeric($post_data)) {
         $result = 'введите целое число';
     } elseif ($post_data <= 0) {
         $result = 'Значение должно быть больше нуля';
     }
-//    elseif ($_POST[$check_bet] < $min_bet) {
+//    else
+//        if ($_POST[$check_bet] < $min_bet) {
 //        $result = 'ставка должна быть равна или больше минимальной ставки';
 //    }
 

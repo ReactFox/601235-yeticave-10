@@ -49,56 +49,55 @@ if ($result) {
         echo $error;
     }
 
-
+// && $_SERVER['REQUEST_METHOD'] === 'POST')
 // если пользователь залогинен
     //        если получил форма ставки была отправленна по форме
-    if (isset($_SESSION['user']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-        $bet = $_POST['cost'];
-//        var_dump($bet);
-        $min_bet = $lot['bet_step'];
-        $required = [
-            'cost'
-        ];
+    if (isset($_SESSION['user'])) {
+ /*           $bet = $_POST['cost'];
+    //        var_dump($bet);
+            $min_bet = $lot['bet_step'];
+            $required = [
+                'cost'
+            ];
 
-        $errors = [];
-        $rules = [
-            'cost' => function () {
-                return validatePrice('cost');
-            },
-//            TODO сделать валидацию шага ставки
-            'cost' => function () use ($min_bet) {
-                return check_sum_bet('cost', $min_bet);
+            $errors = [];
+            $rules = [
+                'cost' => function () {
+                    return validatePrice('cost');
+                },
+    //            TODO сделать валидацию шага ставки
+                'cost' => function () use ($min_bet) {
+                    return check_sum_bet('cost', $min_bet);
+                }
+            ];
+
+            foreach ($_POST as $key => $value) {
+                if (isset($rules[$key])) {
+                    $rule = $rules[$key];
+                    $errors[$key] = $rule();
+                }
             }
-        ];
 
-        foreach ($_POST as $key => $value) {
-            if (isset($rules[$key])) {
-                $rule = $rules[$key];
-                $errors[$key] = $rule();
+            foreach ($required as $key) {
+                if (!isset($_POST[$key]) || (trim($_POST[$key]) === '')) {
+                    $errors[$key] = 'Это поле надо заполнить';
+                }
             }
-        }
 
-        foreach ($required as $key) {
-            if (!isset($_POST[$key]) || (trim($_POST[$key]) === '')) {
-                $errors[$key] = 'Это поле надо заполнить';
-            }
-        }
+            var_dump($errors);
+            $errors = array_filter($errors);
+            echo count($errors);
 
-        var_dump($errors);
-        $errors = array_filter($errors);
-        echo count($errors);
+            if (count($errors)) {
+                $page_content = include_template('_lot.php', [
+                    'lot' => $lot,
+                    'categories' => $categories,
+                    'sum_bet' => $sum_bet,
+                    'errors' => $errors,
+                ]);
+            }*/
 
-        if (count($errors)) {
-            $page_content = include_template('_lot.php', [
-                'lot' => $lot,
-                'categories' => $categories,
-                'sum_bet' => $sum_bet,
-                'errors' => $errors,
-            ]);
-        }
-    }// КОНЕЦ СЕССИИ
-
-    else {
+    } else { // если пользователь залогинен но не отправил форму ставка отображается, ошибка не выскакивает
         $page_content = include_template('_lot.php', [
             'categories' => $categories,
             'lot' => $lot,
@@ -106,6 +105,7 @@ if ($result) {
         ]);
     }
 
+    // Показ текущей суммы для неавтраизованного пользователя
     $page_content = include_template('_lot.php', [
         'categories' => $categories,
         'lot' => $lot,
