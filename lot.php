@@ -29,7 +29,7 @@ if (isset($_GET['id'])) {
     $current_id = (int)$_GET['id'];
 }
 
-$sql = "SELECT l.id, lot_title, lot_description, lot_image, bet_step, date_finish, category_title, starting_price FROM lots l JOIN categories c ON l.category_id = c.id
+$sql = "SELECT l.id, author_id, lot_title, lot_description, lot_image, bet_step, date_finish, category_title, starting_price FROM lots l JOIN categories c ON l.category_id = c.id
 WHERE l.id = {$current_id}";
 
 $result = mysqli_query($con, $sql);
@@ -51,6 +51,16 @@ if ($result) {
 
 // если пользователь залогинен
     if (isset($_SESSION['user'])) {
+//        Отладочная информация
+        echo '<pre>';
+        print_r($_SESSION['user']);
+        echo '</pre>';
+        echo '<pre>';
+        print_r($lot);
+        echo '</pre>';
+
+
+
         // если получил форма ставки была отправленна по форме
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors = [];
