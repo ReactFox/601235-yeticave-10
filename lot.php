@@ -48,15 +48,12 @@ if ($result) {
         $error = mysqli_error($con);
         echo $error;
     }
-    $errors = []; // Потом убрать нафиг
-    $errors['cost'] = ''; // Потом убрать нафиг
 
 // если пользователь залогинен
     if (isset($_SESSION['user'])) {
         // если получил форма ставки была отправленна по форме
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors = [];
-            $errors['cost'] = ''; // убрать нафиг нафиг
             $bet = $_POST['cost'];
             var_dump($bet);
             $min_bet = $lot['bet_step'];
@@ -64,22 +61,18 @@ if ($result) {
                 'cost'
             ];
 
-//            $rules = [
-//                'cost' => function () {
-//                    return validatePrice('cost');
-//                },
-//                //            TODO сделать валидацию шага ставки
-//                'cost' => function () use ($min_bet) {
-//                    return check_sum_bet('cost', $min_bet);
-//                }
-//            ];
+            $rules = [
+                'cost' => function () use ($min_bet) {
+                    return check_sum_bet('cost', $min_bet);
+                }
+            ];
 
-//            foreach ($_POST as $key => $value) {
-//                if (isset($rules[$key])) {
-//                    $rule = $rules[$key];
-//                    $errors[$key] = $rule();
-//                }
-//            }
+            foreach ($_POST as $key => $value) {
+                if (isset($rules[$key])) {
+                    $rule = $rules[$key];
+                    $errors[$key] = $rule();
+                }
+            }
 
             foreach ($required as $key) {
                 if (!isset($_POST[$key]) || (trim($_POST[$key]) === '')) {
@@ -110,10 +103,6 @@ if ($result) {
             ]);
         }
     } // Конец сессии
-//  TODO итоги 4:13 минут если ввести ошибку поля подсвечивает
-//  но при переходе авторизованного пользователя на страницу лота выскакивает
-//  ошибка, что не определенна переменная $error на странице шаблона. ПОЧЕЕМУ???
-
     else {
 //     Показ текущей суммы и контента для неавтраизованного пользователя
         $page_content = include_template('_lot.php', [
