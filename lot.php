@@ -41,7 +41,9 @@ if ($result) {
     $result_bet = mysqli_query($con, $sql);
     if ($result_bet) {
         $sum_bet = mysqli_fetch_assoc($result_bet);
-        if ($sum_bet !== true) {
+        if (!empty($sum_bet['sum_bet'])) {
+            $sum_bet['sum_bet'];
+        } else {
             $sum_bet['sum_bet'] = $lot['starting_price'];
         }
     } else {
@@ -52,26 +54,21 @@ if ($result) {
 // если пользователь залогинен
     if (isset($_SESSION['user'])) {
 //        Отладочная информация
-        echo '<pre>';
-        print_r($_SESSION['user']);
-        echo '</pre>';
-
-        echo '<pre>';
-        print_r($lot);
-        echo '</pre>';
-
 //        echo '<pre>';
-//        print_r(date('Y-m-d H:i:s'));
+//        print_r($_SESSION['user']);
+//        echo '</pre>';
+//
+//        echo '<pre>';
+//        print_r($lot);
 //        echo '</pre>';
 
-
-        date('Y-m-d h:i:s', time());
 
         // если получил форма ставки была отправленна по форме
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors = [];
-            $bet = $_POST['cost'];
-            var_dump($bet);
+//            $bet = [];
+//            $bet = $_POST['cost'];
+//            var_dump($bet);
             $min_bet = $lot['bet_step'];
             $required = [
                 'cost'
@@ -96,9 +93,7 @@ if ($result) {
                 }
             }
 
-            var_dump($errors);
             $errors = array_filter($errors);
-            echo count($errors);
 
             if (count($errors)) {
                 $page_content = include_template('_lot.php', [
@@ -107,7 +102,24 @@ if ($result) {
                     'sum_bet' => $sum_bet,
                     'errors' => $errors,
                 ]);
-            } // если есть ошибки высветить
+            } else {
+                $bet['bet_amouth'] = $_POST['cost'];
+                $bet['user_id'] = $_SESSION['user']['id'];
+                $bet['lot_id'] = $lot['id'];
+
+                $sql = 'INSERT INTO bets (date_bet, bet_amouth,  user_id, lot_id)
+                        VALUES (NOW(), ?, ?, ?)';
+
+                $stmt = db_get_prepare_stmt($con, $sql, $bet);
+                $res = mysqli_stmt_execute($stmt);
+
+                if ($res) {
+                    $lot_id = $lot['id'];
+
+                    header('Location:lot.php?id=' . $lot_id);
+                }
+
+            }
 
         } //Конец отправленой формы
 

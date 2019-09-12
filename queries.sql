@@ -116,4 +116,4 @@ ORDER BY date_creation DESC;
 # SELECT * FROM bets WHERE lot_id = 1;
 SELECT SUM(bet_amouth) AS sum_bet
 FROM bets
-WHERE lot_id = 1;
+WHERE lot_id = 8;

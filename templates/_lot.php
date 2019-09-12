@@ -29,15 +29,15 @@
                 <div class="lot-item__cost-state">
                     <div class="lot-item__rate">
                         <span class="lot-item__amount">Текущая цена</span>
-                        <span class="lot-item__cost"><?= $sum_bet['sum_bet'] ?></span>
+                        <span class="lot-item__cost"><?= amount_formatting($sum_bet['sum_bet']) ?></span>
                     </div>
                     <div class="lot-item__min-cost">
                         Мин. ставка <span><?= htmlspecialchars($lot['bet_step'],
                                 ENT_QUOTES | ENT_HTML5) . 'р' ?>  <!--12 000 р --></span>
                     </div>
                 </div>
-<!--                отладочная запись-->
-<!--                --><?php //var_dump(($lot['date_finish'] < date('Y-m-d H:i:s'))) ?>
+                <!--                отладочная запись-->
+                <!--                --><?php //var_dump(($lot['date_finish'] < date('Y-m-d H:i:s'))) ?>
                 <?php if ((isset($_SESSION['user']) && ($lot['author_id'] !== $_SESSION['user']['id'])) && !($lot['date_finish'] < date('Y-m-d H:i:s'))): ?>
                     <form class="lot-item__form" method="post"
                           autocomplete="off">

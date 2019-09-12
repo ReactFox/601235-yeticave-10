@@ -23,6 +23,8 @@ function stop_time($final_date)
     $date_diff = date_diff($date_bate, $date_now);
     $hour = date_interval_format($date_diff, '%d %H %I');
 
+//    TODO посоветоваться с наставником насчёт того как победить разницу когда она отрицательная, но выводиться положительная
+
     $time = explode(' ', $hour);
     $days_left = $time[0];
 
