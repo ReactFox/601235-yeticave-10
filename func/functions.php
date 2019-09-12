@@ -120,20 +120,12 @@ function check_sum_bet($check_bet, $min_bet)
 {
     $result = false;
     $post_data = $_POST[$check_bet];
-//    var_dump($post_data);
 
-//  TODO допилисть логику if else и тд
     if ((strpos($post_data, '.') !== false) || (!is_numeric($post_data))) {
         $result = 'Введите целое число';
-    } //Работает норм
-
-//    if (!is_numeric($post_data)) {
-//        $result = 'Введите целое число';
-//    } elseif ($post_data <= 0) {
-//        $result = 'Значение должно быть больше нуля';
-//    } elseif ($_POST[$check_bet] < $min_bet) {
-//        $result = 'Ставка должна быть равна или больше минимальной ставки';
-//    }
+    } elseif ($_POST[$check_bet] < $min_bet) {
+        $result = 'Ставка должна быть равна или больше минимальной ставки';
+    }
 
     return $result;
 }
