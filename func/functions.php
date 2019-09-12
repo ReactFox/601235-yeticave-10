@@ -78,8 +78,8 @@ function validatePrice($name)
     $result = false;
     $post_data = $_POST[$name];
 
-    if (!is_numeric($post_data)) {
-        $result = 'введите целое число';
+    if ((strpos($post_data, '.') !== false) || (!is_numeric($post_data))) {
+        $result = 'Введите целое число';
     } elseif ($post_data <= 0) {
         $result = 'Значение должно быть больше нуля';
     }
