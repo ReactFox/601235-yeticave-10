@@ -36,7 +36,9 @@
                                 ENT_QUOTES | ENT_HTML5) . 'р' ?>  <!--12 000 р --></span>
                     </div>
                 </div>
-                <?php if (isset($_SESSION['user']) && ($lot['author_id'] !== $_SESSION['user']['id'])): ?>
+<!--                отладочная запись-->
+<!--                --><?php //var_dump(($lot['date_finish'] < date('Y-m-d H:i:s'))) ?>
+                <?php if ((isset($_SESSION['user']) && ($lot['author_id'] !== $_SESSION['user']['id'])) && !($lot['date_finish'] < date('Y-m-d H:i:s'))): ?>
                     <form class="lot-item__form" method="post"
                           autocomplete="off">
                         <?php $field_cost_error = isset($errors['cost']) ? 'form__item--invalid' : ''; ?>

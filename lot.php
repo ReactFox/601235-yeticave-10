@@ -55,11 +55,17 @@ if ($result) {
         echo '<pre>';
         print_r($_SESSION['user']);
         echo '</pre>';
+
         echo '<pre>';
         print_r($lot);
         echo '</pre>';
 
+//        echo '<pre>';
+//        print_r(date('Y-m-d H:i:s'));
+//        echo '</pre>';
 
+
+        date('Y-m-d h:i:s', time());
 
         // если получил форма ставки была отправленна по форме
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
