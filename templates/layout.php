@@ -38,7 +38,7 @@ require_once 'func/functions.php';
                 <?php if (isset($_SESSION['user'])): ?>
                     <div class="user-menu__logged">
                         <p><?= strip_tags($_SESSION['user']['user_name']) ?></p>
-                        <a class="user-menu__bets" href="pages/my-bets.html">Мои ставки</a>
+                        <a class="user-menu__bets" href="../my-bets.php">Мои ставки</a>
                         <a class="user-menu__logout" href="logout.php">Выход</a>
                     </div>
                 <?php else: ?>
@@ -56,7 +56,7 @@ require_once 'func/functions.php';
         </div>
     </header>
 
-    <?php $classname = !empty($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') ? 'class="container"' :''  ?>
+    <?php $classname = !empty($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') ? 'class="container"' : '' ?>
     <main <?= $classname ?>>
         <?= $content ?>
     </main>
@@ -118,7 +118,7 @@ require_once 'func/functions.php';
             </a>
         </div>
         <?php if (isset($_SESSION['user'])): ?>
-        <a class="main-footer__add-lot button" href="../add.php">Добавить лот</a>
+            <a class="main-footer__add-lot button" href="../add.php">Добавить лот</a>
         <?php endif; ?>
         <div class="main-footer__developed-by">
             <span class="visually-hidden">Разработано:</span>
