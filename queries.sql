@@ -125,4 +125,42 @@ SELECT user_name, bet_amouth, date_bet, (SELECT COUNT(lot_id) FROM bets WHERE lo
 FROM bets
          JOIN users u ON bets.user_id = u.id
 WHERE lot_id = 8
-ORDER BY date_bet DESC
+ORDER BY date_bet DESC;
+
+# готовый запрос для получения из бд
+SELECT lot_image, l.id, lot_title, category_title, date_finish, date_bet, contacts
+FROM bets b
+         JOIN lots l ON b.lot_id = l.id
+         JOIN categories c ON l.category_id = c.id
+         JOIN users u ON u.id = l.author_id
+WHERE user_id = 17;
+
+# Тестовые запросы
+SELECT lot_image,
+       l.id,
+       lot_title,
+       category_title,
+       date_finish,
+       date_bet,
+       contacts,
+       (SELECT lot_id
+        FROM bets
+        GROUP BY lot_id)
+FROM bets b
+         JOIN lots l ON b.lot_id = l.id
+         JOIN categories c ON l.category_id = c.id
+         JOIN users u ON u.id = l.author_id
+WHERE user_id = 17;
+
+SELECT lot_id
+FROM bets
+WHERE user_id = 17
+GROUP BY lot_id;
+
+
+SELECT bet_amouth,
+       (SELECT user_id
+        FROM bets
+       ) as A
+FROM bets
+WHERE user_id = 17;
