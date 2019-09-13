@@ -139,7 +139,7 @@ function check_sum_bet($check_bet, $min_bet)
     return $result;
 }
 
-//Приводит дату
+//Приводит дату времени размещения ставки в человеческий формат
 function get_relative_format($date_pub)
 {
     $date_pub = strtotime($date_pub);

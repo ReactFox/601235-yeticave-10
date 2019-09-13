@@ -62,8 +62,6 @@ if ($result) {
         echo $error;
     }
 
-//print_r($history_users_bet);
-
 // если пользователь залогинен
     if (isset($_SESSION['user'])) {
 
