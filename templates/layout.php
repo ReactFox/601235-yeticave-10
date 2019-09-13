@@ -20,7 +20,9 @@ require_once 'func/functions.php';
     <header class="main-header">
         <div class="main-header__container container">
             <h1 class="visually-hidden">YetiCave</h1>
-            <a class="main-header__logo">
+
+            <?php $href = empty($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') ? 'href="/"' : '' ?>
+            <a class="main-header__logo" <?= $href ?>>
                 <img src="../img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
             </a>
             <form class="main-header__search" method="get" action="../search.php" autocomplete="off">
@@ -33,8 +35,6 @@ require_once 'func/functions.php';
 
 
             <nav class="user-menu">
-                <?php //print_r($_SESSION)  ;?>
-                <!--                здесь должен быть PHP код для показа меню и данных пользователя-->
                 <?php if (isset($_SESSION['user'])): ?>
                     <div class="user-menu__logged">
                         <p><?= strip_tags($_SESSION['user']['user_name']) ?></p>
@@ -68,7 +68,7 @@ require_once 'func/functions.php';
             <!--заполните этот список из массива категорий-->
             <?php foreach ($categories as $item): ?>
                 <li class="nav__item">
-                    <a href="?<?=$item['symbolic_code']?>"><?= htmlspecialchars($item['category_title'],
+                    <a href="?<?= $item['symbolic_code'] ?>"><?= htmlspecialchars($item['category_title'],
                             ENT_QUOTES | ENT_HTML5) ?></a>
                 </li>
             <?php endforeach; ?>
