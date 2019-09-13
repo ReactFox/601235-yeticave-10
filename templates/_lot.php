@@ -60,7 +60,7 @@
                                 <td class="history__name"><?= $user_bet['user_name'] ?></td>
                                 <td class="history__price"><?= amount_formatting($user_bet['bet_amouth'],
                                         0) . ' р' ?></td>
-                                <td class="history__time"><?= $user_bet['date_bet'] ?></td>
+                                <td class="history__time"><?= get_relative_format( $user_bet['date_bet'])  ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </table>

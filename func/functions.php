@@ -138,3 +138,51 @@ function check_sum_bet($check_bet, $min_bet)
 
     return $result;
 }
+
+//Приводит дату
+function get_relative_format($date_pub)
+{
+    $date_pub = strtotime($date_pub);
+    $date_now = time();
+    $date_diff = $date_now - $date_pub;
+    if ($date_diff < 3600) {
+        $params = array(
+            'sec' => 60,
+            'singular' => ' минута',
+            'genitive' => ' минуты',
+            'plural' => ' минут'
+        );
+    } elseif ($date_diff >= 3600 && $date_diff <= 86400) {
+        $params = array(
+            'sec' => 3600,
+            'singular' => ' час',
+            'genitive' => ' часа',
+            'plural' => ' часов'
+        );
+    } elseif ($date_diff > 86400 && $date_diff <= 604800) {
+        $params = array(
+            'sec' => 86400,
+            'singular' => ' день',
+            'genitive' => ' дня',
+            'plural' => ' дней'
+        );
+    } elseif ($date_diff > 604800 && $date_diff <= 3024000) {
+        $params = array(
+            'sec' => 604800,
+            'singular' => ' неделя',
+            'genitive' => ' недели',
+            'plural' => ' недель'
+        );
+    } elseif ($date_diff > 3024000) {
+        $params = array(
+            'sec' => 3024000,
+            'singular' => ' месяц',
+            'genitive' => ' месяца',
+            'plural' => ' месяцев'
+        );
+    }
+    $date_create = floor($date_diff / $params['sec']);
+    $result = $date_create . get_noun_plural_form($date_create, $params['singular'], $params['genitive'],
+            $params['plural']) . ' назад';
+    return $result;
+}
