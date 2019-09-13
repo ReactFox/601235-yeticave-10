@@ -1,5 +1,5 @@
 <?php
-function amount_formatting($bet)
+function amount_formatting($bet, $need_sign = 1)
 {
     $bet = ceil($bet);
     $currency_sign = '<b class="rub">р</b>';
@@ -11,7 +11,14 @@ function amount_formatting($bet)
     if ($bet >= 1000) {
         $result = number_format($bet, 0, '', ' ');
     }
-    return $result . $currency_sign;
+
+    if ($need_sign === 1) {
+        $result .= $currency_sign;
+    } elseif ($need_sign !== 1) {
+        $result;
+    }
+
+    return $result;
 }
 
 

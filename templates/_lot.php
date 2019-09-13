@@ -33,7 +33,7 @@
                     </div>
                     <div class="lot-item__min-cost">
                         Мин. ставка <span><?= htmlspecialchars($lot['bet_step'],
-                                ENT_QUOTES | ENT_HTML5) . 'р' ?>  <!--12 000 р --></span>
+                                ENT_QUOTES | ENT_HTML5) . ' р' ?>  <!--12 000 р --></span>
                     </div>
                 </div>
                 <!--                отладочная запись-->
@@ -51,64 +51,21 @@
                     </form>
                 <?php endif; ?>
             </div>
-            <!--            --><?php //if (isset($_SESSION['user'])): ?>
-            <!--            <div class="history">-->
-            <!--                <h3>История ставок (<span>10</span>)</h3>-->
-            <!--                <table class="history__list">-->
-            <!--                    <tr class="history__item">-->
-            <!--                        <td class="history__name">Иван</td>-->
-            <!--                        <td class="history__price">10 999 р</td>-->
-            <!--                        <td class="history__time">5 минут назад</td>-->
-            <!--                    </tr>-->
-            <!--                    <tr class="history__item">-->
-            <!--                        <td class="history__name">Константин</td>-->
-            <!--                        <td class="history__price">10 999 р</td>-->
-            <!--                        <td class="history__time">20 минут назад</td>-->
-            <!--                    </tr>-->
-            <!--                    <tr class="history__item">-->
-            <!--                        <td class="history__name">Евгений</td>-->
-            <!--                        <td class="history__price">10 999 р</td>-->
-            <!--                        <td class="history__time">Час назад</td>-->
-            <!--                    </tr>-->
-            <!--                    <tr class="history__item">-->
-            <!--                        <td class="history__name">Игорь</td>-->
-            <!--                        <td class="history__price">10 999 р</td>-->
-            <!--                        <td class="history__time">19.03.17 в 08:21</td>-->
-            <!--                    </tr>-->
-            <!--                    <tr class="history__item">-->
-            <!--                        <td class="history__name">Енакентий</td>-->
-            <!--                        <td class="history__price">10 999 р</td>-->
-            <!--                        <td class="history__time">19.03.17 в 13:20</td>-->
-            <!--                    </tr>-->
-            <!--                    <tr class="history__item">-->
-            <!--                        <td class="history__name">Семён</td>-->
-            <!--                        <td class="history__price">10 999 р</td>-->
-            <!--                        <td class="history__time">19.03.17 в 12:20</td>-->
-            <!--                    </tr>-->
-            <!--                    <tr class="history__item">-->
-            <!--                        <td class="history__name">Илья</td>-->
-            <!--                        <td class="history__price">10 999 р</td>-->
-            <!--                        <td class="history__time">19.03.17 в 10:20</td>-->
-            <!--                    </tr>-->
-            <!--                    <tr class="history__item">-->
-            <!--                        <td class="history__name">Енакентий</td>-->
-            <!--                        <td class="history__price">10 999 р</td>-->
-            <!--                        <td class="history__time">19.03.17 в 13:20</td>-->
-            <!--                    </tr>-->
-            <!--                    <tr class="history__item">-->
-            <!--                        <td class="history__name">Семён</td>-->
-            <!--                        <td class="history__price">10 999 р</td>-->
-            <!--                        <td class="history__time">19.03.17 в 12:20</td>-->
-            <!--                    </tr>-->
-            <!--                    <tr class="history__item">-->
-            <!--                        <td class="history__name">Илья</td>-->
-            <!--                        <td class="history__price">10 999 р</td>-->
-            <!--                        <td class="history__time">19.03.17 в 10:20</td>-->
-            <!--                    </tr>-->
-            <!--                </table>-->
-            <!--            </div>-->
-            <!--            --><?php //endif; ?>
-
+            <?php if (isset($_SESSION['user'])): ?>
+                <div class="history">
+                    <h3>История ставок (<span><?= $sum_bet['total_bet'] ?></span>)</h3>
+                    <table class="history__list">
+                        <?php foreach ($history_users_bet as $user_bet): ?>
+                            <tr class="history__item">
+                                <td class="history__name"><?= $user_bet['user_name'] ?></td>
+                                <td class="history__price"><?= amount_formatting($user_bet['bet_amouth'],
+                                        0) . ' р' ?></td>
+                                <td class="history__time"><?= $user_bet['date_bet'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>

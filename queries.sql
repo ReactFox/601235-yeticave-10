@@ -116,4 +116,13 @@ ORDER BY date_creation DESC;
 # SELECT * FROM bets WHERE lot_id = 1;
 SELECT SUM(bet_amouth) AS sum_bet
 FROM bets
-WHERE lot_id = 8;
+WHERE lot_id = 8
+# GROUP BY lot_id =9
+ORDER BY date_bet DESC;
+
+# тестовое
+SELECT user_name, bet_amouth, date_bet, (SELECT COUNT(lot_id) FROM bets WHERE lot_id = 8) AS total_bet
+FROM bets
+         JOIN users u ON bets.user_id = u.id
+WHERE lot_id = 8
+ORDER BY date_bet DESC

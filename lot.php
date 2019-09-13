@@ -37,7 +37,7 @@ $result = mysqli_query($con, $sql);
 if ($result) {
     $lot = mysqli_fetch_assoc($result);
     //получаем цену лота
-    $sql = "SELECT SUM(bet_amouth) AS sum_bet FROM bets WHERE lot_id = {$current_id}";
+    $sql = "SELECT SUM(bet_amouth) AS sum_bet, COUNT(id) AS total_bet FROM bets WHERE lot_id = {$current_id}";
     $result_bet = mysqli_query($con, $sql);
     if ($result_bet) {
         $sum_bet = mysqli_fetch_assoc($result_bet);
@@ -51,17 +51,21 @@ if ($result) {
         echo $error;
     }
 
+//    Получаем Историю ставок
+    $sql = "SELECT user_name, bet_amouth, date_bet FROM bets JOIN users u ON bets.user_id = u.id
+            WHERE lot_id = {$current_id} ORDER BY date_bet DESC";
+    $result = mysqli_query($con, $sql);
+    if ($result) {
+        $history_users_bet = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    } else {
+        $error = mysqli_error($con);
+        echo $error;
+    }
+
+//print_r($history_users_bet);
+
 // если пользователь залогинен
     if (isset($_SESSION['user'])) {
-//        Отладочная информация
-//        echo '<pre>';
-//        print_r($_SESSION['user']);
-//        echo '</pre>';
-//
-//        echo '<pre>';
-//        print_r($lot);
-//        echo '</pre>';
-
 
         // если получил форма ставки была отправленна по форме
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -101,6 +105,7 @@ if ($result) {
                     'categories' => $categories,
                     'sum_bet' => $sum_bet,
                     'errors' => $errors,
+                    'history_users_bet' => $history_users_bet
                 ]);
             } else {
                 $bet['bet_amouth'] = $_POST['cost'];
@@ -128,6 +133,7 @@ if ($result) {
                 'categories' => $categories,
                 'lot' => $lot,
                 'sum_bet' => $sum_bet,
+                'history_users_bet' => $history_users_bet
             ]);
         }
     } // Конец сессии
@@ -137,15 +143,16 @@ if ($result) {
             'categories' => $categories,
             'lot' => $lot,
             'sum_bet' => $sum_bet,
+            'history_users_bet' => $history_users_bet
         ]);
     }
 
-    if (!mysqli_num_rows($result)) {
-        http_response_code(404);
-        $page_content = include_template('_404.php', [
-            'categories' => $categories
-        ]);
-    }
+//    if (!mysqli_num_rows($result)) {
+//        http_response_code(404);
+//        $page_content = include_template('_404.php', [
+//            'categories' => $categories
+//        ]);
+//    }
 
 } else {
     $error = mysqli_error($con);
