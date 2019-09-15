@@ -96,6 +96,24 @@ function validatePrice($name)
     return $result;
 }
 
+function validateTimeFormat($date)
+{
+    $date_now =  time();
+    $date_bate = strtotime($_POST[$date]);
+    $date_diff = $date_bate - $date_now;
+    $result ='';
+
+    if (is_date_valid($date)) {
+        $result = 'Введите число в формате ГГГГ-ММ-ДД';
+    }
+
+    elseif($date_diff < 86400) {
+        $result = 'Дата окончания торгов не может быть раньше через чем 24 часа';
+    }
+
+    return $result;
+}
+
 function validateCategory($name, $allowed_list)
 {
     $result = null;

@@ -13,27 +13,10 @@
  *
  * @return bool true при совпадении с форматом 'ГГГГ-ММ-ДД', иначе false
  */
-
-function is_date_valid(string $date) {
-    $result = false;
+function is_date_valid(string $date) : bool {
     $format_to_check = 'Y-m-d';
-    $dateTimeObj = date_create_from_format($format_to_check, $_POST[$date]);
-
-    $date_now =  time();
-    $date_bate = strtotime($_POST[$date]);
-    $date_diff = $date_bate - $date_now;
-
-//    return $dateTimeObj !== false && array_sum(date_get_last_errors()) === 0;
-//    это было в исходной функции
-    if ($dateTimeObj === false && array_sum(date_get_last_errors()) !== 0) {
-        $result = 'Введите число в формате ГГГГ-ММ-ДД';
-    }
-
-    elseif($date_diff < 86400) {
-        $result = 'Дата окончания торгов не может быть раньше через чем 24 часа';
-    }
-
-    return $result;
+    $dateTimeObj = date_create_from_format($format_to_check, $date);
+    return $dateTimeObj !== false && array_sum(date_get_last_errors()) === 0;
 }
 
 /**

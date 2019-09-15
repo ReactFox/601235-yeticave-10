@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         },
 
         'date_finish' => function () {
-            return is_date_valid('date_finish');
+            return validateTimeFormat('date_finish');
         }
     ];
 

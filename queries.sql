@@ -158,15 +158,35 @@ WHERE user_id = 17
 GROUP BY lot_id;
 
 
-SELECT bet_amouth,
-       (SELECT user_id
+# SELECT SUM(bet_amouth) AS sum_bet, COUNT(id) AS total_bet FROM lots l
+SELECT lot_title,
+       category_title,
+       date_creation,
+       date_finish,
+       starting_price,
+       l.id,
+       COUNT(b.id) AS count_bet,
+       (SELECT SUM(bet_amouth) AS sum_bet,
         FROM bets
-       ) AS A
-FROM bets
-WHERE user_id = 17;
+                 JOIN bets b ON b.lot_id = l.id
+
+        GROUP BY l.id)
+FROM lots l
+         JOIN bets b ON b.lot_id = l.id
+         JOIN categories c ON l.category_id = c.id
+WHERE date_finish > NOW()
+# GROUP BY l.id
+ORDER BY l.date_creation DESC
+LIMIT 9;
+
+#тест
+SELECT lot_title, lot_image, starting_price, category_title
+FROM lots l
+         JOIN categories c ON l.category_id = c.id
+         JOIN bets b ON l.id = b.lot_id
+WHERE date_finish > NOW()
+  AND (SELECT lot_title FROM lots)
+# ORDER BY date_creation DESC
+LIMIT 9;
 
 
-SELECT symbolic_code, category_title
-FROM categories
-WHERE symbolic_code = 'tools'
-GROUP BY category_title;

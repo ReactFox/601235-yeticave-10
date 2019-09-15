@@ -35,9 +35,15 @@
                     </h3>
                     <div class="lot__state">
                         <div class="lot__rate">
+                            <?php if($lot['starting_price'] > ($current_sum_bet)): ?>
                             <span class="lot__amount">Стартовая цена</span>
                             <span class="lot__cost"><?= amount_formatting(htmlspecialchars($lot['starting_price'],
                                     ENT_QUOTES | ENT_HTML5)) ?></span>
+                            <?php elseif ($lot['starting_price'] < ($current_sum_bet)): ?>
+                                <span class="lot__amount"><?= $bet_amouth ?></span>
+                                <span class="lot__cost"><?= amount_formatting(htmlspecialchars($lot['starting_price'],
+                                        ENT_QUOTES | ENT_HTML5)) ?></span>
+                            <?php endif; ?>
                         </div>
 
                         <?php $get_time = stop_time($lot['date_finish']) ?>
