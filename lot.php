@@ -42,7 +42,7 @@ if ($result) {
     if ($result_bet) {
         $sum_bet = mysqli_fetch_assoc($result_bet);
         if (!empty($sum_bet['sum_bet'])) {
-            $sum_bet['sum_bet'];
+            $sum_bet['sum_bet'] += $lot['starting_price'];
         } else {
             $sum_bet['sum_bet'] = $lot['starting_price'];
         }
