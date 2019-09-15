@@ -36,7 +36,22 @@
                                 ENT_QUOTES | ENT_HTML5) . ' р' ?>  <!--12 000 р --></span>
                     </div>
                 </div>
-                <?php if ((isset($_SESSION['user']) && ($lot['author_id'] !== $_SESSION['user']['id'])) && !($lot['date_finish'] < date('Y-m-d H:i:s')) && !($history_users_bet[0]['user_name'] === $_SESSION['user']['user_name'])): ?>
+
+<!--                    --><?//= var_dump( !(empty($history_users_bet[0]['user_name']) === $_SESSION['user']['user_name']) )?>
+<!--                    --><?//= var_dump( (isset ($history_users_bet[0]['user_name']) !== $_SESSION['user']['user_name']) )?>
+<!--                    --><?//= var_dump( $find_user_bet ) ?>
+
+<!--                --><?//= var_dump($find_user_bet) ?>
+<!--                    --><?//= var_dump(!(isset($history_users_bet[0]['user_name']) === $_SESSION['user']['user_name']) xor ($history_users_bet[0]['user_name'] !== $_SESSION['user']['user_name']))?>
+                <!--                TODO починить логику если сделал ставку, чтобы блок добавления ставок скрылся-->
+                <!--                показать блок приёма ставок-->
+                <!--                 если  (пользователь авториован  и    не         автор лота         и               приём ставок не окончен                                                                    -->
+                <?php if (isset($_SESSION['user']) && ($lot['author_id'] !== $_SESSION['user']['id']) && !($lot['date_finish'] < date('Y-m-d H:i:s')) &&  (isset($history_users_bet[0]['username']) && $history_users_bet[0]['username']!== $_SESSION['user']['user_name']   )      ):  ?>
+<!--//                    && ((!(empty($history_users_bet[0]['user_name']) && ($history_users_bet[0]['user_name']) ) === $_SESSION['user']['user_name']))  || ((isset($history_users_bet[0]['user_name']) && $history_users_bet[0]['user_name'] )!== $_SESSION['user']['user_name'])): ?>-->
+
+
+<!--                    Тестовая запись -->
+
                     <form class="lot-item__form" method="post"
                           autocomplete="off">
                         <?php $field_cost_error = isset($errors['cost']) ? 'form__item--invalid' : ''; ?>
@@ -53,14 +68,16 @@
                 <div class="history">
                     <h3>История ставок (<span><?= $sum_bet['total_bet'] ?></span>)</h3>
                     <table class="history__list">
+                        <!--                        --><?php //if (isset($history_users_bet)): ?>
                         <?php foreach ($history_users_bet as $user_bet): ?>
                             <tr class="history__item">
                                 <td class="history__name"><?= $user_bet['user_name'] ?></td>
                                 <td class="history__price"><?= amount_formatting($user_bet['bet_amouth'],
                                         0) . ' р' ?></td>
-                                <td class="history__time"><?= get_relative_format( $user_bet['date_bet'])  ?></td>
+                                <td class="history__time"><?= get_relative_format($user_bet['date_bet']) ?></td>
                             </tr>
                         <?php endforeach; ?>
+                        <!--                        --><?php //endif; ?>
                     </table>
                 </div>
             <?php endif; ?>

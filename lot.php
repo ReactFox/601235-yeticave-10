@@ -64,6 +64,7 @@ if ($result) {
 
 // если пользователь залогинен
     if (isset($_SESSION['user'])) {
+//        $find_user_bet = isset ($history_users_bet[0]['user_name']) ? $history_users_bet[0]['user_name'] : '';
 
         // если получил форма ставки была отправленна по форме
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -103,7 +104,8 @@ if ($result) {
                     'categories' => $categories,
                     'sum_bet' => $sum_bet,
                     'errors' => $errors,
-                    'history_users_bet' => $history_users_bet
+                    'history_users_bet' => $history_users_bet,
+                    'find_user_bet' => $find_user_bet
                 ]);
             } else {
                 $bet['bet_amouth'] = $_POST['cost'];
@@ -131,7 +133,8 @@ if ($result) {
                 'categories' => $categories,
                 'lot' => $lot,
                 'sum_bet' => $sum_bet,
-                'history_users_bet' => $history_users_bet
+                'history_users_bet' => $history_users_bet,
+//                'find_user_bet' => $find_user_bet
             ]);
         }
     } // Конец сессии

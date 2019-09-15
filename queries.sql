@@ -161,6 +161,12 @@ GROUP BY lot_id;
 SELECT bet_amouth,
        (SELECT user_id
         FROM bets
-       ) as A
+       ) AS A
 FROM bets
 WHERE user_id = 17;
+
+
+SELECT symbolic_code, category_title
+FROM categories
+WHERE symbolic_code = 'tools'
+GROUP BY category_title;

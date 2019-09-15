@@ -23,14 +23,43 @@ if ($result) {
     echo $error;
 }
 
+$current_page = key($_GET) ?? '';
+$current_page = mysqli_real_escape_string($con, $current_page);
 
+$sql = "SELECT l.id, symbolic_code, lot_title, lot_image, starting_price, category_title, date_finish
+FROM lots l
+         JOIN categories c ON l.category_id = c.id
+WHERE date_finish > NOW() AND symbolic_code = '{$current_page}'
+ORDER BY date_creation DESC LIMIT 9";
+
+$result = mysqli_query($con, $sql);
+
+if ($result) {
+    $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
+} else {
+    $error = mysqli_error($con);
+    echo $error;
+}
+
+$sql = "SELECT symbolic_code, category_title
+FROM categories
+WHERE symbolic_code = '{$current_page}'
+GROUP BY category_title";
+
+$result = mysqli_query($con, $sql);
+
+if ($result) {
+    $current_category = mysqli_fetch_array($result, MYSQLI_ASSOC);
+} else {
+    $error = mysqli_error($con);
+    echo $error;
+}
 
 $page_content = include_template('_all-lots.php', [
     'categories' => $categories,
+    'lots' => $lots,
+    'current_category' => $current_category
 ]);
-
-
-
 
 
 $layout_content = include_template('layout.php', [
