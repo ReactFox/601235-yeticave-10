@@ -65,7 +65,7 @@ $page_content = include_template('_all-lots.php', [
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'categories' => $categories,
-    'title' => 'Все лоты',
+    'title' => 'Все лоты категории: ' . $current_category['category_title'],
 ]);
 
 print($layout_content);
