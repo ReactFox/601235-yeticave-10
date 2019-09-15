@@ -34,6 +34,7 @@ WHERE l.id = {$current_id}";
 
 $result = mysqli_query($con, $sql);
 
+
 if ($result) {
     $lot = mysqli_fetch_assoc($result);
     //получаем цену лота
@@ -154,8 +155,10 @@ if ($result) {
 //            'categories' => $categories
 //        ]);
 //    }
-
-} else {
+    
+//    TODO починить логику 404
+}
+else {
     $error = mysqli_error($con);
     echo $error;
     exit();
