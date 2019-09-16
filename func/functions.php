@@ -98,16 +98,14 @@ function validatePrice($name)
 
 function validateTimeFormat($date)
 {
-    $date_now =  time();
+    $date_now = time();
     $date_bate = strtotime($_POST[$date]);
     $date_diff = $date_bate - $date_now;
-    $result ='';
+    $result = '';
 
     if (is_date_valid($date)) {
         $result = 'Введите число в формате ГГГГ-ММ-ДД';
-    }
-
-    elseif($date_diff < 86400) {
+    } elseif ($date_diff < 86400) {
         $result = 'Дата окончания торгов не может быть раньше через чем 24 часа';
     }
 
@@ -203,4 +201,10 @@ function get_relative_format($date_pub)
     $result = $date_create . get_noun_plural_form($date_create, $params['singular'], $params['genitive'],
             $params['plural']) . ' назад';
     return $result;
+}
+
+//создаёт рекомедованную цену в placeholder ставки
+function placeholder_format($sum_bet, $lot_step)
+{
+    return $sum_bet + $lot_step;
 }

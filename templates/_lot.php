@@ -51,7 +51,9 @@
                         <?php $field_cost_error = isset($errors['cost']) ? 'form__item--invalid' : ''; ?>
                         <p class="lot-item__form-item form__item <?= $field_cost_error ?>">
                             <label for="cost">Ваша ставка</label>
-                            <input id="cost" type="text" name="cost" placeholder="12 000">
+                            <input id="cost" type="text" name="cost"
+                                   placeholder="<?= amount_formatting(placeholder_format($sum_bet['sum_bet'],
+                                       $lot['bet_step']), 0) ?>">
                             <span class="form__error"><?= isset($errors['cost']) ? $errors['cost'] : '' ?></span>
                         </p>
                         <button type="submit" class="button">Сделать ставку</button>
