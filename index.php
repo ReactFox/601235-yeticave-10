@@ -40,27 +40,9 @@ if ($result) {
     echo $error;
 }
 
+
 $sql = "SELECT l.id, COUNT(lot_id) AS bet_amouth, SUM(bet_amouth) AS sum_bet FROM lots l
         JOIN bets b ON b.lot_id = l.id GROUP BY l.id";
-$result_bet = mysqli_query($con, $sql);
-if ($result_bet) {
-    $sum_bets = mysqli_fetch_all($result_bet, MYSQLI_ASSOC);
-    foreach ($sum_bets as $sum_bet) {
-        echo '<pre>';
-        $current_sum_bet = $sum_bet['sum_bet'] ?? '';
-        $bet_amouth = $sum_bet['bet_amouth'] ?? '';
-        print_r($sum_bet);
-        echo '</pre>';
-//        if (!empty($sum_bet['sum_bet'])) {
-//            $sum_bet['sum_bet'];
-//        } else {
-//            $sum_bet['sum_bet'] = $sum_bet['starting_price'];
-//        }
-    }
-} else {
-    $error = mysqli_error($con);
-    echo $error;
-}
 
 
 mysqli_close($con);

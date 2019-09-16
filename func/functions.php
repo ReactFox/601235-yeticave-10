@@ -148,7 +148,7 @@ function check_sum_bet($check_bet, $min_bet)
     $result = false;
     $post_data = $_POST[$check_bet];
 
-    if ((strpos($post_data, '.') !== false) || (!is_numeric($post_data))) {
+    if ((!is_numeric($post_data) || (strpos($post_data, '.') !== false))) {
         $result = 'Введите целое число';
     } elseif ($_POST[$check_bet] < $min_bet) {
         $result = 'Ставка должна быть равна или больше минимальной ставки';

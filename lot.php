@@ -37,27 +37,32 @@ $result = mysqli_query($con, $sql);
 
 if ($result) {
     $lot = mysqli_fetch_assoc($result);
-    //получаем цену лота
-    $sql = "SELECT SUM(bet_amouth) AS sum_bet, COUNT(id) AS total_bet FROM bets WHERE lot_id = {$current_id}";
+    //получаем цену лота                                                                        1
+    $sql = "SELECT MAX(bet_amouth) AS sum_bet, COUNT(id) AS total_bet FROM bets WHERE lot_id = {$current_id}";
     $result_bet = mysqli_query($con, $sql);
     if ($result_bet) {
         $sum_bet = mysqli_fetch_assoc($result_bet);
-        if (!empty($sum_bet['sum_bet'])) {
-            $sum_bet['sum_bet'] += $lot['starting_price'];
-        } else {
+        if (empty($sum_bet['sum_bet'])) {
             $sum_bet['sum_bet'] = $lot['starting_price'];
         }
+
+
+//        if (!empty($sum_bet['sum_bet'])) {
+//            $sum_bet['sum_bet'];
+//        } else {
+//            $sum_bet['sum_bet'] = $lot['starting_price'];
+//        }
     } else {
         $error = mysqli_error($con);
         echo $error;
     }
 
 //    Получаем Историю ставок
-    $sql = "SELECT user_name, bet_amouth, date_bet FROM bets JOIN users u ON bets.user_id = u.id
+    $sql = "SELECT user_id, user_name, bet_amouth, date_bet FROM bets JOIN users u ON bets.user_id = u.id
             WHERE lot_id = {$current_id} ORDER BY date_bet DESC";
-    $result = mysqli_query($con, $sql);
-    if ($result) {
-        $history_users_bet = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $result_history_bet = mysqli_query($con, $sql);
+    if ($result_history_bet) {
+        $history_users_bet = mysqli_fetch_all($result_history_bet, MYSQLI_ASSOC);
     } else {
         $error = mysqli_error($con);
         echo $error;
@@ -65,15 +70,12 @@ if ($result) {
 
 // если пользователь залогинен
     if (isset($_SESSION['user'])) {
-//        $find_user_bet = isset ($history_users_bet[0]['user_name']) ? $history_users_bet[0]['user_name'] : '';
 
         // если получил форма ставки была отправленна по форме
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors = [];
-//            $bet = [];
-//            $bet = $_POST['cost'];
-//            var_dump($bet);
-            $min_bet = $lot['bet_step'];
+            $min_bet = $lot['bet_step'] + $sum_bet['sum_bet'];
+
             $required = [
                 'cost'
             ];
@@ -106,7 +108,7 @@ if ($result) {
                     'sum_bet' => $sum_bet,
                     'errors' => $errors,
                     'history_users_bet' => $history_users_bet,
-                    'find_user_bet' => $find_user_bet
+//                    'find_user_bet' => $find_user_bet
                 ]);
             } else {
                 $bet['bet_amouth'] = $_POST['cost'];
@@ -149,16 +151,14 @@ if ($result) {
         ]);
     }
 
-//    if (!mysqli_num_rows($result)) {
-//        http_response_code(404);
-//        $page_content = include_template('_404.php', [
-//            'categories' => $categories
-//        ]);
-//    }
-    
-//    TODO починить логику 404
-}
-else {
+    if (!mysqli_num_rows($result)) {
+        http_response_code(404);
+        $page_content = include_template('_404.php', [
+            'categories' => $categories
+        ]);
+    }
+
+} else {
     $error = mysqli_error($con);
     echo $error;
     exit();

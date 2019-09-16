@@ -37,20 +37,14 @@
                     </div>
                 </div>
 
-<!--                    --><?//= var_dump( !(empty($history_users_bet[0]['user_name']) === $_SESSION['user']['user_name']) )?>
-<!--                    --><?//= var_dump( (isset ($history_users_bet[0]['user_name']) !== $_SESSION['user']['user_name']) )?>
-<!--                    --><?//= var_dump( $find_user_bet ) ?>
+                <?php $check_user_bet = false ?>
+                <?php if (!count($history_users_bet)) {
+                    $check_user_bet = true;
+                } elseif ($history_users_bet[0]['user_id'] !== ($_SESSION['user']['id'] ?? 0)) {
+                    $check_user_bet = true;
+                } ?>
 
-<!--                --><?//= var_dump($find_user_bet) ?>
-<!--                    --><?//= var_dump(!(isset($history_users_bet[0]['user_name']) === $_SESSION['user']['user_name']) xor ($history_users_bet[0]['user_name'] !== $_SESSION['user']['user_name']))?>
-                <!--                TODO починить логику если сделал ставку, чтобы блок добавления ставок скрылся-->
-                <!--                показать блок приёма ставок-->
-                <!--                 если  (пользователь авториован  и    не         автор лота         и               приём ставок не окончен                                                                    -->
-                <?php if (isset($_SESSION['user']) && ($lot['author_id'] !== $_SESSION['user']['id']) && !($lot['date_finish'] < date('Y-m-d H:i:s')) &&  (isset($history_users_bet[0]['username']) && $history_users_bet[0]['username']!== $_SESSION['user']['user_name']   )      ):  ?>
-<!--//                    && ((!(empty($history_users_bet[0]['user_name']) && ($history_users_bet[0]['user_name']) ) === $_SESSION['user']['user_name']))  || ((isset($history_users_bet[0]['user_name']) && $history_users_bet[0]['user_name'] )!== $_SESSION['user']['user_name'])): ?>-->
-
-
-<!--                    Тестовая запись -->
+                <?php if (isset($_SESSION['user']) && ($lot['author_id'] !== $_SESSION['user']['id']) && (strtotime($lot['date_finish']) > time()) && $check_user_bet): ?>
 
                     <form class="lot-item__form" method="post"
                           autocomplete="off">

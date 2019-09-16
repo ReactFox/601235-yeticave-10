@@ -25,12 +25,38 @@ if ($result) {
 
 $current_page = key($_GET) ?? '';
 $current_page = mysqli_real_escape_string($con, $current_page);
+//print_r($current_page);
+
+$cur_page = $_GET['page'] ?? $_GET['page'] = 1;
+//print_r($cur_page);
+$page_items = 9;
+
+$sql = "SELECT COUNT(l.id) AS cnt FROM lots l
+         JOIN categories c ON l.category_id = c.id
+WHERE symbolic_code = '{$current_page}' ";
+
+$result = mysqli_query($con, $sql);
+if ($result) {
+    $items_count = mysqli_fetch_assoc($result);
+} else {
+    $error = mysqli_error($con);
+    echo $error;
+}
+print_r($items_count);
+
+echo  ceil( 14 / 9);
+
+$pages_count = ceil($items_count / $page_items);
+$offset = ($cur_page - 1) * $page_items;
+$pages = range(1, $pages_count);
+//echo http_build_query ($pages);
+
 
 $sql = "SELECT l.id, symbolic_code, lot_title, lot_image, starting_price, category_title, date_finish
 FROM lots l
          JOIN categories c ON l.category_id = c.id
 WHERE date_finish > NOW() AND symbolic_code = '{$current_page}'
-ORDER BY date_creation DESC LIMIT 9";
+ORDER BY date_creation DESC LIMIT {$page_items} OFFSET {$offset}";
 
 $result = mysqli_query($con, $sql);
 
@@ -58,7 +84,10 @@ if ($result) {
 $page_content = include_template('_all-lots.php', [
     'categories' => $categories,
     'lots' => $lots,
-    'current_category' => $current_category
+    'current_category' => $current_category,
+    'pages_count' => $pages_count,
+    'pages' => $pages,
+    'cur_page' => $cur_page
 ]);
 
 
