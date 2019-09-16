@@ -151,7 +151,7 @@ function check_sum_bet($check_bet, $min_bet)
     if ((!is_numeric($post_data) || (strpos($post_data, '.') !== false))) {
         $result = 'Введите целое число';
     } elseif ($_POST[$check_bet] < $min_bet) {
-        $result = 'Ставка должна быть равна или больше минимальной ставки';
+        $result = 'Ставка должна большье текущей цены с учётом размера мин. ставки';
     }
 
     return $result;
