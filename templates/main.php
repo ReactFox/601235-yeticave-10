@@ -40,7 +40,8 @@
                                 <span class="lot__cost"><?= amount_formatting(htmlspecialchars($lot['starting_price'],
                                         ENT_QUOTES | ENT_HTML5)) ?></span>
                             <?php elseif ($lot['max_bet'] !== null): ?>
-                                <span class="lot__amount"><?= $lot['count_bet'] ?> <?= get_noun_plural_form((int) $lot['count_bet'],'ставка','ставки', 'ставок') ?></span>
+                                <span class="lot__amount"><?= $lot['count_bet'] ?> <?= get_noun_plural_form((int)$lot['count_bet'],
+                                        'ставка', 'ставки', 'ставок') ?></span>
                                 <span class="lot__cost"><?= amount_formatting(htmlspecialchars($lot['max_bet'],
                                         ENT_QUOTES | ENT_HTML5)) ?></span>
                             <?php endif; ?>
