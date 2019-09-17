@@ -54,12 +54,14 @@
             <?php endforeach; ?>
         </ul>
     </section>
-    <ul class="pagination-list">
-        <li class="pagination-item pagination-item-prev"><a>Назад</a></li>
-        <li class="pagination-item pagination-item-active"><a>1</a></li>
-        <li class="pagination-item"><a href="#">2</a></li>
-        <li class="pagination-item"><a href="#">3</a></li>
-        <li class="pagination-item"><a href="#">4</a></li>
-        <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>
-    </ul>
+    <?php if ($items_count > 9): ?>
+        <ul class="pagination-list">
+            <li class="pagination-item pagination-item-prev"><a>Назад</a></li>
+            <?php foreach ($pages as $page): ?>
+            <li class="pagination-item <?= ($page === $cur_page) ? 'pagination-item-active' : '' ?>">
+                <a href="all-lots.php?<?= $_SERVER['QUERY_STRING'] ?>&page=<?= $page ?>"><?= $page ?></a>
+                <?php endforeach; ?>
+            <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>
+        </ul>
+    <?php endif; ?>
 </div>

@@ -72,7 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $page_content = include_template('_search.php', [
             'categories' => $categories,
             'lots' => $lots,
-            'search' => $search
+            'search' => $search,
+            'items_count' => $items_count,
+            'pages' => $pages,
+            'cur_page' => $cur_page
         ]);
 
     } else {

@@ -53,13 +53,13 @@
 
         </ul>
     </section>
-    <?php if($items_count >9): ?>
+    <?php if ($items_count > 9): ?>
         <ul class="pagination-list">
             <li class="pagination-item pagination-item-prev"><a>Назад</a></li>
             <?php foreach ($pages as $page): ?>
-            <li class="pagination-item <?= ($page === $cur_page)? 'pagination-item-active' : '' ?>">
+            <li class="pagination-item <?= ($page === $cur_page) ? 'pagination-item-active' : '' ?>">
                 <a href="all-lots.php?<?= $_SERVER['QUERY_STRING'] ?>&page=<?= $page ?>"><?= $page ?></a>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
             <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>
         </ul>
     <?php endif; ?>
