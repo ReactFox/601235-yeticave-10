@@ -12,8 +12,8 @@ if (!$con) {
     exit;
 }
 
+//Получает категории под шапкой
 $sql = "SELECT category_title, symbolic_code FROM categories";
-
 $result = mysqli_query($con, $sql);
 
 if ($result) {
@@ -23,43 +23,52 @@ if ($result) {
     echo $error;
 }
 
-$current_page = key($_GET) ?? '';
-$current_page = mysqli_real_escape_string($con, $current_page);
-//print_r($current_page);
+// получает из адресной строки название категорий лотов на латинице
+$current_page_category = key($_GET) ?? '';
+$current_page_category = mysqli_real_escape_string($con, $current_page_category);
+//var_dump($current_page_category);
 
-$cur_page = $_GET['page'] ?? $_GET['page'] = 1;
-//print_r($cur_page);
+//кол-во лотов на странице
 $page_items = 9;
 
-$sql = "SELECT COUNT(l.id) AS cnt FROM lots l
-         JOIN categories c ON l.category_id = c.id
-WHERE symbolic_code = '{$current_page}' ";
+//$cur_page = $_GET['page'] ?? $_GET['page'] = 1;
+//print_r($cur_page);
+//$page_items = 9;
 
-$result = mysqli_query($con, $sql);
-if ($result) {
-    $items_count = mysqli_fetch_assoc($result);
-} else {
-    $error = mysqli_error($con);
-    echo $error;
-}
-print_r($items_count);
+//$sql = "SELECT COUNT(l.id) AS cnt FROM lots l
+//         JOIN categories c ON l.category_id = c.id
+//WHERE symbolic_code = '{$current_page}' ";
 
-echo  ceil( 14 / 9);
+//$result = mysqli_query($con, $sql);
+//if ($result) {
+//    $items_count = mysqli_fetch_assoc($result);
+//} else {
+//    $error = mysqli_error($con);
+//    echo $error;
+//}
+//print_r($items_count);
+//
+//echo  ceil( 14 / 9);
+//
+//$pages_count = ceil($items_count / $page_items);
+//$offset = ($cur_page - 1) * $page_items;
+//$pages = range(1, $pages_count);
+////echo http_build_query ($pages);
 
-$pages_count = ceil($items_count / $page_items);
-$offset = ($cur_page - 1) * $page_items;
-$pages = range(1, $pages_count);
-//echo http_build_query ($pages);
 
-
-$sql = "SELECT l.id, symbolic_code, lot_title, lot_image, starting_price, category_title, date_finish
+//получает список лотов на по категории на странице all-lots
+$sql = "SELECT MAX(bet_amouth) AS max_bet, date_creation, COUNT(bet_amouth) AS count_bet, l.id, lot_title, lot_image, starting_price, category_title, date_finish
 FROM lots l
          JOIN categories c ON l.category_id = c.id
-WHERE date_finish > NOW() AND symbolic_code = '{$current_page}'
-ORDER BY date_creation DESC LIMIT {$page_items} OFFSET {$offset}";
+         LEFT JOIN bets b ON l.id = b.lot_id
+WHERE date_finish > NOW() AND symbolic_code = '{$current_page_category}'
+GROUP BY l.id
+ORDER BY date_creation DESC
+LIMIT {$page_items}";
+//OFFSET {$offset}
 
+//вытаскивает лоты по катгориям в массив для отображения в шаблоне
 $result = mysqli_query($con, $sql);
-
 if ($result) {
     $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
 } else {
@@ -67,9 +76,10 @@ if ($result) {
     echo $error;
 }
 
+// Получаем категорию для загаловка "все лоты в категории"
 $sql = "SELECT symbolic_code, category_title
 FROM categories
-WHERE symbolic_code = '{$current_page}'
+WHERE symbolic_code = '{$current_page_category}'
 GROUP BY category_title";
 
 $result = mysqli_query($con, $sql);
@@ -81,20 +91,22 @@ if ($result) {
     echo $error;
 }
 
+
+
 $page_content = include_template('_all-lots.php', [
     'categories' => $categories,
     'lots' => $lots,
     'current_category' => $current_category,
-    'pages_count' => $pages_count,
-    'pages' => $pages,
-    'cur_page' => $cur_page
+//    'pages_count' => $pages_count,
+//    'pages' => $pages,
+//    'cur_page' => $cur_page
 ]);
 
 
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'categories' => $categories,
-    'title' => 'Все лоты категории: ' . $current_category['category_title'],
+    'title' => 'Все лоты категории: ' .$current_category['category_title']
 ]);
 
 print($layout_content);

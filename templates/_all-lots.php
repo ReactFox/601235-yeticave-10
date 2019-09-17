@@ -30,9 +30,16 @@
                         </h3>
                         <div class="lot__state">
                             <div class="lot__rate">
-                                <span class="lot__amount">Стартовая цена</span>
-                                <span class="lot__cost"><?= amount_formatting(htmlspecialchars($lot['starting_price'],
-                                        ENT_QUOTES | ENT_HTML5)) ?></span>
+                                <?php if ($lot['max_bet'] === null): ?>
+                                    <span class="lot__amount">Стартовая цена</span>
+                                    <span class="lot__cost"><?= amount_formatting(htmlspecialchars($lot['starting_price'],
+                                            ENT_QUOTES | ENT_HTML5)) ?></span>
+                                <?php elseif ($lot['max_bet'] !== null): ?>
+                                    <span class="lot__amount"><?= $lot['count_bet'] ?> <?= get_noun_plural_form((int)$lot['count_bet'],
+                                            'ставка', 'ставки', 'ставок') ?></span>
+                                    <span class="lot__cost"><?= amount_formatting(htmlspecialchars($lot['max_bet'],
+                                            ENT_QUOTES | ENT_HTML5)) ?></span>
+                                <?php endif; ?>
                             </div>
 
                             <?php $get_time = stop_time($lot['date_finish']) ?>
@@ -43,14 +50,16 @@
                         </div>
                 </li>
             <?php endforeach; ?>
+
         </ul>
     </section>
-    <ul class="pagination-list">
-        <li class="pagination-item pagination-item-prev"><a>Назад</a></li>
-        <?php foreach ($pages as $page): ?>
-        <li class="pagination-item <?= ($page === $cur_page)? 'pagination-item-active' : '' ?>">
-            <a href="all-lots.php?<?= $_SERVER['QUERY_STRING'] ?>&page=<?= $page ?>"><?= $page ?></a>
-        <?php endforeach; ?>
-        <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>
-    </ul>
+    <!--    <ul class="pagination-list">-->
+    <!--        <li class="pagination-item pagination-item-prev"><a>Назад</a></li>-->
+    <!--        --><?php //foreach ($pages as $page): ?>
+    <!--        <li class="pagination-item --><? //= ($page === $cur_page)? 'pagination-item-active' : '' ?><!--">-->
+    <!--            <a href="all-lots.php?--><? //= $_SERVER['QUERY_STRING'] ?><!--&page=--><? //= $page ?><!--">-->
+    <? //= $page ?><!--</a>-->
+    <!--        --><?php //endforeach; ?>
+    <!--        <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>-->
+    <!--    </ul>-->
 </div>
