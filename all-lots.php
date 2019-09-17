@@ -96,7 +96,7 @@ $page_content = include_template('_all-lots.php', [
     'lots' => $lots,
     'current_category' => $current_category,
     'pages_count' => $pages_count,
-//    'items_count' => $items_count,
+    'items_count' => $items_count,
     'pages' => $pages,
     'cur_page' => $cur_page
 ]);
