@@ -19,7 +19,8 @@
                 <li class="lots__item lot">
                     <div class="lot__image">
                         <img src="../uploads/<?= htmlspecialchars($lot['lot_image'], ENT_QUOTES | ENT_HTML5) ?>"
-                             width="350" height="260"
+                             width="350"
+                             height="260"
                              alt="Фото: <?= htmlspecialchars($lot['lot_title']), ENT_QUOTES | ENT_HTML5 ?>">
                     </div>
                     <div class="lot__info">
@@ -31,9 +32,16 @@
                         </h3>
                         <div class="lot__state">
                             <div class="lot__rate">
-                                <span class="lot__amount">Стартовая цена</span>
-                                <span class="lot__cost"><?= amount_formatting(htmlspecialchars($lot['starting_price'],
-                                        ENT_QUOTES | ENT_HTML5)) ?></span>
+                                <?php if ($lot['max_bet'] === null): ?>
+                                    <span class="lot__amount">Стартовая цена</span>
+                                    <span class="lot__cost"><?= amount_formatting(htmlspecialchars($lot['starting_price'],
+                                            ENT_QUOTES | ENT_HTML5)) ?></span>
+                                <?php elseif ($lot['max_bet'] !== null): ?>
+                                    <span class="lot__amount"><?= $lot['count_bet'] ?> <?= get_noun_plural_form((int)$lot['count_bet'],
+                                            'ставка', 'ставки', 'ставок') ?></span>
+                                    <span class="lot__cost"><?= amount_formatting(htmlspecialchars($lot['max_bet'],
+                                            ENT_QUOTES | ENT_HTML5)) ?></span>
+                                <?php endif; ?>
                             </div>
 
                             <?php $get_time = stop_time($lot['date_finish']) ?>
@@ -42,7 +50,6 @@
                                 <?= $get_time[1] . ':' . $get_time[2] ?>
                             </div>
                         </div>
-                    </div>
                 </li>
             <?php endforeach; ?>
         </ul>

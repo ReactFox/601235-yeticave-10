@@ -159,7 +159,15 @@ GROUP BY lot_id;
 
 
 
-SELECT MAX(bet_amouth) AS max_bet, date_creation, COUNT(bet_amouth) AS count_bet, l.id, lot_title, lot_image, starting_price, category_title, date_finish
+SELECT MAX(bet_amouth)   AS max_bet,
+       date_creation,
+       COUNT(bet_amouth) AS count_bet,
+       l.id,
+       lot_title,
+       lot_image,
+       starting_price,
+       category_title,
+       date_finish
 FROM lots l
          JOIN categories c ON l.category_id = c.id
          LEFT JOIN bets b ON l.id = b.lot_id
@@ -168,9 +176,24 @@ GROUP BY l.id
 ORDER BY date_creation DESC
 LIMIT 9;
 
-SELECT COUNT(l.id) AS cnt_id
-FROM lots l JOIN categories c ON l.category_id = c.id
-WHERE MATCH(lot_title, lot_description) AGAINST('пасатижи
-') AND date_finish > NOW()
+SELECT MAX(bet_amouth)   AS max_bet,
+       COUNT(bet_amouth) AS count_bet,
+       l.id,
+       date_creation,
+       lot_title,
+       lot_image,
+       starting_price,
+       category_title,
+       date_finish
+FROM lots l
+         JOIN categories c ON l.category_id = c.id
+         LEFT JOIN bets b ON l.id = b.lot_id
+
+WHERE MATCH(lot_title, lot_description) AGAINST('куртка')
+  AND date_finish > NOW()
+GROUP BY l.id
+
+ORDER BY date_creation DESC
+LIMIT 9 OFFSET 0
 
 

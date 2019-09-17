@@ -52,10 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo '<br>';
 
 
-        $sql = "SELECT l.id, lot_title, lot_image, starting_price, category_title,date_finish
-        FROM lots l JOIN categories c ON l.category_id = c.id
-        WHERE MATCH(lot_title, lot_description) AGAINST(?)
-        HAVING date_finish > NOW() ORDER BY date_creation DESC LIMIT {$page_items} OFFSET {$offset}";
+        $sql = "SELECT MAX(bet_amouth) AS max_bet, COUNT(bet_amouth) AS count_bet, l.id,
+                date_creation, lot_title, lot_image, starting_price, category_title, date_finish
+                FROM lots l JOIN categories c ON l.category_id = c.id
+                LEFT JOIN bets b ON l.id = b.lot_id WHERE MATCH(lot_title, lot_description) AGAINST(?)
+                AND date_finish > NOW() GROUP BY l.id
+                ORDER BY date_creation DESC LIMIT {$page_items} OFFSET {$offset}";
 
         $stmt = db_get_prepare_stmt($con, $sql, [$search]);
         mysqli_stmt_execute($stmt);
