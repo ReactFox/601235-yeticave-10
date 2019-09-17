@@ -30,30 +30,30 @@ $current_page_category = mysqli_real_escape_string($con, $current_page_category)
 
 //кол-во лотов на странице
 $page_items = 9;
+//print_r($page_items);
 
-//$cur_page = $_GET['page'] ?? $_GET['page'] = 1;
+$cur_page = $_GET['page'] ?? $_GET['page'] = 1;
 //print_r($cur_page);
-//$page_items = 9;
 
-//$sql = "SELECT COUNT(l.id) AS cnt FROM lots l
-//         JOIN categories c ON l.category_id = c.id
-//WHERE symbolic_code = '{$current_page}' ";
 
-//$result = mysqli_query($con, $sql);
-//if ($result) {
-//    $items_count = mysqli_fetch_assoc($result);
-//} else {
-//    $error = mysqli_error($con);
-//    echo $error;
-//}
+// получает кол-во лотов на странице в конкретной категории
+$sql = "SELECT COUNT(l.id) AS cnt FROM lots l
+         JOIN categories c ON l.category_id = c.id
+WHERE symbolic_code = '{$current_page_category}' ";
+
+$result = mysqli_query($con, $sql);
+$items_count = '';
+if ($result) {
+    $items_count = mysqli_fetch_assoc($result)['cnt'];
+} else {
+    $error = mysqli_error($con);
+    echo $error;
+}
 //print_r($items_count);
-//
-//echo  ceil( 14 / 9);
-//
-//$pages_count = ceil($items_count / $page_items);
-//$offset = ($cur_page - 1) * $page_items;
-//$pages = range(1, $pages_count);
-////echo http_build_query ($pages);
+$pages_count = ceil($items_count / $page_items);
+$offset = ($cur_page - 1) * $page_items;
+$pages = range(1, $pages_count);
+//print_r($pages);
 
 
 //получает список лотов на по категории на странице all-lots
@@ -64,8 +64,8 @@ FROM lots l
 WHERE date_finish > NOW() AND symbolic_code = '{$current_page_category}'
 GROUP BY l.id
 ORDER BY date_creation DESC
-LIMIT {$page_items}";
-//OFFSET {$offset}
+LIMIT {$page_items} OFFSET {$offset}";
+
 
 //вытаскивает лоты по катгориям в массив для отображения в шаблоне
 $result = mysqli_query($con, $sql);
@@ -91,22 +91,21 @@ if ($result) {
     echo $error;
 }
 
-
-
 $page_content = include_template('_all-lots.php', [
     'categories' => $categories,
     'lots' => $lots,
     'current_category' => $current_category,
-//    'pages_count' => $pages_count,
-//    'pages' => $pages,
-//    'cur_page' => $cur_page
+    'pages_count' => $pages_count,
+//    'items_count' => $items_count,
+    'pages' => $pages,
+    'cur_page' => $cur_page
 ]);
 
 
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'categories' => $categories,
-    'title' => 'Все лоты категории: ' .$current_category['category_title']
+    'title' => 'Все лоты категории: ' . $current_category['category_title']
 ]);
 
 print($layout_content);
