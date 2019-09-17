@@ -166,12 +166,11 @@ FROM lots l
 WHERE date_finish > NOW()
 GROUP BY l.id
 ORDER BY date_creation DESC
-LIMIT 9
+LIMIT 9;
 
-# SELECT COUNT(l.id) AS cnt
-# FROM lots l
-#          JOIN categories c ON l.category_id = c.id
-# WHERE symbolic_code = 'boards'
-# WHERE category_title = 'boards'
+SELECT COUNT(l.id) AS cnt_id
+FROM lots l JOIN categories c ON l.category_id = c.id
+WHERE MATCH(lot_title, lot_description) AGAINST('пасатижи
+') AND date_finish > NOW()
 
 
