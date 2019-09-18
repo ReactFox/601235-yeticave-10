@@ -54,14 +54,16 @@
             <?php endforeach; ?>
         </ul>
     </section>
+
+<!-- TODO допилить пагинацию   -->
     <?php if ($items_count > 9): ?>
         <ul class="pagination-list">
-            <li class="pagination-item pagination-item-prev"><a>Назад</a></li>
+            <li class="pagination-item pagination-item-prev"><a href="search.php?<?= $_SERVER['QUERY_STRING'] ?>&page=<?= ($cur_page > 1)? - 1: 1 ?>">Назад</a></li>
             <?php foreach ($pages as $page): ?>
             <li class="pagination-item <?= ($page === $cur_page) ? 'pagination-item-active' : '' ?>">
-                <a href="all-lots.php?<?= $_SERVER['QUERY_STRING'] ?>&page=<?= $page ?>"><?= $page ?></a>
-                <?php endforeach; ?>
-            <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>
+                <a href="search.php?<?= $_SERVER['QUERY_STRING'] ?>&page=<?= $page ?>"><?= $page ?></a>
+            <?php endforeach; ?>
+            <li class="pagination-item pagination-item-next"><a href="search.php?<?= $_SERVER['QUERY_STRING'] ?>&page=<?= ($cur_page < count($pages))? $cur_page+ 1: $cur_page ?>">Вперед</a></li>
         </ul>
     <?php endif; ?>
 </div>
