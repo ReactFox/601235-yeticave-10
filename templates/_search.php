@@ -11,7 +11,6 @@
 
 <div class="container">
     <section class="lots">
-
         <?php $search = !empty($search) ? $search : '' ?>
         <h2>Результаты поиска по запросу «<span><?= $search ?></span>»</h2>
         <ul class="lots__list">
@@ -45,7 +44,6 @@
                             </div>
 
                             <?php $get_time = stop_time($lot['date_finish']) ?>
-
                             <div class="lot__timer timer <?php if ($get_time[1] < '01'): ?>timer--finishing<?php endif; ?>">
                                 <?= $get_time[1] . ':' . $get_time[2] ?>
                             </div>
@@ -55,15 +53,18 @@
         </ul>
     </section>
 
-<!-- TODO допилить пагинацию   -->
-    <?php if ($items_count > 9): ?>
+    <?php if (count($pages) > 1): ?>
         <ul class="pagination-list">
-            <li class="pagination-item pagination-item-prev"><a href="search.php?<?= $_SERVER['QUERY_STRING'] ?>&page=<?= ($cur_page > 1)? - 1: 1 ?>">Назад</a></li>
+            <li class="pagination-item pagination-item-prev">
+                <a href="search.php?search=<?=$search ?>&page=<?= ($cur_page > 1) ? -1 : 1 ?>">Назад</a>
+            </li>
             <?php foreach ($pages as $page): ?>
-            <li class="pagination-item <?= ($page === $cur_page) ? 'pagination-item-active' : '' ?>">
-                <a href="search.php?<?= $_SERVER['QUERY_STRING'] ?>&page=<?= $page ?>"><?= $page ?></a>
+                <li class="pagination-item <?= ($page === $cur_page) ? 'pagination-item-active' : '' ?>">
+                <a href="search.php?search=<?= $search ?>&page=<?= $page ?>"><?= $page ?></a>
             <?php endforeach; ?>
-            <li class="pagination-item pagination-item-next"><a href="search.php?<?= $_SERVER['QUERY_STRING'] ?>&page=<?= ($cur_page < count($pages))? $cur_page+ 1: $cur_page ?>">Вперед</a></li>
+            <li class="pagination-item pagination-item-next">
+                <a href="search.php?search=<?=$search ?>&page=<?= ($cur_page < count($pages)) ? $cur_page + 1 : $cur_page ?>">Вперед</a>
+            </li>
         </ul>
     <?php endif; ?>
 </div>
