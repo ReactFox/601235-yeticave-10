@@ -56,14 +56,14 @@
     <?php if (count($pages) > 1): ?>
         <ul class="pagination-list">
             <li class="pagination-item pagination-item-prev">
-                <a href="search.php?search=<?=$search ?>&page=<?= ($cur_page > 1) ? -1 : 1 ?>">Назад</a>
+                <a href="search.php?search=<?= $search ?>&page=<?= ($cur_page > 1) ? $cur_page -1 : 1 ?>">Назад</a>
             </li>
             <?php foreach ($pages as $page): ?>
-                <li class="pagination-item <?= ($page === $cur_page) ? 'pagination-item-active' : '' ?>">
+                <li class="pagination-item <?= ((string) $page === $cur_page) ? 'pagination-item-active' : '' ?>">
                 <a href="search.php?search=<?= $search ?>&page=<?= $page ?>"><?= $page ?></a>
             <?php endforeach; ?>
             <li class="pagination-item pagination-item-next">
-                <a href="search.php?search=<?=$search ?>&page=<?= ($cur_page < count($pages)) ? $cur_page + 1 : $cur_page ?>">Вперед</a>
+                <a href="search.php?search=<?= $search ?>&page=<?= ($cur_page < count($pages)) ? $cur_page + 1 : $cur_page ?>">Вперед</a>
             </li>
         </ul>
     <?php endif; ?>
