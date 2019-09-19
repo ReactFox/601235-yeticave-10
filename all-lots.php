@@ -13,7 +13,7 @@ if (!$con) {
 }
 
 //Получает категории под шапкой
-$sql = "SELECT category_title, symbolic_code FROM categories";
+$sql = 'SELECT category_title, symbolic_code FROM categories';
 $result = mysqli_query($con, $sql);
 
 if ($result) {
@@ -26,7 +26,7 @@ if ($result) {
 // получает из адресной строки название категорий лотов на латинице
 $current_page_category = key($_GET) ?? '';
 $current_page_category = mysqli_real_escape_string($con, $current_page_category);
-//var_dump($current_page_category);
+var_dump($current_page_category);
 
 //кол-во лотов на странице
 $page_items = 9;
@@ -97,6 +97,7 @@ $page_content = include_template('_all-lots.php', [
     'current_category' => $current_category,
     'pages_count' => $pages_count,
     'items_count' => $items_count,
+    '$current_page_category' => $current_page_category,
     'pages' => $pages,
     'cur_page' => $cur_page
 ]);
@@ -104,7 +105,7 @@ $page_content = include_template('_all-lots.php', [
 
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
-    'categories' => $categories,f
+    'categories' => $categories,
     'title' => 'Все лоты категории: ' . $current_category['category_title']
 ]);
 

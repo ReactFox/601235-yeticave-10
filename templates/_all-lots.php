@@ -53,14 +53,31 @@
 
         </ul>
     </section>
-    <?php if ($items_count > 9): ?>
+<!--    --><?php //if ($items_count > 9): ?>
+<!--        <ul class="pagination-list">-->
+<!--            <li class="pagination-item pagination-item-prev"><a>Назад</a></li>-->
+<!--            --><?php //foreach ($pages as $page): ?>
+<!--            <li class="pagination-item --><?//= ($page === $cur_page) ? 'pagination-item-active' : '' ?><!--">-->
+<!--                <a href="all-lots.php?--><?//= $_SERVER['QUERY_STRING'] ?><!--&page=--><?//= $page ?><!--">--><?//= $page ?><!--</a>-->
+<!--                --><?php //endforeach; ?>
+<!--            <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>-->
+<!--        </ul>-->
+<!--    --><?php //endif; ?>
+
+<?php    var_dump($current_page_category); ?>
+
+    <?php if (count($pages) > 1): ?>
         <ul class="pagination-list">
-            <li class="pagination-item pagination-item-prev"><a>Назад</a></li>
+            <li class="pagination-item pagination-item-prev">
+                <a href="all-lots.php?<?= $current_page_category ?>&page=<?= ($cur_page > 1) ? -1 : 1 ?>">Назад</a>
+            </li>
             <?php foreach ($pages as $page): ?>
             <li class="pagination-item <?= ($page === $cur_page) ? 'pagination-item-active' : '' ?>">
-                <a href="all-lots.php?<?= $_SERVER['QUERY_STRING'] ?>&page=<?= $page ?>"><?= $page ?></a>
+                <a href="all-lots.php?<?= $current_page_category ?>&page=<?= $page ?>"><?= $page ?></a>
                 <?php endforeach; ?>
-            <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>
+            <li class="pagination-item pagination-item-next">
+                <a href="all-lots.php?<?= $current_page_category ?>&page=<?= ($cur_page < count($pages)) ? $cur_page + 1 : $cur_page ?>">Вперед</a>
+            </li>
         </ul>
     <?php endif; ?>
 </div>

@@ -9,7 +9,7 @@ if (!$con) {
     exit($error);
 }
 
-$sql = "SELECT * FROM categories";
+$sql = 'SELECT * FROM categories';
 $result = mysqli_query($con, $sql);
 
 if ($result) {
