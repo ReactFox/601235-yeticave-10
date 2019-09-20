@@ -23,7 +23,6 @@
             <div class="lot-item__state">
                 <?php $get_time = stop_time($lot['date_finish']) ?>
                 <div class="lot-item__timer timer <?php if ($get_time[1] < '01'): ?>timer--finishing<?php endif; ?>">
-                    <!--10:54-->
                     <?= $get_time[1] . ':' . $get_time[2] ?>
                 </div>
                 <div class="lot-item__cost-state">
@@ -33,7 +32,7 @@
                     </div>
                     <div class="lot-item__min-cost">
                         Мин. ставка <span><?= htmlspecialchars($lot['bet_step'],
-                                ENT_QUOTES | ENT_HTML5) . ' р' ?>  <!--12 000 р --></span>
+                                ENT_QUOTES | ENT_HTML5) . ' р' ?></span>
                     </div>
                 </div>
 
@@ -64,7 +63,6 @@
                 <div class="history">
                     <h3>История ставок (<span><?= $sum_bet['total_bet'] ?></span>)</h3>
                     <table class="history__list">
-                        <!--                        --><?php //if (isset($history_users_bet)): ?>
                         <?php foreach ($history_users_bet as $user_bet): ?>
                             <tr class="history__item">
                                 <td class="history__name"><?= $user_bet['user_name'] ?></td>
