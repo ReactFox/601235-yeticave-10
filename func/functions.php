@@ -208,3 +208,16 @@ function placeholder_format($sum_bet, $lot_step)
 {
     return $sum_bet + $lot_step;
 }
+
+// получает статус ставки для выделения строки блока ставки в ЛК пользователя
+function get_status_user_bet($date_finish, $winner_id)
+{
+    $result = '';
+    if ((strtotime($date_finish) < time()) && ($winner_id === null)) {
+        $result = 'rates__item--end';
+    }
+    elseif ((strtotime($date_finish) < time()) && ($winner_id === $_SESSION['user']['id'])) {
+        $result = 'rates__item--win';
+    }
+    return $result;
+}

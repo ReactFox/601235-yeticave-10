@@ -227,8 +227,8 @@ SELECT lot_id,
        contacts,
        category_title,
        date_finish,
-       MAX(bet_amouth) AS max_my_bet
-#        date_bet
+       MAX(bet_amouth) AS max_my_bet,
+       MAX(date_bet) AS date_bate
 FROM bets b
          JOIN lots l ON b.lot_id = l.id
          JOIN categories c ON l.category_id = c.id
