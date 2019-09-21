@@ -6,7 +6,8 @@
         <!--заполните этот список из массива категорий-->
         <?php foreach ($categories as $item): ?>
             <li class="promo__item promo__item--<?php echo $item['symbolic_code'] ?>">
-                <a class="promo__link" href="pages/all-lots.html"><?= htmlspecialchars($item['category_title'],
+                <a class="promo__link"
+                   href="all-lots.php?<?= $item['symbolic_code'] ?>"><?= htmlspecialchars($item['category_title'],
                         ENT_QUOTES | ENT_HTML5) ?></a>
             </li>
         <?php endforeach; ?>
@@ -34,9 +35,16 @@
                     </h3>
                     <div class="lot__state">
                         <div class="lot__rate">
-                            <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?= amount_formatting(htmlspecialchars($lot['starting_price'],
-                                    ENT_QUOTES | ENT_HTML5)) ?></span>
+                            <?php if ($lot['max_bet'] === null): ?>
+                                <span class="lot__amount">Стартовая цена</span>
+                                <span class="lot__cost"><?= amount_formatting(htmlspecialchars($lot['starting_price'],
+                                        ENT_QUOTES | ENT_HTML5)) ?></span>
+                            <?php elseif ($lot['max_bet'] !== null): ?>
+                                <span class="lot__amount"><?= $lot['count_bet'] ?> <?= get_noun_plural_form((int)$lot['count_bet'],
+                                        'ставка', 'ставки', 'ставок') ?></span>
+                                <span class="lot__cost"><?= amount_formatting(htmlspecialchars($lot['max_bet'],
+                                        ENT_QUOTES | ENT_HTML5)) ?></span>
+                            <?php endif; ?>
                         </div>
 
                         <?php $get_time = stop_time($lot['date_finish']) ?>

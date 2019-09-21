@@ -20,7 +20,9 @@ require_once 'func/functions.php';
     <header class="main-header">
         <div class="main-header__container container">
             <h1 class="visually-hidden">YetiCave</h1>
-            <a class="main-header__logo">
+
+            <?php $href = empty($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') ? 'href="/"' : '' ?>
+            <a class="main-header__logo" <?= $href ?>>
                 <img src="../img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
             </a>
             <form class="main-header__search" method="get" action="../search.php" autocomplete="off">
@@ -33,12 +35,10 @@ require_once 'func/functions.php';
 
 
             <nav class="user-menu">
-                <?php //print_r($_SESSION)  ;?>
-                <!--                здесь должен быть PHP код для показа меню и данных пользователя-->
                 <?php if (isset($_SESSION['user'])): ?>
                     <div class="user-menu__logged">
                         <p><?= strip_tags($_SESSION['user']['user_name']) ?></p>
-                        <a class="user-menu__bets" href="pages/my-bets.html">Мои ставки</a>
+                        <a class="user-menu__bets" href="../my-bets.php">Мои ставки</a>
                         <a class="user-menu__logout" href="logout.php">Выход</a>
                     </div>
                 <?php else: ?>
@@ -56,7 +56,7 @@ require_once 'func/functions.php';
         </div>
     </header>
 
-    <?php $classname = !empty($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') ? 'class="container"' :''  ?>
+    <?php $classname = !empty($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') ? 'class="container"' : '' ?>
     <main <?= $classname ?>>
         <?= $content ?>
     </main>
@@ -68,7 +68,7 @@ require_once 'func/functions.php';
             <!--заполните этот список из массива категорий-->
             <?php foreach ($categories as $item): ?>
                 <li class="nav__item">
-                    <a href="pages/all-lots.html"><?= htmlspecialchars($item['category_title'],
+                    <a href="all-lots.php?<?= $item['symbolic_code'] ?>"><?= htmlspecialchars($item['category_title'],
                             ENT_QUOTES | ENT_HTML5) ?></a>
                 </li>
             <?php endforeach; ?>
@@ -118,7 +118,7 @@ require_once 'func/functions.php';
             </a>
         </div>
         <?php if (isset($_SESSION['user'])): ?>
-        <a class="main-footer__add-lot button" href="../add.php">Добавить лот</a>
+            <a class="main-footer__add-lot button" href="../add.php">Добавить лот</a>
         <?php endif; ?>
         <div class="main-footer__developed-by">
             <span class="visually-hidden">Разработано:</span>

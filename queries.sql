@@ -106,9 +106,150 @@ ORDER BY date_bet DESC;
 
 
 #тестовая запись для поиска лота
-SELECT l.id, lot_title, lot_description,lot_image, starting_price, category_title,date_finish
+SELECT l.id, lot_title, lot_description, lot_image, starting_price, category_title, date_finish
 FROM lots l
          JOIN categories c ON l.category_id = c.id
 WHERE MATCH(lot_title, lot_description) AGAINST('Куртка')
 HAVING date_finish > NOW()
 ORDER BY date_creation DESC;
+
+# SELECT * FROM bets WHERE lot_id = 1;
+SELECT SUM(bet_amouth) AS sum_bet
+FROM bets
+WHERE lot_id = 8
+# GROUP BY lot_id =9
+ORDER BY date_bet DESC;
+
+# тестовое
+SELECT user_name, bet_amouth, date_bet, (SELECT COUNT(lot_id) FROM bets WHERE lot_id = 8) AS total_bet
+FROM bets
+         JOIN users u ON bets.user_id = u.id
+WHERE lot_id = 8
+ORDER BY date_bet DESC;
+
+# готовый запрос для получения из бд
+SELECT lot_image, l.id, lot_title, category_title, date_finish, date_bet, contacts
+FROM bets b
+         JOIN lots l ON b.lot_id = l.id
+         JOIN categories c ON l.category_id = c.id
+         JOIN users u ON u.id = l.author_id
+WHERE user_id = 17;
+
+# Тестовые запросы
+SELECT lot_image,
+       l.id,
+       lot_title,
+       category_title,
+       date_finish,
+       date_bet,
+       contacts,
+       (SELECT lot_id
+        FROM bets
+        GROUP BY lot_id)
+FROM bets b
+         JOIN lots l ON b.lot_id = l.id
+         JOIN categories c ON l.category_id = c.id
+         JOIN users u ON u.id = l.author_id
+WHERE user_id = 17;
+
+SELECT lot_id
+FROM bets
+WHERE user_id = 17
+GROUP BY lot_id;
+
+
+
+SELECT MAX(bet_amouth)   AS max_bet,
+       date_creation,
+       COUNT(bet_amouth) AS count_bet,
+       l.id,
+       lot_title,
+       lot_image,
+       starting_price,
+       category_title,
+       date_finish
+FROM lots l
+         JOIN categories c ON l.category_id = c.id
+         LEFT JOIN bets b ON l.id = b.lot_id
+WHERE date_finish > NOW()
+GROUP BY l.id
+ORDER BY date_creation DESC
+LIMIT 9;
+
+SELECT MAX(bet_amouth)   AS max_bet,
+       COUNT(bet_amouth) AS count_bet,
+       l.id,
+       date_creation,
+       lot_title,
+       lot_image,
+       starting_price,
+       category_title,
+       date_finish
+FROM lots l
+         JOIN categories c ON l.category_id = c.id
+         LEFT JOIN bets b ON l.id = b.lot_id
+
+WHERE MATCH(lot_title, lot_description) AGAINST('куртка')
+  AND date_finish > NOW()
+GROUP BY l.id
+
+ORDER BY date_creation DESC
+LIMIT 9 OFFSET 0
+
+
+# тест главной
+SELECT MAX(bet_amouth)   AS max_bet,
+       date_creation,
+       COUNT(bet_amouth) AS count_bet,
+       l.id,
+       lot_title,
+       lot_image,
+       starting_price,
+       category_title,
+       date_finish
+FROM lots l
+         JOIN categories c ON l.category_id = c.id
+         LEFT JOIN bets b ON l.id = b.lot_id
+WHERE date_finish > NOW()
+GROUP BY l.id
+ORDER BY date_creation DESC
+LIMIT 9
+
+
+# Мои ставки ТЕСТ
+# Вариант 1
+SELECT lot_id,
+       lot_image,
+       winner_id,
+       l.id,
+       lot_title,
+       author_id,
+       contacts,
+       category_title,
+       date_finish,
+       MAX(bet_amouth) AS max_my_bet,
+       MAX(date_bet) AS date_bate
+FROM bets b
+         JOIN lots l ON b.lot_id = l.id
+         JOIN categories c ON l.category_id = c.id
+         JOIN users u ON u.id = l.author_id
+WHERE user_id = 17
+GROUP BY lot_id;
+
+# Вариант 2
+SELECT l.id,
+       lot_image,
+       winner_id,
+       lot_title,
+       MAX(bet_amouth) AS max_my_bet,
+       author_id,
+       date_finish,
+       category_title,
+       b.user_id
+#        date_bet
+FROM lots l
+         RIGHT JOIN bets b ON l.id = b.lot_id
+         JOIN categories c ON l.category_id = c.id
+         JOIN users u ON b.user_id = u.id
+WHERE user_id = 17
+GROUP BY b.lot_id

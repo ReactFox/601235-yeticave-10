@@ -25,11 +25,14 @@ if ($result) {
 }
 
 //получает список лотов на главной
-$sql = "SELECT l.id, lot_title, lot_image, starting_price, category_title, date_finish
+$sql = "SELECT MAX(bet_amouth) AS max_bet, date_creation, COUNT(bet_amouth) AS count_bet, l.id, lot_title, lot_image, starting_price, category_title, date_finish
 FROM lots l
          JOIN categories c ON l.category_id = c.id
+         LEFT JOIN bets b ON l.id = b.lot_id
 WHERE date_finish > NOW()
-ORDER BY date_creation DESC LIMIT 9";
+GROUP BY l.id
+ORDER BY date_creation DESC
+LIMIT 9";
 
 $result = mysqli_query($con, $sql);
 
