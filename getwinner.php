@@ -9,7 +9,7 @@ if (!empty($result)) {
 
     $winners_id = [];
     foreach ($lots_finished as $lots_finish) {
-        $sql = "SELECT * FROM bets WHERE lot_id = {$lots_finish['id']} ORDER BY date_bet DESC limit 1";
+        $sql = "SELECT * FROM bets WHERE lot_id = {$lots_finish['id']} ORDER BY date_bet DESC LIMIT 1";
         $result = mysqli_query($con, $sql);
 
         if ($result) {
