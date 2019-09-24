@@ -65,7 +65,6 @@ require_once 'func/functions.php';
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-            <!--заполните этот список из массива категорий-->
             <?php foreach ($categories as $item): ?>
                 <li class="nav__item">
                     <a href="all-lots.php?<?= $item['symbolic_code'] ?>"><?= htmlspecialchars($item['category_title'],
