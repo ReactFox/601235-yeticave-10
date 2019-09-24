@@ -10,8 +10,7 @@ if (!$con) {
     exit($error);
 }
 
-//получает категории
-$sql = "SELECT * FROM categories";
+$sql = 'SELECT * FROM categories';
 
 $result = mysqli_query($con, $sql);
 
@@ -24,9 +23,6 @@ if ($result) {
     $error = mysqli_error($con);
     echo $error;
 }
-
-
-// вставляет контент=форму
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lot = $_POST;
@@ -85,12 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ext = pathinfo($path, PATHINFO_EXTENSION);
 
         $filename = uniqid('', true) . ".$ext";
-
-
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
-
         $file_type = finfo_file($finfo, $tmp_name);
-
 
         if (($file_type !== 'image/png') && ($file_type !== 'image/jpeg')) {
             $errors['lot_image'] = 'Картинка должна быть в формате PNG, JPEG или JPG';
