@@ -52,6 +52,7 @@
                             <?= $get_time[1] . ':' . $get_time[2] ?>
                         </div>
                     </div>
+                </div>
             </li>
         <?php endforeach; ?>
     </ul>
