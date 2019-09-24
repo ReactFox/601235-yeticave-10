@@ -71,7 +71,6 @@
                                 <td class="history__time"><?= get_relative_format($user_bet['date_bet']) ?></td>
                             </tr>
                         <?php endforeach; ?>
-                        <!--                        --><?php //endif; ?>
                     </table>
                 </div>
             <?php endif; ?>
