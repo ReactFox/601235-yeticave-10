@@ -13,7 +13,7 @@ if (!empty($result)) {
         $result = mysqli_query($con, $sql);
 
         if ($result) {
-            $winners_id[] = mysqli_fetch_assoc($result)['user_id'];
+            $winners_id[] = mysqli_fetch_assoc($result);
         } else {
             $error = mysqli_error($con);
             echo $error;
@@ -21,5 +21,9 @@ if (!empty($result)) {
     }
 
     $winners_id = array_filter($winners_id);
+
+    foreach ($winners_id as $winner_id) {
+        $sql = "UPDATE lots SET winner_id = {$winner_id['user_id']} WHERE id = {$winner_id['lot_id']}";
+        $result = mysqli_query($con, $sql);
+    }
 }
-print_r($winners_id);
