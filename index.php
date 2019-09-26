@@ -5,7 +5,7 @@ require_once 'data/data.php';
 require_once 'func/functions.php';
 require_once 'helpers.php';
 require_once 'getwinner.php';
-require_once 'vendor/autoload.php';
+//require_once 'vendor/autoload.php';
 
 if (!$con) {
     $error = mysqli_connect_error();

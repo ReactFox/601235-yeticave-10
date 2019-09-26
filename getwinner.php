@@ -1,4 +1,5 @@
 <?php
+require_once 'vendor/autoload.php';
 
 $sql = 'SELECT * FROM lots l WHERE date_finish < NOW()
 AND winner_id IS NULL';
@@ -25,5 +26,37 @@ if (!empty($result)) {
     foreach ($winners_id as $winner_id) {
         $sql = "UPDATE lots SET winner_id = {$winner_id['user_id']} WHERE id = {$winner_id['lot_id']}";
         $result = mysqli_query($con, $sql);
+    }
+}
+
+
+$transport = new Swift_SmtpTransport("phpdemo.ru", 25);
+$transport->setUsername("keks@phpdemo.ru");
+$transport->setPassword("htmlacademy");
+
+$mailer = new Swift_Mailer($transport);
+$sql = 'SELECT winner_id, user_name, l.id AS lot_win_id, lot_title, email
+        FROM lots l JOIN users u ON winner_id = u.id WHERE winner_id IS NOT NULL';
+
+$result = mysqli_query($con, $sql);
+if ($result && mysqli_num_rows($result)) {
+    $lots_win = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+foreach ($lots_win as $lot_win) {
+    $message = new Swift_Message();
+    $message->setSubject("Ваша ставка победила");
+    $message->setFrom(['keks@phpdemo.ru' => 'Yeticave']);
+    $message->setBcc($lot_win['email']);
+
+    $msg_content = include_template('month_email.php', ['lot_win' => $lot_win]);
+    $message->setBody($msg_content, 'text/html');
+
+    $result = $mailer->send($message);
+
+    if ($result) {
+        print("Рассылка успешно отправлена");
+    } else {
+        print("Не удалось отправить рассылку");
     }
 }
