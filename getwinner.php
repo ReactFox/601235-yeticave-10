@@ -30,7 +30,7 @@ if (!empty($result)) {
 }
 
 
-$transport = new Swift_SmtpTransport('mail.reactfox.ru, 25');
+$transport = new Swift_SmtpTransport('mail.reactfox.ru', 25);
 $transport->setUsername('info@reactfox.ru');
 $transport->setPassword('');
 $mailer = new Swift_Mailer($transport);
