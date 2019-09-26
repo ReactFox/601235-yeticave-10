@@ -32,7 +32,7 @@ if (!empty($result)) {
 
 $transport = new Swift_SmtpTransport('mail.reactfox.ru', 25);
 $transport->setUsername('info@reactfox.ru');
-$transport->setPassword('');
+$transport->setPassword('lXrR40eubG');
 
 $mailer = new Swift_Mailer($transport);
 $sql = 'SELECT winner_id, user_name, l.id AS lot_win_id, lot_title, email
@@ -51,7 +51,7 @@ foreach ($lots_win as $lot_win) {
 //var_dump($recipient);
     $message = new Swift_Message();
     $message->setSubject("Ваша ставка победила");
-    $message->setFrom(['testphpserver81@gmail.com' => 'Yeticave']);
+    $message->setFrom(['info@reactfox.ru' => 'Yeticave']);
     $message->setTo($recipient);
 
 
