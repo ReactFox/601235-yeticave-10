@@ -239,12 +239,24 @@ GROUP BY lot_id;
 # выбираем все ставки без победителей и дата меньше текущей
 SELECT *
 FROM lots l
-LEFT JOIN bets b ON l.id = b.lot_id
+         LEFT JOIN bets b ON l.id = b.lot_id
 WHERE date_finish < NOW()
-  AND winner_id IS NULL AND b.id i
+  AND winner_id IS NULL
+  AND b.id i
 
-SELECT * FROM bets WHERE lot_id = 8 ORDER BY date_bet DESC limit 1
+SELECT *
+FROM bets
+WHERE lot_id = 8
+ORDER BY date_bet DESC
+LIMIT 1
 
 # обновление ставки
-UPDATE lots SET winner_id = 1
+UPDATE lots
+SET winner_id = 1
 WHERE id = 1;
+
+# Получает данные победивших пользователей
+SELECT winner_id, user_name, l.id AS lot_win_id, lot_title, email
+FROM lots l
+         JOIN users u ON winner_id = u.id
+WHERE winner_id IS NOT NULL;
