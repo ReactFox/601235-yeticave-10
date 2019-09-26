@@ -47,9 +47,13 @@ foreach ($lots_win as $lot_win) {
     $message = new Swift_Message();
     $message->setSubject("Ваша ставка победила");
     $message->setFrom(['keks@phpdemo.ru' => 'Yeticave']);
-    $message->setBcc($lot_win['email']);
+    $message->setTo($lot_win['email']);
 
-    $msg_content = include_template('_email.php', ['lot_win' => $lot_win]);
+    $msg_content = include_template('_email.php', [
+        'user_name' => $lot_win['user_name'],
+        'lot_title' => $lot_win['lot_title'],
+        'lot_win_id' => $lot_win['lot_win_id'],
+    ]);
     $message->setBody($msg_content, 'text/html');
 
     $result = $mailer->send($message);
