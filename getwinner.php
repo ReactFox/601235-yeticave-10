@@ -30,11 +30,11 @@ if (!empty($result)) {
 }
 
 
-$transport = new Swift_SmtpTransport('mail.reactfox.ru', 25);
+$transport = new Swift_SmtpTransport('mail.reactfox.ru, 25');
 $transport->setUsername('info@reactfox.ru');
 $transport->setPassword('');
-
 $mailer = new Swift_Mailer($transport);
+
 $sql = 'SELECT winner_id, user_name, l.id AS lot_win_id, lot_title, email
         FROM lots l JOIN users u ON winner_id = u.id WHERE winner_id IS NOT NULL';
 
@@ -44,29 +44,26 @@ if ($result && mysqli_num_rows($result)) {
 }
 
 
-
 foreach ($lots_win as $lot_win) {
+    $recipient = [];
     $recipient[$lot_win['email']] = $lot_win['user_name'];
 
-//var_dump($recipient);
     $message = new Swift_Message();
     $message->setSubject("Ваша ставка победила");
     $message->setFrom(['info@reactfox.ru' => 'Yeticave']);
     $message->setTo($recipient);
-
+    unset($recipient);
 
     $msg_content = include_template('_email.php', [
-        'lot_win' => $lot_win,
+        'lot_win' => $lot_win
 //        'user_name' => $lot_win['user_name'],
 //        'lot_title' => $lot_win['lot_title'],
 //        'lot_win_id' => $lot_win['lot_win_id'],
     ]);
     $message->setBody($msg_content, 'text/html');
-    $result = $mailer->send($message);
+    $res = $mailer->send($message);
 
-//    print_r($result);
-
-    if ($result) {
+    if ($res) {
         print("Рассылка успешно отправлена");
     } else {
         print("Не удалось отправить рассылку");
