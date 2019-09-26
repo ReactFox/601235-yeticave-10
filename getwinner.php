@@ -30,9 +30,9 @@ if (!empty($result)) {
 }
 
 
-$transport = new Swift_SmtpTransport("phpdemo.ru", 25);
-$transport->setUsername("keks@phpdemo.ru");
-$transport->setPassword("htmlacademy");
+$transport = new Swift_SmtpTransport('mail.reactfox.ru', 25);
+$transport->setUsername('info@reactfox.ru');
+$transport->setPassword('');
 
 $mailer = new Swift_Mailer($transport);
 $sql = 'SELECT winner_id, user_name, l.id AS lot_win_id, lot_title, email
@@ -43,16 +43,15 @@ if ($result && mysqli_num_rows($result)) {
     $lots_win = mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
-$recipients = [];
 
 
 foreach ($lots_win as $lot_win) {
     $recipient[$lot_win['email']] = $lot_win['user_name'];
 
-
+//var_dump($recipient);
     $message = new Swift_Message();
     $message->setSubject("Ваша ставка победила");
-    $message->setFrom(['keks@phpdemo.ru' => 'Yeticave']);
+    $message->setFrom(['testphpserver81@gmail.com' => 'Yeticave']);
     $message->setTo($recipient);
 
 
@@ -63,7 +62,6 @@ foreach ($lots_win as $lot_win) {
 //        'lot_win_id' => $lot_win['lot_win_id'],
     ]);
     $message->setBody($msg_content, 'text/html');
-
     $result = $mailer->send($message);
 
 //    print_r($result);
