@@ -32,7 +32,7 @@ if (!empty($result)) {
 
 $transport = new Swift_SmtpTransport('mail.reactfox.ru', 25);
 $transport->setUsername('info@reactfox.ru');
-$transport->setPassword('lXrR40eubG');
+$transport->setPassword('');
 $mailer = new Swift_Mailer($transport);
 
 $sql = 'SELECT winner_id, user_name, l.id AS lot_win_id, lot_title, email
