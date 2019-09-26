@@ -43,20 +43,30 @@ if ($result && mysqli_num_rows($result)) {
     $lots_win = mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
+$recipients = [];
+
+
 foreach ($lots_win as $lot_win) {
+    $recipient[$lot_win['email']] = $lot_win['user_name'];
+
+
     $message = new Swift_Message();
     $message->setSubject("Ваша ставка победила");
     $message->setFrom(['keks@phpdemo.ru' => 'Yeticave']);
-    $message->setTo($lot_win['email']);
+    $message->setTo($recipient);
+
 
     $msg_content = include_template('_email.php', [
-        'user_name' => $lot_win['user_name'],
-        'lot_title' => $lot_win['lot_title'],
-        'lot_win_id' => $lot_win['lot_win_id'],
+        'lot_win' => $lot_win,
+//        'user_name' => $lot_win['user_name'],
+//        'lot_title' => $lot_win['lot_title'],
+//        'lot_win_id' => $lot_win['lot_win_id'],
     ]);
     $message->setBody($msg_content, 'text/html');
 
     $result = $mailer->send($message);
+
+//    print_r($result);
 
     if ($result) {
         print("Рассылка успешно отправлена");
