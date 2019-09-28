@@ -28,7 +28,6 @@ function is_date_valid(string $date) : bool {
  *
  * @return mysqli_stmt Подготовленное выражение
  */
-
 function db_get_prepare_stmt($link, $sql, $data = []) {
     $stmt = mysqli_prepare($link, $sql);
 
