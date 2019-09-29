@@ -1,4 +1,13 @@
 <?php
+
+/**
+ * Форматирует отображение цены в зависимости от суммы, а также от в случае надобности при передаче вторым
+ * параметром будет добавлен знак Рубля
+ *
+ * @param int $bet Цена которую надо отформатировать
+ * @param int $need_sign Знак Рубля после цены, если нет необходимости добавить то нужно передать в качестве аргумента 0
+ * @return float|string возвращается отформатированная цена
+ */
 function amount_formatting($bet, $need_sign = 1)
 {
     $bet = ceil($bet);
@@ -21,7 +30,12 @@ function amount_formatting($bet, $need_sign = 1)
     return $result;
 }
 
-
+/**
+ * Возращает оставшиеся время до окончания ставки в нужом формате 'ЧЧ ММ'
+ *
+ * @param string $final_date дата окончания приёма ставок
+ * @return array|string дата в формате 'ЧЧ' 'ММ'
+ */
 function stop_time($final_date)
 {
     $time = '';
@@ -29,8 +43,6 @@ function stop_time($final_date)
     $date_bate = date_create($final_date);
     $date_diff = date_diff($date_bate, $date_now);
     $hour = date_interval_format($date_diff, '%d %H %I');
-
-//    TODO посоветоваться с наставником насчёт того как победить разницу когда она отрицательная, но выводиться положительная
 
     $time = explode(' ', $hour);
     $days_left = $time[0];
@@ -42,14 +54,29 @@ function stop_time($final_date)
     return $time;
 }
 
-//Устанвливает значение для полей формы если он были корректны при отправке
+/**
+ * Устанвливает значение для полей формы по умолчанию если он были корректны при отправке
+ * В случае если остальные данные в форме были не верны, то правильно заполненные данные
+ * остануться заполненными и их не прийдётся вводить заново
+ *  *
+ * @param mixed|string $name
+ * @return mixed|string
+ */
 function getPostVal($name)
 {
     return $_POST[$name] ?? '';
 }
 
-
-// Валидация описания текстовых полей на длинну
+/**
+ * Функция проверяет корретность длинны вводимых данных в поле формы
+ * в зависимости от необходимого размера символов, в случае ошибки
+ * вернёт текст ошибки с указанием требований к вводимому тексту.
+ *
+ * @param string $name ключ элемента массива над которым необходимо произвести проверку
+ * @param int $min минимальная длинна текста
+ * @param int $max максимальная длинна текста
+ * @return string в случае ложной проверки вернёт сообщение об ошибку которую надо исправить
+ */
 function validateText($name, $min, $max)
 {
     $result = '';
@@ -81,7 +108,13 @@ function validateText($name, $min, $max)
     return $result;
 }
 
-//Валидация цены
+/**
+ * Возращает результат проверки цены на целое число, число меншье нуля, а также проверки что вводимые данные
+ * имеют числовой тип
+ *
+ * @param string $name ключ массива над которым нужно произвести проверку
+ * @return bool|string в случае ошибки вёрнёт текст ошибки в зависимости от вида ошибки
+ */
 function validatePrice($name)
 {
     $result = false;
@@ -96,6 +129,13 @@ function validatePrice($name)
     return $result;
 }
 
+/**
+ * Проверяет условие, чтобы дата размещения была на 24 больше размещения ставок
+ * Возращает ошибку если число не соотвествует формату ГГГГ-ММ-ДД
+ *
+ * @param string $date ключ масива даты окончания ставок
+ * @return string содержание ошибки валидации даты размещения лота
+ */
 function validateTimeFormat($date)
 {
     $date_now = time();
@@ -112,6 +152,13 @@ function validateTimeFormat($date)
     return $result;
 }
 
+/**
+ * Проверяте обязательность выбора категории лота
+ *
+ * @param string $name ключ массива значение которого необходимо проверить
+ * @param array $allowed_list ключи массива категорий ставок
+ * @return string|null в случае ошибки вёрнёт её текст
+ */
 function validateCategory($name, $allowed_list)
 {
     $result = null;
@@ -124,7 +171,14 @@ function validateCategory($name, $allowed_list)
     return $result;
 }
 
-//Валидация email
+/**
+ * Возвращает результат проверки поля e-mail на соответсвие заданным требованиям.
+ *
+ * @param string $email ключ массива значение которого необходимо проверить
+ * @param int $min минимальное число символов в поле
+ * @param int $max максимальное число символов в поле
+ * @return bool|string в случае ошибки вернёт текст ошибки
+ */
 function validateEmail($email, $min, $max)
 {
     $result = false;
@@ -140,7 +194,14 @@ function validateEmail($email, $min, $max)
     return $result;
 }
 
-//Валидация сделанной ставки
+/**
+ * Проверят сумму ставки которую вводит участник аукциона.
+ * В случае если ставка не целое число или ставка меньше текущей цены вернёт текст ошибки
+ *
+ * @param string $check_bet ключ массива указывающий на текущую ставку
+ * @param int $min_bet сумма текущей ставки введённой пользователем
+ * @return bool|string вернёт текст в случае ошибки
+ */
 function check_sum_bet($check_bet, $min_bet)
 {
     $result = false;
@@ -155,7 +216,12 @@ function check_sum_bet($check_bet, $min_bet)
     return $result;
 }
 
-//Приводит дату времени размещения ставки в человеческий формат
+/**
+ * Приводит дату размещения ставки в человека читаеммый формат
+ *
+ * @param string $date_pub ключ массива указывающий на дату размещения ставки
+ * @return string возращает отформатированную строку
+ */
 function get_relative_format($date_pub)
 {
     $date_pub = strtotime($date_pub);
@@ -203,20 +269,32 @@ function get_relative_format($date_pub)
     return $result;
 }
 
-//создаёт рекомедованную цену в placeholder ставки
+/**
+ * создаёт рекомедованную цену в placeholder ставки
+ *
+ * @param string $sum_bet размер ставки
+ * @param string $lot_step размер шага ставки
+ * @return mixed возвращает рекомендованную цену
+ */
 function placeholder_format($sum_bet, $lot_step)
 {
     return $sum_bet + $lot_step;
 }
 
-// получает статус ставки для выделения строки блока ставки в ЛК пользователя
+/**
+ * Возращает в виде CSS класса статус сделанной ставки елси аукцион по лоту завершился
+ * или ставка выигрыла
+ *
+ * @param string $date_finish дата окончания ставки
+ * @param int $winner_id выигрывший пользователь(его ID)
+ * @return string возращает CSS класс
+ */
 function get_status_user_bet($date_finish, $winner_id)
 {
     $result = '';
     if ((strtotime($date_finish) < time()) && ($winner_id === null)) {
         $result = 'rates__item--end';
-    }
-    elseif ((strtotime($date_finish) < time()) && ($winner_id === $_SESSION['user']['id'])) {
+    } elseif ((strtotime($date_finish) < time()) && ($winner_id === $_SESSION['user']['id'])) {
         $result = 'rates__item--win';
     }
     return $result;

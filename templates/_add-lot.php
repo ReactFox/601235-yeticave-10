@@ -15,7 +15,7 @@
     <h2>Добавление лота</h2>
     <div class="form__container-two">
         <?php $field_class_error = isset($errors['lot_title']) ? 'form__item--invalid' : ''; ?>
-        <div class="form__item <?= $field_class_error ?>"> <!-- form__item--invalid -->
+        <div class="form__item <?= $field_class_error ?>">
             <label for="lot-name">Наименование <sup>*</sup></label>
             <input id="lot-name" type="text" name="lot_title" value="<?= getPostVal('lot_title') ?>"
                    placeholder="Введите наименование лота">

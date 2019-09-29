@@ -4,7 +4,8 @@ require_once 'config/init.php';
 require_once 'data/data.php';
 require_once 'func/functions.php';
 require_once 'helpers.php';
-
+require_once 'getwinner.php';
+//require_once 'vendor/autoload.php';
 
 if (!$con) {
     $error = mysqli_connect_error();
@@ -12,8 +13,7 @@ if (!$con) {
     exit;
 }
 
-//получает категории
-$sql = "SELECT category_title, symbolic_code FROM categories";
+$sql = 'SELECT * FROM categories';
 
 $result = mysqli_query($con, $sql);
 
@@ -24,15 +24,14 @@ if ($result) {
     echo $error;
 }
 
-//получает список лотов на главной
-$sql = "SELECT MAX(bet_amouth) AS max_bet, date_creation, COUNT(bet_amouth) AS count_bet, l.id, lot_title, lot_image, starting_price, category_title, date_finish
-FROM lots l
-         JOIN categories c ON l.category_id = c.id
-         LEFT JOIN bets b ON l.id = b.lot_id
-WHERE date_finish > NOW()
-GROUP BY l.id
-ORDER BY date_creation DESC
-LIMIT 9";
+$sql = 'SELECT MAX(bet_amouth) AS max_bet, date_creation, COUNT(bet_amouth) AS count_bet, 
+        l.id, lot_title, lot_image, starting_price, category_title, date_finish FROM lots l
+        JOIN categories c ON l.category_id = c.id
+        LEFT JOIN bets b ON l.id = b.lot_id
+        WHERE date_finish > NOW()
+        GROUP BY l.id
+        ORDER BY date_creation DESC
+        LIMIT 9';
 
 $result = mysqli_query($con, $sql);
 

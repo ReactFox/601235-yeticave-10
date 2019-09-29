@@ -1,5 +1,4 @@
 <?php
-
 error_reporting(-1);
 require_once 'config/init.php';
 require_once 'data/data.php';
@@ -11,13 +10,11 @@ if (!$con) {
     exit($error);
 }
 
-//получает категории
-$sql = "SELECT * FROM categories";
+$sql = 'SELECT * FROM categories';
 $result = mysqli_query($con, $sql);
 
 if ($result) {
     $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    $cats_ids = array_column($categories, 'id');
 } else {
     $error = mysqli_error($con);
     echo $error;
@@ -29,7 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'email',
         'password',
     ];
+
     $errors = [];
+
     foreach ($required as $key) {
         if (!isset($_POST[$key]) || (trim($_POST[$key]) === '')) {
             $errors[$key] = 'Это поле надо заполнить';

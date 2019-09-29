@@ -228,7 +228,7 @@ SELECT lot_id,
        category_title,
        date_finish,
        MAX(bet_amouth) AS max_my_bet,
-       MAX(date_bet) AS date_bate
+       MAX(date_bet)   AS date_bate
 FROM bets b
          JOIN lots l ON b.lot_id = l.id
          JOIN categories c ON l.category_id = c.id
@@ -236,20 +236,27 @@ FROM bets b
 WHERE user_id = 17
 GROUP BY lot_id;
 
-# Вариант 2
-SELECT l.id,
-       lot_image,
-       winner_id,
-       lot_title,
-       MAX(bet_amouth) AS max_my_bet,
-       author_id,
-       date_finish,
-       category_title,
-       b.user_id
-#        date_bet
+# выбираем все ставки без победителей и дата меньше текущей
+SELECT *
 FROM lots l
-         RIGHT JOIN bets b ON l.id = b.lot_id
-         JOIN categories c ON l.category_id = c.id
-         JOIN users u ON b.user_id = u.id
-WHERE user_id = 17
-GROUP BY b.lot_id
+         LEFT JOIN bets b ON l.id = b.lot_id
+WHERE date_finish < NOW()
+  AND winner_id IS NULL
+  AND b.id i
+
+SELECT *
+FROM bets
+WHERE lot_id = 8
+ORDER BY date_bet DESC
+LIMIT 1
+
+# обновление ставки
+UPDATE lots
+SET winner_id = 1
+WHERE id = 1;
+
+# Получает данные победивших пользователей
+SELECT winner_id, user_name, l.id AS lot_win_id, lot_title, email
+FROM lots l
+         JOIN users u ON winner_id = u.id
+WHERE winner_id IS NOT NULL;
