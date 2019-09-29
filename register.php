@@ -1,4 +1,5 @@
 <?php
+
 error_reporting(-1);
 require_once 'config/init.php';
 require_once 'data/data.php';
@@ -10,7 +11,6 @@ if (!$con) {
     exit($error);
 }
 
-//получает категории
 $sql = "SELECT category_title, symbolic_code FROM categories";
 
 $result = mysqli_query($con, $sql);
@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'password',
         'contacts',
     ];
+
     $errors = [];
 
     $rules = [

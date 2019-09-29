@@ -22,8 +22,8 @@
                              alt="Фото: <?= htmlspecialchars($lot['lot_title']), ENT_QUOTES | ENT_HTML5 ?>">
                     </div>
                     <div class="lot__info">
-                    <span class="lot__category"><?= htmlspecialchars($lot['category_title'],
-                            ENT_QUOTES | ENT_HTML5) ?></span>
+                        <span class="lot__category"><?= htmlspecialchars($lot['category_title'],
+                                ENT_QUOTES | ENT_HTML5) ?></span>
                         <h3 class="lot__title"><a class="text-link"
                                                   href="lot.php?id=<?= $lot['id'] ?>"><?= htmlspecialchars($lot['lot_title'],
                                     ENT_QUOTES | ENT_HTML5) ?></a>
@@ -48,6 +48,7 @@
                                 <?= $get_time[1] . ':' . $get_time[2] ?>
                             </div>
                         </div>
+                    </div>
                 </li>
             <?php endforeach; ?>
 
@@ -57,10 +58,12 @@
     <?php if (count($pages) > 1): ?>
         <ul class="pagination-list">
             <li class="pagination-item pagination-item-prev">
-                <a href="all-lots.php?<?= $current_page_category ?>&page=<?= ($cur_page > 1) ? $cur_page -1 : 1 ?>">Назад</a>
+                <a href="all-lots.php?<?= $current_page_category ?>&page=<?= ($cur_page > 1) ? $cur_page - 1 : 1 ?>">Назад</a>
             </li>
-            <?php foreach ($pages as $page): ?>
-            <li class="pagination-item <?= ((string) $page === $cur_page) ? 'pagination-item-active' : '' ?>">
+            <?php foreach ($pages
+
+            as $page): ?>
+            <li class="pagination-item <?= ((string)$page === $cur_page) ? 'pagination-item-active' : '' ?>">
                 <a href="all-lots.php?<?= $current_page_category ?>&page=<?= $page ?>"><?= $page ?></a>
                 <?php endforeach; ?>
             <li class="pagination-item pagination-item-next">

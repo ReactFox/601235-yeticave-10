@@ -1,10 +1,10 @@
 <?php
+
 error_reporting(-1);
 require_once 'config/init.php';
 require_once 'data/data.php';
 require_once 'func/functions.php';
 require_once 'helpers.php';
-
 
 if (!$con) {
     $error = mysqli_connect_error();
@@ -12,7 +12,6 @@ if (!$con) {
     exit;
 }
 
-//получает категории
 $sql = "SELECT category_title, symbolic_code FROM categories";
 
 $result = mysqli_query($con, $sql);
@@ -34,30 +33,22 @@ WHERE l.id = {$current_id}";
 
 $result = mysqli_query($con, $sql);
 
-
 if ($result) {
     $lot = mysqli_fetch_assoc($result);
-    //получаем цену лота                                                                        1
+
     $sql = "SELECT MAX(bet_amouth) AS sum_bet, COUNT(id) AS total_bet FROM bets WHERE lot_id = {$current_id}";
+
     $result_bet = mysqli_query($con, $sql);
     if ($result_bet) {
         $sum_bet = mysqli_fetch_assoc($result_bet);
         if (empty($sum_bet['sum_bet'])) {
             $sum_bet['sum_bet'] = $lot['starting_price'];
         }
-
-
-//        if (!empty($sum_bet['sum_bet'])) {
-//            $sum_bet['sum_bet'];
-//        } else {
-//            $sum_bet['sum_bet'] = $lot['starting_price'];
-//        }
     } else {
         $error = mysqli_error($con);
         echo $error;
     }
 
-//    Получаем Историю ставок
     $sql = "SELECT user_id, user_name, bet_amouth, date_bet FROM bets JOIN users u ON bets.user_id = u.id
             WHERE lot_id = {$current_id} ORDER BY date_bet DESC";
     $result_history_bet = mysqli_query($con, $sql);
@@ -68,10 +59,7 @@ if ($result) {
         echo $error;
     }
 
-// если пользователь залогинен
     if (isset($_SESSION['user'])) {
-
-        // если получил форма ставки была отправленна по форме
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors = [];
             $min_bet = $lot['bet_step'] + $sum_bet['sum_bet'];
@@ -108,7 +96,6 @@ if ($result) {
                     'sum_bet' => $sum_bet,
                     'errors' => $errors,
                     'history_users_bet' => $history_users_bet,
-//                    'find_user_bet' => $find_user_bet
                 ]);
             } else {
                 $bet['bet_amouth'] = $_POST['cost'];
@@ -126,10 +113,8 @@ if ($result) {
 
                     header('Location:lot.php?id=' . $lot_id);
                 }
-
             }
-
-        } //Конец отправленой формы
+        }
 
         else {
             $page_content = include_template('_lot.php', [
@@ -137,12 +122,9 @@ if ($result) {
                 'lot' => $lot,
                 'sum_bet' => $sum_bet,
                 'history_users_bet' => $history_users_bet,
-//                'find_user_bet' => $find_user_bet
             ]);
         }
-    } // Конец сессии
-    else {
-//     Показ текущей суммы и контента для неавтраизованного пользователя
+    } else {
         $page_content = include_template('_lot.php', [
             'categories' => $categories,
             'lot' => $lot,

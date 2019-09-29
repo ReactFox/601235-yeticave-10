@@ -3,9 +3,6 @@ error_reporting(-1);
 date_default_timezone_set('Europe/Moscow');
 setlocale(LC_ALL, 'ru_RU');
 
-//$is_auth = rand(0, 1);
-
-//$user_name = 'Болеслав'; // укажите здесь ваше имя
 $title = 'Главная';
 
 $categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
