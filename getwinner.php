@@ -49,20 +49,16 @@ foreach ($lots_win as $lot_win) {
     $recipient = [];
     $recipient[$lot_win['email']] = $lot_win['user_name'];
 
-//    $message = (new Swift_Message('Ваша ставка победила'))
-//        ->setFrom(['keks@phpdemo.ru' => 'Yeticave'])
-//        ->setTo($recipient)
-//        ->setReturnPath('saltankin@mail.ru')
-//        ->setBody($msg_content = include_template('_email.php', [
-//            'lot_win' => $lot_win
-//        ]));
+
+    $message = new Swift_Message();
+    $message->setSubject('Ваша ставка победила');
+    $message->setFrom(['keks@phpdemo.ru' => 'YetiCave']);
+    $message->setBcc($recipient);
+    $msg_content = include_template('_email.php', [
+        'lot_win' => $lot_win,
+    ]);
+    $message->setBody($msg_content, 'text/html');
+    $result = $mailer->send($message);
+
     unset($recipient);
-
-//    $res = $mailer->send($message);
-
-    if ($res) {
-        print("Рассылка успешно отправлена");
-    } else {
-        print("Не удалось отправить рассылку");
-    }
 }
