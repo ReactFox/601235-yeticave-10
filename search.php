@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $items_count = mysqli_fetch_assoc($result)['cnt'];
 
         $pages_count = ceil($items_count / $page_items);
+
         $offset = ($cur_page - 1) * $page_items;
         $pages = range(1, $pages_count);
 
@@ -65,7 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             'search' => $search,
             'items_count' => $items_count,
             'pages' => $pages,
-            'cur_page' => $cur_page
+            'cur_page' => $cur_page,
+            'pages_count' => $pages_count
         ]);
 
     } else {

@@ -11,7 +11,7 @@ if (!$con) {
     exit($error);
 }
 
-$sql = "SELECT category_title, symbolic_code FROM categories";
+$sql = 'SELECT * FROM categories';
 
 $result = mysqli_query($con, $sql);
 
@@ -66,11 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $res = mysqli_query($con, $sql);
     if (mysqli_num_rows($res) > 0) {
         $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
-    } else {
-        $form['password'] = password_hash($form['password'], PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO users (date_registration, email, password, user_name, contacts) VALUES (NOW(), ?, ?, ?, ?)';
-        $stmt = db_get_prepare_stmt($con, $sql, $form);
-        $res = mysqli_stmt_execute($stmt);
     }
 
     $errors = array_filter($errors);
@@ -82,6 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'categories' => $categories
         ]);
     }elseif ($res && empty($errors)) {
+        $form['password'] = password_hash($form['password'], PASSWORD_DEFAULT);
+        $sql = 'INSERT INTO users (date_registration, email, password, user_name, contacts) VALUES (NOW(), ?, ?, ?, ?)';
+        $stmt = db_get_prepare_stmt($con, $sql, $form);
+        $res = mysqli_stmt_execute($stmt);
+
         header('Location: /login.php');
         exit();
     }
