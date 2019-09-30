@@ -55,17 +55,16 @@
         </ul>
     </section>
 
-    <?php if (count($pages) > 1): ?>
+    <?php if ($pages_count > 1): ?>
         <ul class="pagination-list">
             <li class="pagination-item pagination-item-prev">
                 <a href="all-lots.php?<?= $current_page_category ?>&page=<?= ($cur_page > 1) ? $cur_page - 1 : 1 ?>">Назад</a>
             </li>
-            <?php foreach ($pages
-
-            as $page): ?>
-            <li class="pagination-item <?= ((string)$page === $cur_page) ? 'pagination-item-active' : '' ?>">
+            <?php foreach ($pages as $page): ?>
+            <li class="pagination-item <?= ((int)$page === $cur_page) ? 'pagination-item-active' : '' ?>">
                 <a href="all-lots.php?<?= $current_page_category ?>&page=<?= $page ?>"><?= $page ?></a>
-                <?php endforeach; ?>
+            </li>
+            <?php endforeach; ?>
             <li class="pagination-item pagination-item-next">
                 <a href="all-lots.php?<?= $current_page_category ?>&page=<?= ($cur_page < count($pages)) ? $cur_page + 1 : $cur_page ?>">Вперед</a>
             </li>
