@@ -12,7 +12,6 @@
         <?php endforeach; ?>
     </ul>
 </section>
-
 <section class="lots">
     <div class="lots__header">
         <h2>Открытые лоты</h2>

@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $search = trim($search);
 
     if (isset($search)) {
-        //кол-во лотов на странице в выдаче
         $page_items = 9;
 
         $cur_page = $_GET['page'] ?? $_GET['page'] = 1;

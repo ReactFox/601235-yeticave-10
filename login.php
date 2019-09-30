@@ -1,4 +1,5 @@
 <?php
+
 error_reporting(-1);
 require_once 'config/init.php';
 require_once 'data/data.php';

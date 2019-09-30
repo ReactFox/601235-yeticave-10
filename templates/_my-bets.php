@@ -22,8 +22,8 @@
                         <h3 class="rates__title"><a
                                     href="lot.php?id=<?= $my_bet['lot_id'] ?>"><?= htmlspecialchars($my_bet['lot_title'],
                                     ENT_QUOTES | ENT_HTML5) ?></a></h3>
-                        <?php if($my_bet['winner_id'] === $_SESSION['user']['id']): ?>
-                        <p><?= htmlspecialchars($my_bet['contacts'],ENT_QUOTES | ENT_HTML5) ?></p>
+                        <?php if ($my_bet['winner_id'] === $_SESSION['user']['id']): ?>
+                            <p><?= htmlspecialchars($my_bet['contacts'], ENT_QUOTES | ENT_HTML5) ?></p>
                         <?php endif; ?>
                     </div>
                 </td>
@@ -31,7 +31,7 @@
                     <?= htmlspecialchars($my_bet['category_title'], ENT_QUOTES | ENT_HTML5) ?>
                 </td>
                 <td class="rates__timer">
-                    <?php if ( (strtotime($my_bet['date_finish']) < time()) && ($my_bet['winner_id'] === null)): ?>
+                    <?php if ((strtotime($my_bet['date_finish']) < time()) && ($my_bet['winner_id'] === null)): ?>
                         <div class="timer timer--end">Торги окончены</div>
 
                     <?php elseif (strtotime($my_bet['date_finish']) > time()): ?>
