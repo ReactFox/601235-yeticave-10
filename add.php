@@ -6,17 +6,12 @@ require_once 'func/functions.php';
 require_once 'helpers.php';
 
 $sql = 'SELECT * FROM categories';
-
-$result = mysqli_query($con, $sql);
+$categories = getCategory($con, $sql);
 
 $cats_ids = [];
 
-if ($result) {
-    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+if ($categories) {
     $cats_ids = array_column($categories, 'id');
-} else {
-    $error = mysqli_error($con);
-    echo $error;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -4,20 +4,8 @@ require_once 'data/data.php';
 require_once 'func/functions.php';
 require_once 'helpers.php';
 
-if (!$con) {
-    $error = mysqli_connect_error();
-    exit($error);
-}
-
 $sql = 'SELECT * FROM categories';
-$result = mysqli_query($con, $sql);
-
-if ($result) {
-    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-} else {
-    $error = mysqli_error($con);
-    echo $error;
-}
+$categories = getCategory($con, $sql);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $search = $_GET['search'] ?? '';

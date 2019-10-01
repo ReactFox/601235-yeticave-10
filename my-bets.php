@@ -7,15 +7,7 @@ require_once 'func/functions.php';
 require_once 'helpers.php';
 
 $sql = 'SELECT category_title, symbolic_code FROM categories';
-
-$result = mysqli_query($con, $sql);
-
-if ($result) {
-    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-} else {
-    $error = mysqli_error($con);
-    echo $error;
-}
+$categories = getCategory($con, $sql);
 
 if (isset($_SESSION['user'])) {
 

@@ -7,14 +7,7 @@ require_once 'func/functions.php';
 require_once 'helpers.php';
 
 $sql = 'SELECT * FROM categories';
-$result = mysqli_query($con, $sql);
-
-if ($result) {
-    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-} else {
-    $error = mysqli_error($con);
-    echo $error;
-}
+$categories = getCategory($con, $sql);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form = $_POST;

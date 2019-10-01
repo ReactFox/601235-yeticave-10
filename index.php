@@ -8,14 +8,7 @@ require_once 'getwinner.php';
 
 $sql = 'SELECT * FROM categories';
 
-$result = mysqli_query($con, $sql);
-
-if ($result) {
-    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-} else {
-    $error = mysqli_error($con);
-    echo $error;
-}
+$categories = getCategory($con, $sql);
 
 $sql = 'SELECT MAX(bet_amouth) AS max_bet, date_creation, COUNT(bet_amouth) AS count_bet, 
         l.id, lot_title, lot_image, starting_price, category_title, date_finish FROM lots l
