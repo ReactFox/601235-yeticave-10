@@ -6,11 +6,6 @@ require_once 'data/data.php';
 require_once 'func/functions.php';
 require_once 'helpers.php';
 
-if (!$con) {
-    $error = mysqli_connect_error();
-    exit($error);
-}
-
 $sql = 'SELECT * FROM categories';
 $result = mysqli_query($con, $sql);
 

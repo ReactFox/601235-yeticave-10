@@ -6,12 +6,6 @@ require_once 'func/functions.php';
 require_once 'helpers.php';
 require_once 'getwinner.php';
 
-if (!$con) {
-    $error = mysqli_connect_error();
-    echo $error;
-    exit;
-}
-
 $sql = 'SELECT * FROM categories';
 
 $result = mysqli_query($con, $sql);
