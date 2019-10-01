@@ -71,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ext = pathinfo($path, PATHINFO_EXTENSION);
 
         $filename = uniqid('', true) . ".$ext";
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $file_type = mime_content_type($tmp_name);
 
         if (($file_type !== 'image/png') && ($file_type !== 'image/jpeg')) {
