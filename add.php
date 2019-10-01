@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $filename = uniqid('', true) . ".$ext";
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $file_type = finfo_file($finfo, $tmp_name);
+        $file_type = mime_content_type($tmp_name);
 
         if (($file_type !== 'image/png') && ($file_type !== 'image/jpeg')) {
             $errors['lot_image'] = 'Картинка должна быть в формате PNG, JPEG или JPG';
