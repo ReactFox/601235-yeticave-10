@@ -100,9 +100,7 @@ if ($result) {
                     header('Location:lot.php?id=' . $lot_id);
                 }
             }
-        }
-
-        else {
+        } else {
             $page_content = include_template('_lot.php', [
                 'categories' => $categories,
                 'lot' => $lot,
