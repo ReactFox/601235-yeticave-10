@@ -299,3 +299,23 @@ function get_status_user_bet($date_finish, $winner_id)
     }
     return $result;
 }
+
+/**
+ * Получает список категорий
+ *
+ * @param resource $con получает ресурс соеденения
+ * @param string $sql получает sql запрос для выполнения
+ * @return array|string|null возращает ассоциативный массив в случае успешного
+ * получения данных, инначе вернёт ошибку
+ */
+function getCategory($con, $sql)
+{
+    $result = '';
+    $res = mysqli_query($con, $sql);
+    if ($res) {
+        $result = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    } else {
+        $result = mysqli_error($con);
+    }
+    return $result;
+}

@@ -6,22 +6,8 @@ require_once 'data/data.php';
 require_once 'func/functions.php';
 require_once 'helpers.php';
 
-if (!$con) {
-    $error = mysqli_connect_error();
-    echo $error;
-    exit;
-}
-
-$sql = "SELECT category_title, symbolic_code FROM categories";
-
-$result = mysqli_query($con, $sql);
-
-if ($result) {
-    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-} else {
-    $error = mysqli_error($con);
-    echo $error;
-}
+$sql = 'SELECT category_title, symbolic_code FROM categories';
+$categories = getCategory($con, $sql);
 
 $current_id = null;
 if (isset($_GET['id'])) {
@@ -114,9 +100,7 @@ if ($result) {
                     header('Location:lot.php?id=' . $lot_id);
                 }
             }
-        }
-
-        else {
+        } else {
             $page_content = include_template('_lot.php', [
                 'categories' => $categories,
                 'lot' => $lot,

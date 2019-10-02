@@ -5,23 +5,13 @@ require_once 'data/data.php';
 require_once 'func/functions.php';
 require_once 'helpers.php';
 
-if (!$con) {
-    $error = mysqli_connect_error();
-    exit($error);
-}
-
 $sql = 'SELECT * FROM categories';
-
-$result = mysqli_query($con, $sql);
+$categories = getCategory($con, $sql);
 
 $cats_ids = [];
 
-if ($result) {
-    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+if ($categories) {
     $cats_ids = array_column($categories, 'id');
-} else {
-    $error = mysqli_error($con);
-    echo $error;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -81,8 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ext = pathinfo($path, PATHINFO_EXTENSION);
 
         $filename = uniqid('', true) . ".$ext";
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $file_type = finfo_file($finfo, $tmp_name);
+        $file_type = mime_content_type($tmp_name);
 
         if (($file_type !== 'image/png') && ($file_type !== 'image/jpeg')) {
             $errors['lot_image'] = 'Картинка должна быть в формате PNG, JPEG или JPG';
